@@ -15,7 +15,7 @@ const features = [
     icon: <Clock className="h-6 w-6 text-white" />,
     title: "Flexible Rental",
     description:
-      "Rent by hour, day, week or months. We accommodate your schedule with easy extensions.",
+      "Rent by day, week or months. We accommodate your schedule with easy extensions.",
   },
   {
     icon: <Map className="h-6 w-6 text-white" />,
