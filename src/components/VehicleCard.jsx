@@ -29,7 +29,7 @@ const VehicleCard = ({ vehicle, index, type }) => {
           <img 
             alt={`${vehicle.name} ${type}`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-            src={vehicle.image || "public/wave01.webp"} />
+            src={vehicle.image || "/wave01.webp"} />
           <Badge
             variant="secondary"
             className="absolute top-3 right-3 bg-blue-600 text-white text-sm px-3 py-1"

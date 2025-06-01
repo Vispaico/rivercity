@@ -15,7 +15,7 @@ const bikeCategories = [
       {
         name: "Honda Airblade",
         price: "7",
-        image: "public/airblade.webp",
+        image: "/airblade.webp",
         description: "Lightweight and fuel-efficient, perfect for city exploration.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -27,7 +27,7 @@ const bikeCategories = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "public/nvx1.webp",
+        image: "/nvx1.webp",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -39,7 +39,7 @@ const bikeCategories = [
       {
         name: "Honda Wave",
         price: "5",
-        image: "public/wave01.webp",
+        image: "/wave01.webp",
         description: "Smooth handling and robust for enduring anything.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -81,7 +81,7 @@ const bikeCategories = [
       {
         name: "SUV, 7 Seater (e.g., Vinfast Lux SA)",
     price: "130",
-    image: "public/vf.webp",
+    image: "/vf.webp",
     description: "Spacious and versatile, ideal for families or groups needing extra room and comfort for longer journeys or varied terrains.",
     specs: [
       { type: "engine", value: "2.5L Petrol" },
