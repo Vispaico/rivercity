@@ -12,7 +12,9 @@ const HomePage = () => {
     <>
       <Hero />
       <Features />
-      <BikeShowcase />
+     <section id="bike-showcase">
+        <BikeShowcase />
+      </section>
       <Pricing />
       <Testimonials />
       <CTASection />

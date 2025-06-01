@@ -5,13 +5,21 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, MapPin } from "lucide-react";
 
 const Hero = () => {
+  const handleScroll = () => {
+    const section = document.getElementById("bike-showcase");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative h-screen overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <img 
+        <img
           alt="Boat on a scenic sea in Haiphong, Vietnam"
           className="w-full h-full object-cover"
-         src="https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+          src="https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        />
         <div className="absolute inset-0 hero-gradient"></div>
       </div>
 
@@ -55,16 +63,10 @@ const Hero = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8"
-            >
-              Book a Ride
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
               variant="outline"
               size="lg"
               className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 rounded-full px-8"
+              onClick={handleScroll}
             >
               View Our Fleet
             </Button>
