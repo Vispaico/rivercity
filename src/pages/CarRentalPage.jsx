@@ -30,7 +30,7 @@ const cars = [
   {
     name: "SUV, 7 Seater (e.g., Vinfast Lux SA)",
     price: "130",
-    image: "src/components/images/vf.webp",
+    image: "public/vf.webp",
     description: "Spacious and versatile, ideal for families or groups needing extra room and comfort for longer journeys or varied terrains.",
     specs: [
       { type: "engine", value: "2.5L Petrol" },

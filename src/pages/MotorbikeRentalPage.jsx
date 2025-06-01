@@ -6,7 +6,7 @@ const motorbikes = [
   {
     name: "Honda Airblade",
         price: "7",
-        image: "src/components/images/airblade.webp",
+        image: "public/airblade.webp",
         description: "Lightweight and fuel-efficient, perfect for city exploration.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -18,7 +18,7 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "src/components/images/nvx1.webp",
+        image: "public/nvx1.webp",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -30,7 +30,7 @@ const motorbikes = [
       {
         name: "Honda Cube",
         price: "5",
-        image: "src/components/images/wave01.webp",
+        image: "public/wave01.webp",
         description: "Smooth handling and robust for enduring anything.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -43,7 +43,7 @@ const motorbikes = [
   {
     name: "Honda Cube",
         price: "4",
-        image: "src/components/images/cube.webp",
+        image: "public/cube.webp",
         description: "No drivers license needed.",
         specs: [
             { type: "engine", value: "50cc" },
@@ -55,7 +55,7 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "src/components/images/nvxgreen.webp",
+        image: "public/nvxgreen.webp",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -67,7 +67,7 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "src/components/images/nvxblack.webp",
+        image: "public/nvxblack.webp",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
