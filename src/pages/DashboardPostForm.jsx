@@ -18,6 +18,8 @@ const DashboardPostForm = () => {
   const [content, setContent] = useState('');
   const [slug, setSlug] = useState('');
   const [isPublished, setIsPublished] = useState(false);
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
   const [featuredImageUrl, setFeaturedImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
@@ -100,6 +102,8 @@ const DashboardPostForm = () => {
           setContent(data.content);
           setSlug(data.slug);
           setIsPublished(data.is_published);
+          setMetaTitle(data.meta_title || '');
+          setMetaDescription(data.meta_description || '');
           setFeaturedImageUrl(data.featured_image_url);
         } catch (error) {
           console.error('Error fetching post:', error.message);
@@ -154,6 +158,8 @@ const DashboardPostForm = () => {
       content,
       slug,
       is_published: isPublished,
+      meta_title: metaTitle,
+      meta_description: metaDescription,
       featured_image_url: featuredImageUrl,
     };
 
