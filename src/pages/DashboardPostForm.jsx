@@ -193,7 +193,7 @@ const DashboardPostForm = () => {
                   ['clean']
                 ],
                 handlers: {
-                  image: async () => {
+                  image: function() {
                     const input = document.createElement('input');
                     input.setAttribute('type', 'file');
                     input.setAttribute('accept', 'image/*');
@@ -236,7 +236,7 @@ const DashboardPostForm = () => {
                       }
                     };
                   },
-                  video: async () => {
+                  video: function() {
                     const videoUrl = prompt('Please enter the video URL (e.g., YouTube, Vimeo, or direct link):');
                     if (videoUrl) {
                       const quill = this.quill;
