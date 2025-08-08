@@ -52,7 +52,7 @@ const DashboardPage = () => {
         subtitle="Manage your bookings, view history, and update your profile."
         breadcrumbs={[{ name: "Home", link: "/" }, { name: "Dashboard" }]}
       />
-      <section className="py-16 lg:py-24 bg-gray-50">
+      <section className="pt-24 pb-16 lg:pb-24 bg-gray-50">
         <div className="container mx-auto px-4">
           {isAdmin && (
             <motion.div
