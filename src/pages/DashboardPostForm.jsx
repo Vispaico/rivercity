@@ -247,12 +247,12 @@ const DashboardPostForm = () => {
         </div>
         <div>
           <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
-          <ReactQuill
-            theme="snow"
+          <textarea
+            id="content"
             value={content}
-            onChange={setContent}
-            className="bg-white"
-            modules={modules}
+            onChange={(e) => setContent(e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white"
+            rows={10}
           />
         </div>
         <div className="flex items-center">
