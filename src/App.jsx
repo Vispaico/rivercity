@@ -75,7 +75,7 @@ function App() {
             <Route 
               path="/dashboard/blog" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly={true}>
                   <DashboardBlogPage />
                 </ProtectedRoute>
               } 
@@ -83,7 +83,7 @@ function App() {
             <Route 
               path="/dashboard/blog/new" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly={true}>
                   <DashboardPostForm />
                 </ProtectedRoute>
               } 
@@ -91,7 +91,7 @@ function App() {
             <Route 
               path="/dashboard/blog/edit/:id" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly={true}>
                   <DashboardPostForm />
                 </ProtectedRoute>
               } 

@@ -5,20 +5,25 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getSession = async () => {
+    const getSessionAndUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+      const currentUser = session?.user;
+      setUser(currentUser ?? null);
+      setIsAdmin(currentUser?.user_metadata?.role === 'admin');
       setLoading(false);
     };
 
-    getSession();
+    getSessionAndUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
-        setUser(session?.user ?? null);
+        const currentUser = session?.user;
+        setUser(currentUser ?? null);
+        setIsAdmin(currentUser?.user_metadata?.role === 'admin');
         setLoading(false);
       }
     );
@@ -34,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
     signOut: () => supabase.auth.signOut(),
     user,
+    isAdmin,
     loading,
   };
 

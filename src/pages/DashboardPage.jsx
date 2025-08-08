@@ -54,6 +54,29 @@ const DashboardPage = () => {
       />
       <section className="py-16 lg:py-24 bg-gray-50">
         <div className="container mx-auto px-4">
+          {isAdmin && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-8"
+            >
+              <Card className="shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+                <CardHeader>
+                  <CardTitle>Admin Tools</CardTitle>
+                  <CardDescription className="text-blue-100">Access special management sections.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/dashboard/blog">
+                    <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
+                      <Edit3 className="mr-2 h-4 w-4" /> Manage Blog Posts
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
           <Tabs defaultValue="bookings" className="w-full">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
