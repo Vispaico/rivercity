@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/components/ui/use-toast";
 
 const DashboardPage = () => {
-  const { user, signOut, loading: authLoading } = useAuth();
+  const { user, signOut, loading: authLoading, isAdmin } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
