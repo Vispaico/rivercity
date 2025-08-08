@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import ReactQuill from 'react-quill';
@@ -22,7 +22,7 @@ const DashboardPostForm = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
-  const modules = {
+  const modules = useMemo(() => ({
     toolbar: {
       container: [
         [{ 'header': [1, 2, false] }],
@@ -85,7 +85,7 @@ const DashboardPostForm = () => {
         }
       }
     }
-  };
+  }), []);
 
   useEffect(() => {
     if (!isNewPost) {

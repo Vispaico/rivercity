@@ -8,17 +8,17 @@ const AboutPage = () => {
     { 
       name: "Alice Wonderland", 
       role: "Operations Manager", 
-      image: "public/boss.webp"
+      image: "src/components/images/boss.webp"
     },
     { 
       name: "Bob The Builder", 
       role: "CEO & Founder", 
-      image: "public/Mama LogoPic.webp"
+      image: "src/components/images/Mama LogoPic.webp"
     },
     { 
       name: "Charlie Brown", 
       role: "Customer Support", 
-      image: "public/charlie.webp"
+      image: "src/components/images/charlie.webp"
     },
   ];
 
