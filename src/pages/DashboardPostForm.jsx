@@ -106,10 +106,11 @@ const DashboardPostForm = () => {
     }
   }, [id, isNewPost]);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-    setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''));
-  };
+  const handleTitleChange = useCallback((e) => {
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    setSlug(newTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''));
+  }, []);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
