@@ -44,10 +44,10 @@ const BlogPostPage = () => {
   return (
     <>
       <Helmet>
-        <title>{`${post.title} | Horizons Rivercity Blog`}</title>
-        <meta name="description" content={plainTextContent.substring(0, 160)} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={plainTextContent.substring(0, 160)} />
+        <title>{post.meta_title || post.title}</title>
+        <meta name="description" content={post.meta_description || plainTextContent.substring(0, 160)} />
+        <meta property="og:title" content={post.meta_title || post.title} />
+        <meta property="og:description" content={post.meta_description || plainTextContent.substring(0, 160)} />
         {post.featured_image_url && <meta property="og:image" content={post.featured_image_url} />}
         <meta property="og:type" content="article" />
         <link rel="canonical" href={`https://horizons-rivercity.com/blog/${post.slug}`} />

@@ -255,6 +255,35 @@ const DashboardPostForm = () => {
             modules={modules}
           />
         </div>
+
+        <div className="space-y-2 p-4 border border-gray-200 rounded-lg">
+            <h3 className="text-lg font-medium">SEO Settings</h3>
+            <div>
+              <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-700">Meta Title</label>
+              <input
+                type="text"
+                id="metaTitle"
+                value={metaTitle}
+                onChange={(e) => setMetaTitle(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                maxLength="60"
+              />
+              <p className="text-xs text-gray-500 mt-1">{metaTitle.length} / 60 characters</p>
+            </div>
+            <div>
+              <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-700">Meta Description</label>
+              <textarea
+                id="metaDescription"
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                rows="3"
+                maxLength="160"
+              />
+              <p className="text-xs text-gray-500 mt-1">{metaDescription.length} / 160 characters</p>
+            </div>
+        </div>
+
         <div className="flex items-center">
           <input
             id="isPublished"
