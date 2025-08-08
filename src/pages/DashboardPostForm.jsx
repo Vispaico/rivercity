@@ -84,6 +84,9 @@ const DashboardPostForm = () => {
           }
         }
       }
+    },
+    clipboard: {
+      matchVisual: false,
     }
   }), []);
 
