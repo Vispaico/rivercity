@@ -49,7 +49,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <img src="/rivercity_logo.png" alt="RiverCity Bike Rentals" className="h-20 w-auto" />
+              <img src="/rivercity_logo.png" alt="RiverCity Bike Rentals" className="h-20 w-auto" width="80" height="80" />
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-600" : "text-blue-200"}`}>
                 RiverCity
               </span>
@@ -123,6 +123,7 @@ const Navbar = () => {
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={isScrolled || !isHomePage ? "text-gray-800" : "text-white"}
+              aria-label={mobileMenuOpen ? "Close main menu" : "Open main menu"}
             >
               {mobileMenuOpen ? (
                 <X className="h-6 w-6" />

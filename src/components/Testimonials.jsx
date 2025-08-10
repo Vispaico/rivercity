@@ -73,7 +73,7 @@ const TestimonialCard = ({ testimonial, index }) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
+            <h3 className="font-bold text-gray-800">{testimonial.name}</h3>
             <p className="text-sm text-gray-500">{testimonial.location}</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ const Testimonials = () => {
         <img 
           alt="Map of Haiphong, Vietnam"
           className="w-full h-full object-cover"
-         src="https://images.unsplash.com/photo-1696215104193-65e6b5467523" />
+         src="https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=400&auto=format&fit=crop" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

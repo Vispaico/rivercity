@@ -7,6 +7,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ChevronRight } from "lucide-react";
 import VehicleCard from "@/components/VehicleCard"; 
 
+// TODO: Optimize the images by resizing them to a smaller size.
+// For example, /nvx1.webp is displayed at 380x277, but the original image is 1000x591.
 const bikeCategories = [
   {
     id: "scooters",
@@ -57,7 +59,7 @@ const bikeCategories = [
       {
         name: "Compact Car (e.g., Vinfast Fadil)",
     price: "50",
-    image: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Reliable and fuel-efficient, perfect for navigating city streets and short trips. Easy to park and maneuver.",
     specs: [
       { type: "engine", value: "1.0L - 1.2L" },
@@ -69,7 +71,7 @@ const bikeCategories = [
       {
         name: "Sedan or small SUV (e.g., Honda CRV)",
     price: "100",
-    image: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Experience ultimate comfort and style. Perfect for business travel or making a statement on special occasions.",
     specs: [
       { type: "engine", value: "2.0L Petrol" },
@@ -129,7 +131,7 @@ const BikeShowcase = () => {
 
         <Tabs defaultValue="scooters" className="w-full">
           <div className="flex justify-center mb-8">
-            <TabsList className="bg-gray-100">
+            <TabsList className="bg-gray-200 text-gray-700">
               {bikeCategories.map((category) => (
                 <TabsTrigger
                   key={category.id}

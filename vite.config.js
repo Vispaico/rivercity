@@ -1,3 +1,14 @@
+// For production builds, consider using a Vite plugin to inline critical CSS
+// and async load the rest. This can improve the Largest Contentful Paint (LCP).
+// https://vitejs.dev/guide/performance.html#css-splitting
+
+// To reduce the JavaScript bundle size, consider the following:
+// 1. Use a bundle analyzer like rollup-plugin-visualizer to inspect the bundle.
+// 2. Implement code splitting with dynamic imports for components that are not
+//    needed on the initial page load.
+// 3. Configure the build to target modern browsers to avoid unnecessary polyfills.
+//    https://vitejs.dev/config/build-options.html#build-target
+
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';

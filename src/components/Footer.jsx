@@ -78,6 +78,7 @@ const Footer = () => {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Facebook page"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <Facebook className="h-5 w-5" />
@@ -110,6 +111,7 @@ const Footer = () => {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our TikTok channel"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <TikTokIcon className="h-5 w-5" />
@@ -162,7 +164,7 @@ const Footer = () => {
                 required
                 className="bg-gray-800 border-gray-700 text-white focus:border-blue-500"
               />
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700" aria-label="Subscribe">
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </form>
@@ -171,22 +173,22 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm mb-4 md:mb-0">
+            <p className="text-gray-400 text-sm mb-4 md:mb-0">
               © {new Date().getFullYear()} RiverCity Bike Rentals. All rights
               reserved.
             </p>
-            <div className="flex space-x-6">
+            <ul className="flex space-x-6">
               {legalLinks.map((link) => (
                 <li key={link.name} className="list-none">
                   <Link
                     to={link.path}
-                    className="text-gray-500 hover:text-blue-400 text-sm"
+                    className="text-gray-400 hover:text-blue-400 text-sm"
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
