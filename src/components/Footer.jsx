@@ -75,7 +75,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.facebook.com/RiverCityBikeRentals/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit our Facebook page"
@@ -84,7 +84,7 @@ const Footer = () => {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/rivercity_hph/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
@@ -92,7 +92,7 @@ const Footer = () => {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://x.com/bikerivercity"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
@@ -100,21 +100,12 @@ const Footer = () => {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/channel/UCJlWL2vPoWqDeb47TwRvqPg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <Youtube className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit our TikTok channel"
-                className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
-              >
-                <TikTokIcon className="h-5 w-5" />
               </a>
             </div>
           </div>
