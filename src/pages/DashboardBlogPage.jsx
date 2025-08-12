@@ -46,7 +46,7 @@ const DashboardBlogPage = () => {
   }
 
   return (
-    <div className="p-14">
+    <div className="p-28">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Manage Blog Posts</h1>
         <Link to="/dashboard/blog/new" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
