@@ -42,7 +42,7 @@ const BlogPage = () => {
         <link rel="canonical" href="https://rivercitybikerentals.com/blog" />
       </Helmet>
       <PageHeader 
-        title="Our Blog"
+        title="Insider News"
         subtitle="News, tips, and insights from our team"
       />
       <div className="container mx-auto px-4 py-12">
