@@ -63,7 +63,7 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center mb-6">
               <span className="text-xl sm:text-2xl font-bold text-blue-400">
-                RiverCity
+                Rivercity
               </span>
               <span className="text-xl sm:text-2xl font-bold ml-1 text-white">
                 Bike Rentals
@@ -75,7 +75,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://www.facebook.com/RiverCityBikeRentals/"
+                href="https://www.facebook.com/rivercitybikerentals/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit our Facebook page"
@@ -165,7 +165,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} RiverCity Bike Rentals. All rights
+              © {new Date().getFullYear()} Rivercity Bike Rentals. All rights
               reserved.
             </p>
             <ul className="flex space-x-6">

@@ -135,14 +135,14 @@ const ContactSection = () => {
 
               <div className="mt-8 h-96 w-full rounded-xl overflow-hidden shadow-lg border border-gray-200">
                  <iframe
-                    src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;coord=20.838411,106.709917&amp;q=RiverCity%20Bike%20Rentals%2C%2019%2C%20B%E1%BA%BFn%20L%C3%A1ng%2C%20H%E1%BA%A3i%20Ph%C3%B2ng+(RiverCity%20Bike%20Rentals)&amp;ie=UTF8&amp;t=h&amp;z=13&amp;iwloc=A&amp;output=embed"
+                    src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;coord=20.838411,106.709917&amp;q=Rivercity%20Bike%20Rentals%2C%2019%2C%20B%E1%BA%BFn%20L%C3%A1ng%2C%20H%E1%BA%A3i%20Ph%C3%B2ng+(Rivercity%20Bike%20Rentals)&amp;ie=UTF8&amp;t=h&amp;z=13&amp;iwloc=A&amp;output=embed"
                     width="100%"
                     height="100%"
                     style={{ border:0 }}
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="RiverCity Bike Rentals Location"
+                    title="Rivercity Bike Rentals Location"
                   ></iframe>
               </div>
             </div>

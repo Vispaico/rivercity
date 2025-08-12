@@ -78,7 +78,7 @@ const Chatbot = () => {
             }}
           >
             <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
-              <h3 className="font-semibold text-lg">RiverCity Support</h3>
+              <h3 className="font-semibold text-lg">Rivercity Support</h3>
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="icon" className="text-white hover:bg-blue-700" onClick={toggleMinimize}>
                   {isMinimized ? <Maximize2 size={18} /> : <Minimize2 size={18} />}

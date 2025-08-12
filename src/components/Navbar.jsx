@@ -49,9 +49,9 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <img src="/rivercity_logo_car.png" alt="RiverCity Bike Rentals" className="h-10 w-auto" width="80" height="80" />
+              <img src="/rivercity_logo_car.png" alt="Rivercity Bike Rentals" className="h-10 w-auto" width="80" height="80" />
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-600" : "text-blue-200"}`}>
-                RiverCity
+                Rivercity
               </span>
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-gray-600" : "text-white"}`}>
                 Bike Rentals

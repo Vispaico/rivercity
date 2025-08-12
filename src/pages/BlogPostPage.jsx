@@ -50,7 +50,7 @@ const BlogPostPage = () => {
         <meta property="og:description" content={post.meta_description || plainTextContent.substring(0, 160)} />
         {post.featured_image_url && <meta property="og:image" content={post.featured_image_url} />}
         <meta property="og:type" content="article" />
-        <link rel="canonical" href={`https://horizons-rivercity.com/blog/${post.slug}`} />
+        <link rel="canonical" href={`https://rivercitybikerentals.com/blog/${post.slug}`} />
       </Helmet>
       <PageHeader 
         title={post.title}

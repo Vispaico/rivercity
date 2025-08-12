@@ -15,7 +15,7 @@ const generateSitemap = async () => {
 
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-  const baseUrl = 'https://horizons-rivercity.com';
+  const baseUrl = 'https://rivercitybikerentals.com';
   const pages = [
     '/',
     '/about',

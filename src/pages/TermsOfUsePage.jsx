@@ -27,7 +27,7 @@ const TermsOfUsePage = () => {
 
             <h2>2. Use of Services</h2>
             <p>
-              You must be at least 18 years old and possess a valid driver's license to rent a vehicle from RiverCity Bike Rentals. You agree to use our vehicles responsibly and in accordance with all applicable laws and regulations. You are responsible for any damage or loss to the vehicle during your rental period.
+              You must be at least 18 years old and possess a valid driver's license to rent a vehicle from Rivercity Bike Rentals. You agree to use our vehicles responsibly and in accordance with all applicable laws and regulations. You are responsible for any damage or loss to the vehicle during your rental period.
             </p>
             
             <h2>3. Account Registration</h2>
@@ -47,7 +47,7 @@ const TermsOfUsePage = () => {
 
             <h2>5. Intellectual Property</h2>
             <p>
-              The service and its original content, features, and functionality are and will remain the exclusive property of RiverCity Bike Rentals and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of RiverCity Rentals.
+              The service and its original content, features, and functionality are and will remain the exclusive property of Rivercity Bike Rentals and its licensors. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Rivercity Rentals.
             </p>
             
             <h2>6. Disclaimers</h2>
@@ -57,7 +57,7 @@ const TermsOfUsePage = () => {
 
             <h2>7. Limitation of Liability</h2>
             <p>
-              In no event shall RiverCity Bike Rentals, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
+              In no event shall Rivercity Bike Rentals, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
             </p>
             
             <h2>8. Governing Law</h2>

@@ -106,7 +106,7 @@ const Features = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Why Choose <span className="text-blue-600">RiverCity</span> Bike Rentals
+            Why Choose <span className="text-blue-600">Rivercity</span> Bike Rentals
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             We provide more than just wheels - we offer a complete experience for

@@ -25,7 +25,7 @@ const AboutPage = () => {
   return (
     <div>
       <PageHeader
-        title="About RiverCity Rentals"
+        title="About Rivercity Rentals"
         subtitle="Your trusted partner for memorable adventures in Haiphong and beyond."
         breadcrumbs={[{ name: "Home", link: "/" }, { name: "About Us" }]}
       />
@@ -53,9 +53,7 @@ const AboutPage = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Our Mission: Unleash Your Spirit of Adventure
               </h2>
-              <p className="text-lg text-gray-700 mb-4">
-                At RiverCity Rentals, we believe that the best way to experience a new place is on two wheels (or four!). We are passionate about providing reliable, high-quality vehicles and exceptional customer service to make your exploration of Haiphong and its stunning surroundings seamless and unforgettable.
-              </p>
+              <p className="text-lg text-gray-700 mb-4">At Rivercity Rentals, we believe that the best way to experience a new place is on two wheels (or four!). We are passionate about providing reliable, high-quality vehicles and exceptional customer service to make your exploration of Haiphong and its stunning surroundings seamless and unforgettable.</p>
               <p className="text-lg text-gray-700 mb-4">
                 Founded in 2019, our local team is dedicated to sharing the beauty and culture of our city. We offer a diverse fleet of motorbikes and cars, meticulously maintained for your safety and comfort.
               </p>

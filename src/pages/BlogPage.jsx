@@ -37,9 +37,9 @@ const BlogPage = () => {
   return (
     <>
       <Helmet>
-        <title>Blog | Horizons Rivercity</title>
-        <meta name="description" content="Read the latest articles and updates from Horizons Rivercity. Discover tips for motorbike and car rentals, travel guides, and more." />
-        <link rel="canonical" href="https://horizons-rivercity.com/blog" />
+        <title>Blog | Rivercity Bike Rentals</title>
+        <meta name="description" content="Read the latest articles and updates from Rivercity Bike Rentals. Discover tips for motorbike and car rentals, travel guides, and more." />
+        <link rel="canonical" href="https://rivercitybikerentals.com/blog" />
       </Helmet>
       <PageHeader 
         title="Our Blog"

@@ -73,7 +73,7 @@ const SignupPage = () => {
     <div>
       <PageHeader
         title="Create Your Account"
-        subtitle="Join RiverCity Rentals and start your adventure today!"
+        subtitle="Join Rivercity Rentals and start your adventure today!"
         breadcrumbs={[{ name: "Home", link: "/" }, { name: "Sign Up" }]}
       />
       <motion.section

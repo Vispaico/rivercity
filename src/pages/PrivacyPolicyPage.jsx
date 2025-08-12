@@ -22,7 +22,7 @@ const PrivacyPolicyPage = () => {
 
             <h2>1. Introduction</h2>
             <p>
-              Welcome to RiverCity Bike Rentals ("we", "our", "us"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal information, please contact us at privacy@rivercityrentals.com.
+              Welcome to Rivercity Bike Rentals ("we", "our", "us"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal information, please contact us at privacy@rivercityrentals.com.
             </p>
 
             <h2>2. Information We Collect</h2>
@@ -78,11 +78,11 @@ const PrivacyPolicyPage = () => {
             
             <h2>9. How Can You Contact Us About This Notice?</h2>
             <p>If you have questions or comments about this notice, you may email us at info@rivercitybikerentals.com or by post to:</p>
-            <p>
-              RiverCity Bike Rentals<br />
-              23/32 To 2 Xom Trung, Ngo Quyen District<br />
-              Haiphong, Vietnam
-            </p>
+          <p>
+            Rivercity Bike Rentals<br />
+            23/32 To 2 Xom Trung, Ngo Quyen District<br />
+            Haiphong, Vietnam
+          </p>
           </div>
         </div>
       </motion.section>
