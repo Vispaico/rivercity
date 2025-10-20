@@ -107,13 +107,13 @@ const Navbar = () => {
               </Button>
             </Link>
             <a href="tel:+84902197160">
-              <Button
-                size="sm"
-                className="rounded-full bg-blue-600 hover:bg-blue-700 text-white"
-              >
+            <Button
+              size="sm"
+              className="rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+            >
                 <Phone className="mr-2 h-4 w-4" />
                 Book Now
-              </Button>
+            </Button>
             </a>
           </motion.div>
 

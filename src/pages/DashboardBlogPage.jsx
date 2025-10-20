@@ -6,9 +6,16 @@ import { format } from 'date-fns';
 const DashboardBlogPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      if (!supabase) {
+        setError('Supabase is not configured.');
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data, error } = await supabase
           .from('posts')
@@ -19,6 +26,7 @@ const DashboardBlogPage = () => {
         setPosts(data);
       } catch (error) {
         console.error('Error fetching posts:', error.message);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -28,6 +36,11 @@ const DashboardBlogPage = () => {
   }, []);
 
   const handleDelete = async (postId) => {
+    if (!supabase) {
+      setError('Supabase is not configured.');
+      return;
+    }
+
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         const { error } = await supabase.from('posts').delete().eq('id', postId);
@@ -43,6 +56,10 @@ const DashboardBlogPage = () => {
 
   if (loading) {
     return <div>Loading posts...</div>;
+  }
+
+  if (error) {
+    return <div className="p-28">{error}</div>;
   }
 
   return (

@@ -36,12 +36,15 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button
-             variant="outline"
+              asChild
+              variant="outline"
               size="lg"
               className="border-white text-blue-600 hover:bg-white/10 rounded-full px-8"
             >
-              Book a Ride Now
-              <ChevronRight className="ml-2 h-4 w-4" />
+              <a href="#contact">
+                Book a Ride Now
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
             </Button>
           </motion.div>
         </div>

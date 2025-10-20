@@ -53,11 +53,14 @@ const VehicleCard = ({ vehicle, index, type }) => {
         </CardContent>
         <CardFooter className="p-5 pt-0 mt-auto">
           <Button
+            asChild
             variant="outline"
             className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"
           >
-            Book Now
-            <ChevronRight className="ml-2 h-4 w-4" />
+            <a href="#contact">
+              Book Now
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </a>
           </Button>
         </CardFooter>
       </Card>

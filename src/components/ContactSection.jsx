@@ -100,7 +100,6 @@ const ContactSection = () => {
                       Phone Number
                     </h4>
                     <a href="tel:+84902197160" className="text-gray-600 hover:text-blue-600 block">+84 (0) 902 197 160 (WhatsApp & Zalo)</a>
-                    <a href="tel:+84936166892" className="text-gray-600 hover:text-blue-600 block">+84 (0) 936 166 892 (WhatsApp & Zalo)</a>
                   </div>
                 </div>
 
@@ -135,7 +134,7 @@ const ContactSection = () => {
 
               <div className="mt-8 h-96 w-full rounded-xl overflow-hidden shadow-lg border border-gray-200">
                  <iframe
-                    src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;coord=20.838411,106.709917&amp;q=Rivercity%20Bike%20Rentals%2C%2019%2C%20B%E1%BA%BFn%20L%C3%A1ng%2C%20H%E1%BA%A3i%20Ph%C3%B2ng+(Rivercity%20Bike%20Rentals)&amp;ie=UTF8&amp;t=h&amp;z=13&amp;iwloc=A&amp;output=embed"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.435621844709!2d106.70991719999999!3d20.838411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a9bcd8a61cbd%3A0x27f1e4de24e8e1c8!2sRivercity%20Bike%20Rentals!5e0!3m2!1sen!2s!4v1698652800000!5m2!1sen!2s"
                     width="100%"
                     height="100%"
                     style={{ border:0 }}

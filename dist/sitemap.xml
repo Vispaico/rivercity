@@ -2,61 +2,82 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       
             <url>
-              <loc>https://horizons-rivercity.com/</loc>
-              <lastmod>2025-08-08T08:49:44.724Z</lastmod>
+              <loc>https://rivercitybikerentals.com/</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/about</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/about</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/cars</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/cars</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/motorbikes</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/motorbikes</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/privacy-policy</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/privacy-policy</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/cookies</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/cookies</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/terms-of-use</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/terms-of-use</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
             <url>
-              <loc>https://horizons-rivercity.com/blog</loc>
-              <lastmod>2025-08-08T08:49:44.725Z</lastmod>
+              <loc>https://rivercitybikerentals.com/blog</loc>
+              <lastmod>2025-08-12T06:17:06.089Z</lastmod>
               <changefreq>weekly</changefreq>
               <priority>0.8</priority>
             </url>
           
       
+            <url>
+              <loc>https://rivercitybikerentals.com/blog/top-7-scenic-haiphong-motorbike--car-routes--rivercity-bike-rentals</loc>
+              <lastmod>2025-08-12T06:11:57.019Z</lastmod>
+              <changefreq>yearly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          
+            <url>
+              <loc>https://rivercitybikerentals.com/blog/navigating-haiphong-a-guide-to-local-traffic-rules-and-etiquette</loc>
+              <lastmod>2025-08-10T13:52:22.238Z</lastmod>
+              <changefreq>yearly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          
+            <url>
+              <loc>https://rivercitybikerentals.com/blog/a-food-lovers-tour-of-haiphong-the-13-best-eateries-to-drive-to</loc>
+              <lastmod>2025-08-08T09:00:03.819Z</lastmod>
+              <changefreq>yearly</changefreq>
+              <priority>1.0</priority>
+            </url>
+          
     </urlset>
   

@@ -9,9 +9,15 @@ const BlogPostPage = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const supabaseUnavailable = !supabase;
 
   useEffect(() => {
     const fetchPost = async () => {
+      if (supabaseUnavailable) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data, error } = await supabase
           .from('posts')
@@ -33,6 +39,10 @@ const BlogPostPage = () => {
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
+
+  if (supabaseUnavailable) {
+    return <div className="flex justify-center items-center h-screen">Blog content is currently unavailable.</div>;
   }
 
   if (!post) {

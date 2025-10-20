@@ -9,6 +9,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      console.warn('Supabase credentials are missing; auth features are disabled.');
+      return;
+    }
+
     const getSessionAndUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       const currentUser = session?.user;
@@ -32,12 +38,15 @@ export const AuthProvider = ({ children }) => {
       authListener?.subscription.unsubscribe();
     };
   }, []);
+  const unsupported = () => {
+    throw new Error('Supabase auth is disabled.');
+  };
 
   const value = {
-    signUp: (data) => supabase.auth.signUp(data),
-    signIn: (data) => supabase.auth.signInWithPassword(data),
-    signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
-    signOut: () => supabase.auth.signOut(),
+    signUp: supabase ? (data) => supabase.auth.signUp(data) : unsupported,
+    signIn: supabase ? (data) => supabase.auth.signInWithPassword(data) : unsupported,
+    signInWithProvider: supabase ? (provider) => supabase.auth.signInWithOAuth({ provider }) : unsupported,
+    signOut: supabase ? () => supabase.auth.signOut() : unsupported,
     user,
     isAdmin,
     loading,

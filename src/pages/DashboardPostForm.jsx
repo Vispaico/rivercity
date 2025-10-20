@@ -95,6 +95,10 @@ const DashboardPostForm = () => {
   useEffect(() => {
     if (!isNewPost) {
       const fetchPost = async () => {
+        if (!supabase) {
+          return;
+        }
+
         try {
           const { data, error } = await supabase.from('posts').select('*').eq('id', id).single();
           if (error) throw error;
@@ -152,6 +156,11 @@ const DashboardPostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!supabase) {
+      alert('Supabase is not configured.');
+      return;
+    }
 
     const postData = {
       title,

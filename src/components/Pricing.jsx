@@ -128,13 +128,14 @@ const PricingCard = ({ plan, index }) => {
         </CardContent>
         <CardFooter>
           <Button
+            asChild
             className={`w-full ${
               plan.popular
                 ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-gray-800 hover:bg-gray-900"
             } text-white`}
           >
-            {plan.buttonText}
+            <a href="#contact">{plan.buttonText}</a>
           </Button>
         </CardFooter>
       </Card>
@@ -198,10 +199,11 @@ const Pricing = () => {
             rentals beyond one month.
           </p>
           <Button
+            asChild
             variant="outline"
             className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
           >
-            Contact for Custom Quote
+            <a href="#contact">Contact for Custom Quote</a>
           </Button>
         </motion.div>
       </div>

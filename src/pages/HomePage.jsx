@@ -17,7 +17,6 @@ const HomePage = () => {
       </section>
       <Pricing />
       <Testimonials />
-      <CTASection />
       <ContactSection />
     </>
   );
