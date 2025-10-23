@@ -117,7 +117,9 @@ const Testimonials = () => {
         <img 
           alt="Map of Haiphong, Vietnam"
           className="w-full h-full object-cover"
-         src="https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=400&auto=format&fit=crop" />
+         src="https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=400&auto=format&fit=crop" 
+         srcSet="https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=400&auto=format&fit=crop 400w, https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=800&auto=format&fit=crop 800w, https://images.unsplash.com/photo-1696215104193-65e6b5467523?w=1200&auto=format&fit=crop 1200w"
+         sizes="100vw" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

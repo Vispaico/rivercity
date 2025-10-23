@@ -17,7 +17,8 @@ const bikeCategories = [
       {
         name: "Honda Airblade",
         price: "7",
-        image: "/airblade.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/airblade_r8xuni.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/airblade_r8xuni.webp 900w",
         description: "Lightweight and fuel-efficient, perfect for city exploration.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -29,7 +30,8 @@ const bikeCategories = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "/nvx1.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/nvx1_omtxja.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/nvx1_omtxja.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/nvx1_omtxja.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/nvx1_omtxja.webp 900w",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -41,7 +43,8 @@ const bikeCategories = [
       {
         name: "Honda Wave",
         price: "5",
-        image: "/wave01.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/wave01_yhfzpr.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/wave01_yhfzpr.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/wave01_yhfzpr.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/wave01_yhfzpr.webp 900w",
         description: "Smooth handling and robust for enduring anything.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -60,6 +63,7 @@ const bikeCategories = [
         name: "Compact Car (e.g., Vinfast Fadil)",
     price: "50",
     image: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageSrcSet: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
     description: "Reliable and fuel-efficient, perfect for navigating city streets and short trips. Easy to park and maneuver.",
     specs: [
       { type: "engine", value: "1.0L - 1.2L" },
@@ -72,6 +76,7 @@ const bikeCategories = [
         name: "Sedan or small SUV (e.g., Honda CRV)",
     price: "100",
     image: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageSrcSet: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
     description: "Experience ultimate comfort and style. Perfect for business travel or making a statement on special occasions.",
     specs: [
       { type: "engine", value: "2.0L Petrol" },
@@ -83,7 +88,8 @@ const bikeCategories = [
       {
         name: "SUV, 7 Seater (e.g., Vinfast Lux SA)",
     price: "130",
-    image: "/vf.webp",
+    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761195856/rvc/vf_l5tiij.webp",
+    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761195856/rvc/vf_l5tiij.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761195856/rvc/vf_l5tiij.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761195856/rvc/vf_l5tiij.webp 900w",
     description: "Spacious and versatile, ideal for families or groups needing extra room and comfort for longer journeys or varied terrains.",
     specs: [
       { type: "engine", value: "2.5L Petrol" },

@@ -54,7 +54,7 @@ const ContactSection = () => {
             Get in <span className="text-blue-600">Touch</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions or ready to book? Contact us for quick assistance or
+            Have questions or ready to book?<br/>Can't find the car you're looking for or have specific requirements?<br/>Our team is here to help you find the perfect vehicle for your needs.<br/>Contact us for quick assistance or
             visit our shop in Haiphong.
           </p>
         </motion.div>

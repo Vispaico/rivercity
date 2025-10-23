@@ -1,12 +1,14 @@
 import React from "react";
 import PageHeader from "@/components/PageHeader";
 import VehicleCard from "@/components/VehicleCard";
+import ContactSection from "@/components/ContactSection";
 
 const motorbikes = [
   {
     name: "Honda Airblade",
         price: "7",
-        image: "/airblade.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/airblade_r8xuni.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/airblade_r8xuni.webp 900w",
         description: "Lightweight and fuel-efficient, perfect for city exploration.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -18,7 +20,8 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "/nvx1.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/nvx1_omtxja.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/nvx1_omtxja.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/nvx1_omtxja.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/nvx1_omtxja.webp 900w",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -30,7 +33,8 @@ const motorbikes = [
       {
         name: "Honda Cube",
         price: "5",
-        image: "/wave01.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/wave01_yhfzpr.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/wave01_yhfzpr.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/wave01_yhfzpr.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/wave01_yhfzpr.webp 900w",
         description: "Smooth handling and robust for enduring anything.",
         specs: [
             { type: "engine", value: "125cc" },
@@ -43,7 +47,8 @@ const motorbikes = [
   {
     name: "Honda Cube",
         price: "4",
-        image: "/cube.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196451/rvc/cube_uddvdx.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196451/rvc/cube_uddvdx.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196451/rvc/cube_uddvdx.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196451/rvc/cube_uddvdx.webp 900w",
         description: "No drivers license needed.",
         specs: [
             { type: "engine", value: "50cc" },
@@ -55,7 +60,8 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "/nvxgreen.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/nvxgreen_ome92c.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/nvxgreen_ome92c.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/nvxgreen_ome92c.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/nvxgreen_ome92c.webp 900w",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -67,7 +73,8 @@ const motorbikes = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "/nvxblack.webp",
+        image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761196452/rvc/nvxblack_u4ue17.webp",
+        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761196452/rvc/nvxblack_u4ue17.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761196452/rvc/nvxblack_u4ue17.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761196452/rvc/nvxblack_u4ue17.webp 900w",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
             { type: "engine", value: "155cc" },
@@ -96,17 +103,7 @@ const MotorbikeRentalPage = () => {
           </div>
         </div>
       </section>
-       <section className="py-16 lg:py-24 bg-white">
-        <div className="container mx-auto px-4 text-center">
-           <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready for an Adventure?</h2>
-           <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-            Pick your ride and get ready to explore the vibrant streets of Haiphong and the scenic beauty of Vietnam.
-           </p>
-           <a href="/#contact" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-colors">
-             Book Your Bike
-           </a>
-        </div>
-      </section>
+        <ContactSection />
     </div>
   );
 };

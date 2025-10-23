@@ -19,6 +19,8 @@ const Hero = () => {
           alt="Boat on a scenic sea in Haiphong, Vietnam"
           className="w-full h-full object-cover"
           src="https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          srcSet="https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 800w, https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 1200w, https://images.unsplash.com/photo-1616438376211-18da49e0f98f?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 1920w"
+          sizes="100vw"
         />
         <div className="absolute inset-0 hero-gradient"></div>
       </div>
