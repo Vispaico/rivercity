@@ -23,14 +23,20 @@ const ContactSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
+    const botFieldValue = formData.get("company");
+
+    if (botFieldValue) {
+      return;
+    }
+
+    const email = formData.get("email");
+    const message = formData.get("message");
 
     toast({
       title: "Message Submission Pending",
-      description: `Name: ${name}, Email: ${email}, Subject: ${subject}. Backend functionality needed.`,
+      description: `Email: ${email}. Message preview: ${message.slice(0, 60)}${
+        message.length > 60 ? "…" : ""
+      }. Backend functionality needed.`,
       duration: 7000,
       className: "bg-yellow-500 text-black",
     });
@@ -161,36 +167,23 @@ const ContactSection = () => {
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Your Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      placeholder="John Doe"
-                      required
-                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="john@example.com"
-                      required
-                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
-                    />
-                  </div>
+                <div className="sr-only">
+                  <Label htmlFor="company">Company</Label>
+                  <Input
+                    id="company"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="email">Email Address</Label>
                   <Input
-                    id="subject"
-                    name="subject"
-                    placeholder="Bike Rental Inquiry"
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="john@example.com"
                     required
                     className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
                   />
