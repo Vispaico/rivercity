@@ -17,7 +17,7 @@ const bikeCategories = [
       {
         name: "Honda Airblade",
         price: "7",
-        image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp",
+        image: "public/airblade.webp",
         imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 900w",
         description: "Lightweight and fuel-efficient, perfect for city exploration.",
         specs: [
@@ -30,7 +30,7 @@ const bikeCategories = [
       {
         name: "Yamaha NVX",
         price: "10",
-        image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp",
+        image: "public/nvx1.webp",
         imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 900w",
         description: "Sporty design with powerful engine for city and countryside.",
         specs: [
@@ -43,7 +43,7 @@ const bikeCategories = [
       {
         name: "Honda Wave",
         price: "5",
-        image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp",
+        image: "public/wave01.webp",
         imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 900w",
         description: "Smooth handling and robust for enduring anything.",
         specs: [

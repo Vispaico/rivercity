@@ -120,7 +120,7 @@ const Navbar = () => {
               variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={isScrolled || !isHomePage ? "text-gray-800" : "text-white"}
+              className={isScrolled || !isHomePage ? "text-white" : "text-white"}
               aria-label={mobileMenuOpen ? "Close main menu" : "Open main menu"}
             >
               {mobileMenuOpen ? (
