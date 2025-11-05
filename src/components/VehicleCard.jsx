@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Zap, Users, Gauge, Cog } from "lucide-react";
 
 const iconMap = {
-  engine: <Gauge className="h-3 w-3 mr-1 text-gray-600" />,
-  transmission: <Cog className="h-3 w-3 mr-1 text-gray-600" />,
-  capacity: <Users className="h-3 w-3 mr-1 text-gray-600" />,
-  feature: <Zap className="h-3 w-3 mr-1 text-gray-600" />,
+  engine: <Gauge className="h-3 w-3 mr-1 text-gray-700" />,
+  transmission: <Cog className="h-3 w-3 mr-1 text-gray-700" />,
+  capacity: <Users className="h-3 w-3 mr-1 text-gray-700" />,
+  feature: <Zap className="h-3 w-3 mr-1 text-gray-700" />,
 };
 
 const VehicleCard = ({ vehicle, index, type }) => {
   const getSpecIcon = (specType) => {
-    return iconMap[specType] || <Zap className="h-3 w-3 mr-1 text-gray-600" />;
+    return iconMap[specType] || <Zap className="h-3 w-3 mr-1 text-gray-700" />;
   };
 
   return (
@@ -41,13 +41,13 @@ const VehicleCard = ({ vehicle, index, type }) => {
           </Badge>
         </div>
         <CardContent className="p-5 flex-grow">
-          <h3 className="text-xl font-bold mb-2 text-gray-800">{vehicle.name}</h3>
-          <p className="text-gray-600 text-sm mb-4 flex-grow">{vehicle.description}</p>
+          <h3 className="text-xl font-bold mb-2 text-gray-900">{vehicle.name}</h3>
+          <p className="text-gray-700 text-sm mb-4 flex-grow">{vehicle.description}</p>
           <div className="grid grid-cols-2 gap-2 mt-auto">
             {vehicle.specs.map((spec, i) => (
               <span
                 key={i}
-                className="text-xs bg-gray-100 rounded-full px-3 py-1.5 text-gray-700 inline-flex items-center"
+                className="text-xs bg-gray-200 rounded-full px-3 py-1.5 text-gray-800 inline-flex items-center"
               >
                 {getSpecIcon(spec.type)} {spec.value}
               </span>
@@ -58,7 +58,7 @@ const VehicleCard = ({ vehicle, index, type }) => {
           <Button
             asChild
             variant="outline"
-            className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"
+            className="w-full border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors"
           >
             <a href="#contact">
               Book Now

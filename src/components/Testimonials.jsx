@@ -64,7 +64,6 @@ const TestimonialCard = ({ testimonial, index }) => {
       <div className="testimonial-card p-6 rounded-xl h-full flex flex-col">
         <div className="flex items-center mb-4">
           <Avatar className="h-12 w-12 mr-4 border-2 border-blue-600">
-            <AvatarImage src="" alt={testimonial.name} />
             <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
             <AvatarFallback className="bg-blue-100 text-blue-600 font-medium">
               {testimonial.name
@@ -74,8 +73,8 @@ const TestimonialCard = ({ testimonial, index }) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-bold text-gray-300">{testimonial.name}</h3>
-            <p className="text-sm text-gray-200">{testimonial.location}</p>
+            <h3 className="font-bold text-gray-400">{testimonial.name}</h3>
+            <p className="text-sm text-gray-400">{testimonial.location}</p>
           </div>
         </div>
 
@@ -92,7 +91,7 @@ const TestimonialCard = ({ testimonial, index }) => {
           ))}
         </div>
 
-        <p className="text-gray-100 italic flex-grow">{testimonial.text}</p>
+        <p className="text-gray-300 italic flex-grow">{testimonial.text}</p>
       </div>
     </motion.div>
   );
@@ -134,10 +133,10 @@ const Testimonials = () => {
           }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-200">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-400">
             What Our <span className="text-blue-400">Riders</span> Say
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             Hear from travelers who explored Haiphong with our bikes and
             experienced our service.
           </p>
