@@ -7,32 +7,32 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    location: "United States",
-    avatar: "sarah-johnson",
+    name: "Jesper Tost",
+    location: "Denmark",
+    avatar: "https://lh3.googleusercontent.com/a-/ALV-UjUZsRAPiQSmDYUz8_Kbd7x4ZOQ33oQqtE_h5CO5zi8cEf7AWAMR=w72-h72-p-rp-mo-ba5-br100",
     rating: 5,
-    text: "Renting from RiverCity Bikes was the highlight of my Vietnam trip! The Honda Vision was perfect for exploring Haiphong's narrow streets and the staff gave us amazing local tips.",
+    text: "I rented a Yamaha NVX here for a little over a week and was very satisfied! The owner is an incredibly pleasant person, who was also very flexible with both pick-up and drop-off. If you come to Hai Phong, this is definitely where you should rent 👌🏼",
   },
   {
-    name: "David Chen",
-    location: "Singapore",
-    avatar: "david-chen",
+    name: "Henney Lee",
+    location: "South Korea",
+    avatar: "https://lh3.googleusercontent.com/a/ACg8ocL6XuKSq0KODV5FACkT7H2wl3GYgK0NWGeHLvTP2ESkzZU58w=w72-h72-p-rp-mo-ba3-br100",
     rating: 5,
-    text: "The Yamaha XSR155 was in perfect condition and made my countryside exploration incredible. The team was professional and the rental process was smooth and hassle-free.",
+    text: "I rent a bike for 1 day, this rental shop is the best. The Mr.Niels bring bike to my hotel. He was really nice. I will use this service when I come Hai phong again! Thank you!",
   },
   {
-    name: "Emma Wilson",
-    location: "Australia",
-    avatar: "emma-wilson",
-    rating: 4,
-    text: "Great service and well-maintained bikes. The weekly rental package was excellent value, and the included rain gear came in handy! Would definitely recommend.",
+    name: "Nadya Yaroslavtseva",
+    location: "Russia",
+    avatar: "https://lh3.googleusercontent.com/a-/ALV-UjVoBQkTlfWEEqTN3tUGqBDKXt__j6zpSwk955Q5_0RPNp79dqM=w72-h72-p-rp-mo-ba4-br100",
+    rating: 5,
+    text: "The owner and owner are wonderful, very warm people. We are incredibly happy that fate brought us to their office. We also rented a Yamaha NWX-155 bike from them, in excellent condition and at a very attractive price. We wish these wonderful people health, prosperity, and all the best.",
   },
   {
-    name: "Takashi Yamamoto",
-    location: "Japan",
-    avatar: "takashi-yamamoto",
+    name: "Matilde Vietti",
+    location: "Italy",
+    avatar: "https://lh3.googleusercontent.com/a/ACg8ocKBnpY58bw6J8-jIej7eOOO7_wk1MlwTu06_F02PbLbWb84Uw=w72-h72-p-rp-mo-br100",
     rating: 5,
-    text: "The Royal Enfield Himalayan was perfect for my adventure around Haiphong. The staff was incredibly helpful with route suggestions and local knowledge.",
+    text: "Amazing service. Niels and his wife were incredibly kind and helpful. The scooter we rented was perfect.",
   },
 ];
 
@@ -65,6 +65,7 @@ const TestimonialCard = ({ testimonial, index }) => {
         <div className="flex items-center mb-4">
           <Avatar className="h-12 w-12 mr-4 border-2 border-blue-600">
             <AvatarImage src="" alt={testimonial.name} />
+            <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
             <AvatarFallback className="bg-blue-100 text-blue-600 font-medium">
               {testimonial.name
                 .split(" ")
@@ -73,7 +74,7 @@ const TestimonialCard = ({ testimonial, index }) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-bold text-gray-400">{testimonial.name}</h3>
+            <h3 className="font-bold text-gray-300">{testimonial.name}</h3>
             <p className="text-sm text-gray-200">{testimonial.location}</p>
           </div>
         </div>

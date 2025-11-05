@@ -87,6 +87,7 @@ const Footer = () => {
                 href="https://www.instagram.com/rivercity_hph/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Instagram page"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <Instagram className="h-5 w-5" />
@@ -95,6 +96,7 @@ const Footer = () => {
                 href="https://x.com/bikerivercity"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Twitter page"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <Twitter className="h-5 w-5" />
@@ -103,6 +105,7 @@ const Footer = () => {
                 href="https://www.youtube.com/channel/UCJlWL2vPoWqDeb47TwRvqPg"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit our Youtube page"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
                 <Youtube className="h-5 w-5" />
@@ -148,7 +151,9 @@ const Footer = () => {
               Subscribe to receive updates on new vehicles and special offers.
             </p>
             <form onSubmit={handleSubscribe} className="flex gap-2">
+              <label htmlFor="newsletter-email" className="sr-only">Email for newsletter</label>
               <Input
+                id="newsletter-email"
                 type="email"
                 name="email"
                 placeholder="Your email"

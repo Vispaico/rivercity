@@ -236,8 +236,10 @@ const DashboardPostForm = () => {
               </div>
             )}
             <div className="flex items-center space-x-2">
+              <label htmlFor="featured-image-file" className="sr-only">Upload featured image</label>
               <input
                 type="file"
+                id="featured-image-file"
                 ref={fileInputRef}
                 onChange={handleImageUpload}
                 className="hidden"
@@ -250,8 +252,10 @@ const DashboardPostForm = () => {
                 {loading ? 'Uploading...' : 'Upload Image'}
               </button>
               <span className="text-gray-500">OR</span>
+              <label htmlFor="featured-image-url" className="sr-only">Featured image URL</label>
               <input
                 type="text"
+                id="featured-image-url"
                 placeholder="Paste image URL here"
                 value={featuredImageUrl}
                 onChange={(e) => setFeaturedImageUrl(e.target.value)}
@@ -263,6 +267,7 @@ const DashboardPostForm = () => {
         <div>
           <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
           <ReactQuill
+            id="content"
             theme="snow"
             value={content}
             onChange={setContent}

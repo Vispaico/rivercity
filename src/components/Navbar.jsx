@@ -36,7 +36,7 @@ const Navbar = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || !isHomePage
-          ? "bg-white/90 backdrop-blur-md shadow-md py-2"
+          ? "bg-black/60 backdrop-blur-md shadow-md py-2"
           : "bg-transparent py-4"
       }`}
     >
@@ -48,10 +48,10 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-600" : "text-blue-200"}`}>
+              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-400" : "text-blue-800"}`}>
                 Rivercity
               </span>
-              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-gray-600" : "text-white"}`}>
+              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-white" : "text-white"}`}>
                 Bike Rentals
               </span>
             </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
                   <a
                     href={item.path}
                     className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                      isScrolled || !isHomePage ? "text-gray-800" : "text-white"
+                      isScrolled || !isHomePage ? "text-white" : "text-white"
                     }`}
                   >
                     {item.name}
@@ -77,8 +77,8 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to={item.path}
-                    className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                      isScrolled || !isHomePage ? "text-gray-800" : "text-white"
+                    className={`text-lg font-medium transition-colors hover:text-blue-600 ${
+                      isScrolled || !isHomePage ? "text-white" : "text-white"
                     }`}
                   >
                     {item.name}
@@ -97,8 +97,8 @@ const Navbar = () => {
             <Link to="/dashboard">
               <Button
                 variant="ghost"
-                size="sm"
-                className={`rounded-full ${isScrolled || !isHomePage ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50" : "text-white hover:text-blue-600 hover:bg-white/20" } `}
+                size="lg"
+                className={`rounded-full ${isScrolled || !isHomePage ? "text-white text-lg hover:text-blue-600 hover:bg-blue-50" : "text-white text-lg hover:text-blue-600 hover:bg-white/20" } `}
               >
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 Dashboard
@@ -106,8 +106,8 @@ const Navbar = () => {
             </Link>
             <a href="tel:+84902197160">
             <Button
-              size="sm"
-              className="rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+              size="lg"
+              className="text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white"
             >
                 <Phone className="mr-2 h-4 w-4" />
                 Book Now
