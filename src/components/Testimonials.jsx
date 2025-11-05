@@ -73,8 +73,8 @@ const TestimonialCard = ({ testimonial, index }) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h3 className="font-bold text-gray-400">{testimonial.name}</h3>
-            <p className="text-sm text-gray-400">{testimonial.location}</p>
+            <h3 className="font-bold text-gray-200">{testimonial.name}</h3>
+            <p className="text-sm text-gray-200">{testimonial.location}</p>
           </div>
         </div>
 
