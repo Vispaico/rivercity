@@ -192,9 +192,21 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
+const deferCssPlugin = () => {
+  return {
+    name: 'defer-css',
+    transformIndexHtml(html) {
+      return html.replace(
+        /<link rel="stylesheet" href="(\/assets\/index.*?\.css)">/,
+        `<link rel="stylesheet" href="$1" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="$1"></noscript>`
+      );
+    },
+  };
+};
+
 export default defineConfig({
 	customLogger: logger,
-	plugins: [react(), addTransformIndexHtml],
+	plugins: [react(), addTransformIndexHtml, deferCssPlugin()],
 server: {
     cors: true,
     allowedHosts: true,
