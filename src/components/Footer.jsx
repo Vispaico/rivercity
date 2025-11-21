@@ -6,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   Facebook,
   Instagram,
-  Twitter,
   Youtube,
   ArrowRight,
 } from "lucide-react";
@@ -23,6 +22,20 @@ const TikTokIcon = (props) => (
     {...props}
   >
     <path d="M16.235 6.035a4.514 4.514 0 01-4.27 4.127v5.363a4.007 4.007 0 11-4.007-4.007h3.932V6.035c0-2.21 1.795-4.005 4.005-4.005s4.005 1.795 4.005 4.005c0 .18-.012.357-.035.53a4.51 4.51 0 01-3.63 3.497z" />
+  </svg>
+);
+
+const XIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    stroke="currentColor"
+    strokeWidth="0"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M3 2h4.6l4.07 5.7L15.8 2H21l-7.5 10L21 22h-4.6l-4.07-5.7L8.2 22H3l7.5-10L3 2z" />
   </svg>
 );
 
@@ -93,13 +106,22 @@ const Footer = () => {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
+                href="https://www.tiktok.com/@rivercitybikes"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit our TikTok page"
+                className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
+              >
+                <TikTokIcon className="h-5 w-5" />
+              </a>
+              <a
                 href="https://x.com/bikerivercity"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit our Twitter page"
+                aria-label="Visit our X page"
                 className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
               >
-                <Twitter className="h-5 w-5" />
+                <XIcon className="h-5 w-5" />
               </a>
               <a
                 href="https://www.youtube.com/channel/UCJlWL2vPoWqDeb47TwRvqPg"

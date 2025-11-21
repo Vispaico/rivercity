@@ -4,7 +4,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ScrollToTop from "@/components/ScrollToTop";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import FloatingContacts from "@/components/FloatingWhatsApp";
 
@@ -105,7 +104,6 @@ function App() {
         </main>
         <FloatingContacts />
         <Footer />
-        <ScrollToTop />
         <Toaster />
       </div>
     </HelmetProvider>
