@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import PageHeader from "@/components/PageHeader";
 import { motion } from "framer-motion";
 import { Award, Users, MapPin } from "lucide-react";
@@ -25,11 +26,36 @@ const AboutPage = () => {
     },
   ];
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Rivercity Bike Rentals",
+    description:
+      "Learn about Rivercity Bike Rentals, Haiphong's trusted motorbike and car rental company founded in 2019 with 2,000+ happy travelers served.",
+    mainEntity: {
+      "@type": "VehicleRentalBusiness",
+      name: "Rivercity Bike Rentals",
+      foundingDate: "2019",
+      numberOfEmployees: "12",
+      areaServed: "Haiphong, Vietnam",
+      url: "https://www.rivercitybikerentals.com/about",
+    },
+  };
+
   return (
     <div>
+      <Helmet>
+        <title>About Rivercity Bike Rentals | Founded 2019 | Best Motorbike Rentals Haiphong</title>
+        <meta
+          name="description"
+          content="Rivercity Bike Rentals has delivered safe motorbike and car rentals in Haiphong since 2019. Discover our story, safety standards and service commitments."
+        />
+        <link rel="canonical" href="https://www.rivercitybikerentals.com/about" />
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      </Helmet>
       <PageHeader
-        title="About Rivercity Rentals"
-        subtitle="Your trusted partner for memorable adventures in Haiphong and beyond."
+        title="About Rivercity Bike Rentals"
+        subtitle="Haiphong's trusted rental partner since 2019 with 2,000+ adventures planned."
         breadcrumbs={[{ name: "Home", link: "/" }, { name: "About Us" }]}
       />
 
@@ -58,14 +84,41 @@ const AboutPage = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Our Mission: Unleash Your Spirit of Adventure
               </h2>
-              <p className="text-lg text-gray-700 mb-4">At Rivercity Rentals, we believe that the best way to experience a new place is on two wheels (or four!). We are passionate about providing reliable, high-quality vehicles and exceptional customer service to make your exploration of Haiphong and its stunning surroundings seamless and unforgettable.</p>
+              <p className="text-lg text-gray-700 mb-4">At Rivercity Rentals, we believe the best way to experience a new destination is on two wheels (or four!). Since 2019 we have delivered reliable, high-quality vehicles and concierge-level support so every traveler can explore Haiphong with confidence.</p>
               <p className="text-lg text-gray-700 mb-4">
-                Founded in 2019, our local team is dedicated to sharing the beauty and culture of our city. We offer a diverse fleet of motorbikes and cars, meticulously maintained for your safety and comfort.
+                Our local team of 12 full-time specialists maintains a diverse fleet of 35+ motorbikes and cars with rigorous daily inspections, GPS-enabled safety checks and proactive maintenance schedules.
               </p>
               <p className="text-lg text-gray-700">
-                Whether you're a solo traveler seeking winding coastal roads, a couple on a romantic getaway, or a family looking for convenient city transport, we have the perfect ride for you.
+                Whether you're a solo traveler seeking winding coastal roads, a couple on a romantic getaway, or a family needing comfortable city transport, we tailor every rental with safety briefings, route tips and on-demand assistance.
               </p>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[
+              { label: "Founded", value: "2019" },
+              { label: "Travelers Served", value: "2,000+" },
+              { label: "Fleet Size", value: "35 Vehicles" },
+              { label: "Safety Record", value: "0 Major Incidents" },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="rounded-2xl bg-white shadow-lg border border-gray-100 p-6 text-center"
+              >
+                <p className="text-sm uppercase tracking-wide text-blue-600 font-semibold">
+                  {stat.label}
+                </p>
+                <p className="mt-2 text-3xl font-bold text-gray-900">{stat.value}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

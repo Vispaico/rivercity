@@ -16,7 +16,7 @@ const CTASection = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-6"
           >
-            Ready to Explore Haiphong on Wheels?
+            Reserve Your Haiphong Ride in Minutes
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -25,8 +25,8 @@ const CTASection = () => {
             viewport={{ once: true }}
             className="text-lg md:text-xl mb-8 text-blue-100"
           >
-            Book your ride today and discover the beauty of Haiphong and its
-            surroundings at your own pace.
+            Check real-time availability, lock in transparent pricing and get your bike or car
+            delivered to your hotel with helmets, phone mounts and roadside support included.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -37,12 +37,41 @@ const CTASection = () => {
           >
             <Button
               asChild
-              variant="outline"
               size="lg"
-              className="border-white text-blue-600 hover:bg-white/10 rounded-full px-8"
+              className="bg-white text-blue-700 hover:bg-blue-50 rounded-full px-8"
             >
               <a href="#contact">
-                Book a Ride Now
+                Request Availability
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white/10 rounded-full px-8"
+            >
+              <a
+                href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20want%20to%20book%20a%20vehicle."
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp Bookings
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white/10 rounded-full px-8"
+            >
+              <a
+                href="https://zalo.me/0902197160"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Zalo Bookings
                 <ChevronRight className="ml-2 h-4 w-4" />
               </a>
             </Button>

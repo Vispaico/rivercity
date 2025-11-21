@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, MessageSquare } from "lucide-react";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -29,14 +29,21 @@ const ContactSection = () => {
       return;
     }
 
+    const name = formData.get("name");
     const email = formData.get("email");
+    const phone = formData.get("phone");
+    const startDate = formData.get("startDate");
+    const endDate = formData.get("endDate");
+    const vehicle = formData.get("vehicle");
     const message = formData.get("message");
 
     toast({
       title: "Message Submission Pending",
-      description: `Email: ${email}. Message preview: ${message.slice(0, 60)}${
+      description: `${name || "Guest"} | ${email}${
+        phone ? ` | ${phone}` : ""
+      } | ${vehicle || "Vehicle TBD"} (${startDate} - ${endDate}). Message preview: ${message.slice(0, 60)}${
         message.length > 60 ? "…" : ""
-      }. Backend functionality needed.`,
+      }. Backend integration required for sending.`,
       duration: 7000,
       className: "bg-yellow-500 text-black",
     });
@@ -76,9 +83,41 @@ const ContactSection = () => {
             className="flex flex-col"
           >
             <div className="bg-gray-50 p-8 rounded-xl h-full">
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Contact Information
-              </h3>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">
+                  Contact Information
+                </h3>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-green-500 text-green-600 hover:bg-green-50"
+                    asChild
+                  >
+                    <a
+                      href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20would%20like%20to%20check%20vehicle%20availability."
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Us
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-blue-500 text-blue-600 hover:bg-blue-50"
+                    asChild
+                  >
+                    <a
+                      href="https://zalo.me/0902197160"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <MessageSquare className="mr-2 h-4 w-4" /> Zalo Us
+                    </a>
+                  </Button>
+                </div>
+              </div>
 
               <div className="space-y-6">
                 <div className="flex items-start">
@@ -162,9 +201,13 @@ const ContactSection = () => {
             }
           >
             <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-lg">
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Send Us a Message
+              <h3 className="text-2xl font-bold mb-2 text-gray-800">
+                Secure Your Ride
               </h3>
+              <p className="text-gray-600 mb-6">
+                Complete the form and we will reply within two working hours with availability,
+                insurance options and confirmation details.
+              </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="sr-only">
@@ -178,6 +221,18 @@ const ContactSection = () => {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Jane Traveler"
+                    required
+                    className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
                   <Input
                     id="email"
@@ -187,6 +242,63 @@ const ContactSection = () => {
                     required
                     className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone">WhatsApp or Phone Number</Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="+84 902 197 160"
+                    required
+                    className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="startDate">Pickup Date</Label>
+                    <Input
+                      id="startDate"
+                      name="startDate"
+                      type="date"
+                      required
+                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="endDate">Return Date</Label>
+                    <Input
+                      id="endDate"
+                      name="endDate"
+                      type="date"
+                      required
+                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="vehicle">Vehicle Preference</Label>
+                  <select
+                    id="vehicle"
+                    name="vehicle"
+                    required
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-700 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Select a vehicle
+                    </option>
+                    <option value="Honda Wave 110cc">Honda Wave 110cc</option>
+                    <option value="Honda Airblade 125cc">Honda Airblade 125cc</option>
+                    <option value="Yamaha NVX 155cc">Yamaha NVX 155cc</option>
+                    <option value="VinFast Fadil">VinFast Fadil</option>
+                    <option value="Honda CR-V">Honda CR-V</option>
+                    <option value="VinFast Lux SA">VinFast Lux SA (7 seats)</option>
+                    <option value="Not sure yet">Not sure yet</option>
+                  </select>
                 </div>
 
                 <div className="space-y-2">

@@ -5,8 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
-import Chatbot from "@/components/Chatbot";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import FloatingContacts from "@/components/FloatingWhatsApp";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -103,7 +103,7 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-        <Chatbot />
+        <FloatingContacts />
         <Footer />
         <ScrollToTop />
         <Toaster />

@@ -2,11 +2,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, MapPin } from "lucide-react";
+import { CheckCircle2, MapPin } from "lucide-react";
 
 const Hero = () => {
-  const handleScroll = () => {
-    const section = document.getElementById("bike-showcase");
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
@@ -45,7 +45,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-4xl md:text-6xl font-extrabold text-white mb-4 leading-tight"
           >
-            Explore Haiphong on Wheels
+            Haiphong Motorbike & Car Rentals from $4/Day
           </motion.h1>
 
           <motion.p
@@ -54,8 +54,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl"
           >
-            Premium motorbike and car rentals for your adventure in Vietnam's port city.
-            Discover hidden gems and scenic routes with our reliable vehicles.
+            Premium Honda, Yamaha and VinFast rentals with free hotel delivery, helmets and
+            24/7 roadside support. Reserve online in minutes and start exploring immediately.
           </motion.p>
 
           <motion.div
@@ -65,14 +65,68 @@ const Hero = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button
-              variant="outline"
               size="lg"
-              className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 rounded-full px-8"
-              onClick={handleScroll}
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 shadow-lg shadow-blue-900/30"
+              onClick={() => scrollToSection("pricing")}
             >
-              View Our Fleet
+              Check Availability & Prices
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
+              asChild
+            >
+              <a
+                href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I'd%20like%20to%20check%20availability."
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp a Quick Quote
+              </a>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
+              asChild
+            >
+              <a
+                href="https://zalo.me/0902197160"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Zalo Quick Quote
+              </a>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
+              onClick={() => scrollToSection("bike-showcase")}
+            >
+              View Motorbikes & Cars
             </Button>
           </motion.div>
+
+          <motion.ul
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="mt-10 grid gap-3 sm:grid-cols-2 text-white/90"
+          >
+            {[
+              "Trusted by 2,000+ travelers since 2019",
+              "4.7★ Google rating (18 verified reviews)",
+              "Free hotel delivery & phone holder included",
+              "Airport pickup, monthly and chauffeur options",
+            ].map((item, index) => (
+              <li key={index} className="flex items-center text-sm md:text-base">
+                <CheckCircle2 className="mr-2 h-5 w-5 text-emerald-300" />
+                {item}
+              </li>
+            ))}
+          </motion.ul>
         </div>
       </div>
 

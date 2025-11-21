@@ -8,49 +8,55 @@ import { Check } from "lucide-react";
 
 const pricingPlans = [
   {
-    name: "Daily Rental",
-    price: "4-130",
-    description: "Perfect for short trips and city exploration",
+    name: "Honda Wave 110cc",
+    subtitle: "Budget-friendly city rider",
+    rates: [
+      { label: "Daily", value: "$5" },
+      { label: "Weekly", value: "$25" },
+      { label: "Monthly", value: "$100" },
+    ],
     features: [
-      "24-hour rental period",
-      "Helmet included",
-      "Basic insurance coverage",
-      "City map provided",
-      "Fuel not included",
+      "Perfect for city trips and countryside cruising",
+      "Half-automatic transmission",
+      "Free helmets, phone holder & rain poncho",
+      "Optional damage waiver available",
     ],
     popular: false,
-    buttonText: "Rent by Day",
+    ctaText: "Reserve Honda Wave",
   },
   {
-    name: "Weekly Adventure",
-    price: "20-650",
-    description: "Ideal for exploring Haiphong and surrounding areas",
+    name: "Honda Airblade 125cc",
+    subtitle: "Most popular scooter",
+    rates: [
+      { label: "Daily", value: "$7" },
+      { label: "Weekly", value: "$35" },
+      { label: "Monthly", value: "$130" },
+    ],
     features: [
-      "7-day rental period",
-      "Helmet and rain gear included",
-      "Comprehensive insurance",
-      "Digital route suggestions",
-      "24/7 roadside assistance",
-      "10% discount on extensions",
+      "Spacious under-seat storage",
+      "Smart key & ABS braking",
+      "Free delivery within Haiphong",
+      "24/7 roadside assistance included",
     ],
     popular: true,
-    buttonText: "Rent by Week",
+    ctaText: "Book Airblade Now",
   },
   {
-    name: "Monthly Explorer",
-    price: "50-2000",
-    description: "For extended stays and thorough exploration",
+    name: "Yamaha NVX 155cc",
+    subtitle: "Premium touring scooter",
+    rates: [
+      { label: "Daily", value: "$10" },
+      { label: "Weekly", value: "$50" },
+      { label: "Monthly", value: "$180" },
+    ],
     features: [
-      "30-day rental period",
-      "Complete safety gear package",
-      "Premium insurance coverage",
-      "Maintenance included",
-      "Free bike replacement",
-      "Unlimited mileage",
-      "20% discount on extensions",
+      "Powerful 155cc engine & sport suspension",
+      "ABS + traction control for confident riding",
+      "Long-range comfort seat",
+      "Includes waterproof luggage bag",
     ],
     popular: false,
-    buttonText: "Rent by Month",
+    ctaText: "Check NVX Availability",
   },
 ];
 
@@ -58,6 +64,9 @@ const PricingCard = ({ plan, index }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
+  const whatsappMessage = encodeURIComponent(
+    `Hi Rivercity! I am interested in renting the ${plan.name}.`
+  );
 
   useEffect(() => {
     if (isInView) {
@@ -98,13 +107,21 @@ const PricingCard = ({ plan, index }) => {
           <CardTitle className="text-2xl font-bold text-gray-800">
             {plan.name}
           </CardTitle>
-          <div className="mt-4 flex items-baseline">
-            <span className="text-4xl font-extrabold text-gray-900">
-              ${plan.price}
-            </span>
-            <span className="ml-1 text-xl text-gray-500">/period</span>
+          {plan.subtitle && (
+            <p className="mt-2 text-sm uppercase tracking-wide text-blue-600 font-semibold">
+              {plan.subtitle}
+            </p>
+          )}
+          <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+            {plan.rates.map((rate) => (
+              <div key={rate.label} className="rounded-lg border border-gray-200 py-3 bg-gray-50">
+                <p className="text-xs font-semibold text-gray-500 uppercase">
+                  {rate.label}
+                </p>
+                <p className="text-xl font-extrabold text-gray-900">{rate.value}</p>
+              </div>
+            ))}
           </div>
-          <p className="mt-2 text-gray-600">{plan.description}</p>
         </CardHeader>
         <CardContent className="pt-6">
           <ul className="space-y-3">
@@ -135,7 +152,13 @@ const PricingCard = ({ plan, index }) => {
                 : "bg-gray-800 hover:bg-gray-900"
             } text-white`}
           >
-            <a href="#contact">{plan.buttonText}</a>
+            <a
+              href={`https://wa.me/84902197160?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {plan.ctaText}
+            </a>
           </Button>
         </CardFooter>
       </Card>
@@ -168,11 +191,11 @@ const Pricing = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Simple, Transparent <span className="text-blue-600">Pricing</span>
+            Transparent <span className="text-blue-600">Pricing</span> & Free Add-ons
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose the rental period that suits your adventure needs. All prices
-            vary based on the bike model you select.
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Choose the ride that matches your trip. Every rental includes premium helmets,
+            free hotel delivery within Haiphong, phone holder, rain poncho and on-demand roadside support.
           </p>
         </motion.div>
 
@@ -192,19 +215,67 @@ const Pricing = () => {
           className="mt-16 bg-white p-6 rounded-lg shadow-md max-w-3xl mx-auto text-center"
         >
           <h3 className="text-xl font-bold text-gray-800 mb-2">
-            Need a Custom Rental Plan?
+            Need Airport Pickup, Chauffeur or Monthly Corporate Rates?
           </h3>
-          <p className="text-gray-600 mb-4">
-            Contact us for special arrangements, group discounts, or long-term
-            rentals beyond one month.
+          <p className="text-gray-600 mb-6">
+            We create custom packages for long-term rentals, expat relocations and film crews.
+            Share your dates and vehicle requirements and we'll send a tailored quote within 2 hours.
           </p>
-          <Button
-            asChild
-            variant="outline"
-            className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-          >
-            <a href="#contact">Contact for Custom Quote</a>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button
+              asChild
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <a href="#contact">Request Custom Quote</a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+            >
+              <a
+                href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20need%20a%20custom%20rental%20quote."
+                target="_blank"
+                rel="noreferrer"
+              >
+                Chat on WhatsApp
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+            >
+              <a
+                href="https://zalo.me/0902197160"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Chat on Zalo
+              </a>
+            </Button>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={
+            isInView
+              ? { opacity: 1, y: 0, transition: { delay: 0.8 } }
+              : { opacity: 0, y: 20 }
+          }
+          className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left"
+        >
+          {[ 
+            "Insurance upgrades and damage waiver available on request",
+            "Unlimited mileage for all rentals with complimentary maintenance",
+            "Flexible delivery to Cat Bi Airport, Ha Long and Cat Ba (fee applies)"
+          ].map((item, index) => (
+            <div key={index} className="flex items-start bg-white border border-gray-100 rounded-lg p-4 shadow-sm">
+              <Check className="mt-1 mr-3 h-5 w-5 text-blue-600" />
+              <p className="text-gray-600">{item}</p>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
