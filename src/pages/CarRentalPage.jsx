@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import PageHeader from "@/components/PageHeader";
 import VehicleCard from "@/components/VehicleCard";
 import ContactSection from "@/components/ContactSection";
+import CustomQuoteCard from "@/components/CustomQuoteCard";
 
 const cars = [
   {
@@ -118,6 +119,7 @@ const CarRentalPage = () => {
           </div>
         </div>
       </section>
+      <CustomQuoteCard />
       <ContactSection />
     </div>
   );
