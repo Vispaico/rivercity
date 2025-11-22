@@ -6,7 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle, MessageSquare } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, Navigation } from "lucide-react";
+
+const WhatsAppIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+);
+
+const ZaloIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" {...props}>
+    <rect width="50" height="50" rx="12" fill="#0A94FF"/>
+    <text x="25" y="30" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="bold" fontSize="18" fill="#fff">Zalo</text>
+  </svg>
+);
+
+const MessengerIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.912 1.448 5.51 3.717 7.22V22l3.406-1.87c.91.252 1.876.387 2.877.387 5.523 0 10-4.145 10-9.243C22 6.144 17.523 2 12 2zm.993 12.415l-2.567-2.74-5.008 2.74 5.51-5.845 2.63 2.74 4.945-2.74-5.51 5.845z"/>
+  </svg>
+);
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -83,56 +102,39 @@ const ContactSection = () => {
             className="flex flex-col"
           >
             <div className="bg-gray-50 p-8 rounded-xl h-full">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">
-                  Contact Information
-                </h3>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-green-500 text-green-600 hover:bg-green-50"
-                    asChild
-                  >
-                    <a
-                      href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20would%20like%20to%20check%20vehicle%20availability."
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Us
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-blue-500 text-blue-600 hover:bg-blue-50"
-                    asChild
-                  >
-                    <a
-                      href="https://zalo.me/0902197160"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <MessageSquare className="mr-2 h-4 w-4" /> Zalo Us
-                    </a>
-                  </Button>
-                </div>
-              </div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">
+                Contact Information
+              </h3>
 
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-blue-600 p-3 rounded-full mr-4 shrink-0">
                     <MapPin className="h-5 w-5 text-white" />
                   </div>
-                  <div>
+                  <div className="flex-grow">
                     <h4 className="font-semibold text-gray-800 mb-1">
                       Our Location
                     </h4>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 mb-2">
                       23/32 To 2 Xom Trung, Ngo Quyen District
                       <br />
                       Haiphong, Vietnam
                     </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                      asChild
+                    >
+                      <a
+                        href="https://maps.app.goo.gl/h3i7dKKjHPc1UhmT6"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Navigation className="mr-2 h-4 w-4" />
+                        Open in Maps
+                      </a>
+                    </Button>
                   </div>
                 </div>
 
@@ -177,17 +179,73 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="mt-8 h-96 w-full rounded-xl overflow-hidden shadow-lg border border-gray-200">
-                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.435621844709!2d106.70991719999999!3d20.838411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a9bcd8a61cbd%3A0x27f1e4de24e8e1c8!2sRivercity%20Bike%20Rentals!5e0!3m2!1sen!2s!4v1698652800000!5m2!1sen!2s"
-                    width="100%"
-                    height="100%"
-                    style={{ border:0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Rivercity Bike Rentals Location"
-                  ></iframe>
+              <div className="mt-8 bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border-2 border-blue-100">
+                <h4 className="text-lg font-bold text-gray-800 mb-4 text-center">
+                  Quick Contact Options
+                </h4>
+                <p className="text-center text-sm text-gray-600 mb-4">
+                  Choose your preferred way to reach us
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <motion.a
+                    href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20have%20a%20question%20about%20rentals."
+                    target="_blank"
+                    rel="noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-green-500 hover:bg-green-600 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    <WhatsAppIcon className="w-8 h-8" />
+                    <span className="text-sm font-semibold">WhatsApp</span>
+                  </motion.a>
+
+                  <motion.a
+                    href="https://www.facebook.com/RiverCityBikeRentals/"
+                    target="_blank"
+                    rel="noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    <MessengerIcon className="w-8 h-8" />
+                    <span className="text-sm font-semibold">Messenger</span>
+                  </motion.a>
+
+                  <motion.a
+                    href="https://zalo.me/0902197160"
+                    target="_blank"
+                    rel="noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    <ZaloIcon className="w-8 h-8" />
+                    <span className="text-sm font-semibold">Zalo</span>
+                  </motion.a>
+
+                  <motion.a
+                    href="tel:+84902197160"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-purple-500 hover:bg-purple-600 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    <Phone className="w-8 h-8" />
+                    <span className="text-sm font-semibold">Phone</span>
+                  </motion.a>
+
+                  <motion.a
+                    href="mailto:info@rivercitybikerentals.com"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg col-span-2"
+                  >
+                    <Mail className="w-8 h-8" />
+                    <span className="text-sm font-semibold">Email Us</span>
+                  </motion.a>
+                </div>
+                <p className="text-center text-xs text-gray-500 mt-4">
+                  Available 7 days a week • Response within 2 hours
+                </p>
               </div>
             </div>
           </motion.div>

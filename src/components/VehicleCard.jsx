@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Zap, Users, Gauge, Cog } from "lucide-react";
+import ContactModal from "@/components/ContactModal";
 
 const iconMap = {
   engine: <Gauge className="h-3 w-3 mr-1 text-gray-700" />,
@@ -13,11 +14,23 @@ const iconMap = {
 };
 
 const VehicleCard = ({ vehicle, index, type }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getSpecIcon = (specType) => {
     return iconMap[specType] || <Zap className="h-3 w-3 mr-1 text-gray-700" />;
   };
 
   return (
+    <>
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        context={{
+          vehicleName: vehicle.name,
+          vehiclePrice: `$${vehicle.price}`,
+          messageType: "rental",
+        }}
+      />
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
@@ -56,18 +69,17 @@ const VehicleCard = ({ vehicle, index, type }) => {
         </CardContent>
         <CardFooter className="p-5 pt-0 mt-auto">
           <Button
-            asChild
+            onClick={() => setIsModalOpen(true)}
             variant="outline"
             className="w-full border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors"
           >
-            <a href="#contact">
-              Book Now
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </a>
+            Book Now
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </CardFooter>
       </Card>
     </motion.div>
+    </>
   );
 };
 

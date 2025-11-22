@@ -5,6 +5,7 @@ import { useInView } from "framer-motion";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Bike, Car } from "lucide-react";
+import ContactModal from "@/components/ContactModal";
 
 const motorbikePricing = [
   {
@@ -118,9 +119,7 @@ const PricingCard = ({ plan, index, vehicleType }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
-  const whatsappMessage = encodeURIComponent(
-    `Hi Rivercity! I am interested in renting the ${plan.name}.`
-  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (isInView) {
@@ -129,20 +128,30 @@ const PricingCard = ({ plan, index, vehicleType }) => {
   }, [isInView, controls]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, delay: index * 0.1 },
-        },
-      }}
-      className="h-full"
-    >
+    <>
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        context={{
+          vehicleName: plan.name,
+          vehiclePrice: plan.rates[0].value,
+          messageType: "rental",
+        }}
+      />
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0, y: 30 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, delay: index * 0.1 },
+          },
+        }}
+        className="h-full"
+      >
       <Card
         className={`h-full border-2 ${
           plan.popular
@@ -209,7 +218,7 @@ const PricingCard = ({ plan, index, vehicleType }) => {
         </CardContent>
         <CardFooter>
           <Button
-            asChild
+            onClick={() => setIsModalOpen(true)}
             className={`w-full ${
               plan.popular
                 ? vehicleType === "motorbike"
@@ -218,17 +227,12 @@ const PricingCard = ({ plan, index, vehicleType }) => {
                 : "bg-gray-800 hover:bg-gray-900"
             } text-white transition-colors duration-300`}
           >
-            <a
-              href={`https://wa.me/84902197160?text=${whatsappMessage}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {plan.ctaText}
-            </a>
+            {plan.ctaText}
           </Button>
         </CardFooter>
       </Card>
     </motion.div>
+    </>
   );
 };
 
@@ -237,6 +241,7 @@ const Pricing = () => {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
   const [vehicleType, setVehicleType] = useState("motorbike");
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
   useEffect(() => {
     if (isInView) {
@@ -325,6 +330,14 @@ const Pricing = () => {
           </motion.div>
         </AnimatePresence>
 
+        <ContactModal
+          isOpen={isCustomModalOpen}
+          onClose={() => setIsCustomModalOpen(false)}
+          context={{
+            messageType: "custom",
+          }}
+        />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={
@@ -341,38 +354,12 @@ const Pricing = () => {
             We create custom packages for long-term rentals, expat relocations and film crews.
             Share your dates and vehicle requirements and we'll send a tailored quote within 2 hours.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex justify-center">
             <Button
-              asChild
+              onClick={() => setIsCustomModalOpen(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white"
             >
-              <a href="#contact">Request Custom Quote</a>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-            >
-              <a
-                href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20need%20a%20custom%20rental%20quote."
-                target="_blank"
-                rel="noreferrer"
-              >
-                Chat on WhatsApp
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-            >
-              <a
-                href="https://zalo.me/0902197160"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Chat on Zalo
-              </a>
+              Request Custom Quote
             </Button>
           </div>
         </motion.div>
