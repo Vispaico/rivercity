@@ -1,19 +1,19 @@
 
-import React, { useRef, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Bike, Car } from "lucide-react";
 
-const pricingPlans = [
+const motorbikePricing = [
   {
     name: "Honda Wave 110cc",
     subtitle: "Budget-friendly city rider",
     rates: [
-      { label: "Daily", value: "$5" },
-      { label: "Weekly", value: "$25" },
-      { label: "Monthly", value: "$100" },
+      { label: "Daily", value: "$4" },
+      { label: "Weekly", value: "$20" },
+      { label: "Monthly", value: "$60" },
     ],
     features: [
       "Perfect for city trips and countryside cruising",
@@ -30,7 +30,7 @@ const pricingPlans = [
     rates: [
       { label: "Daily", value: "$7" },
       { label: "Weekly", value: "$35" },
-      { label: "Monthly", value: "$130" },
+      { label: "Monthly", value: "$100" },
     ],
     features: [
       "Spacious under-seat storage",
@@ -47,7 +47,7 @@ const pricingPlans = [
     rates: [
       { label: "Daily", value: "$10" },
       { label: "Weekly", value: "$50" },
-      { label: "Monthly", value: "$180" },
+      { label: "Monthly", value: "$150" },
     ],
     features: [
       "Powerful 155cc engine & sport suspension",
@@ -60,7 +60,61 @@ const pricingPlans = [
   },
 ];
 
-const PricingCard = ({ plan, index }) => {
+const carPricing = [
+  {
+    name: "Compact Car",
+    subtitle: "Vinfast Fadil or similar",
+    rates: [
+      { label: "Daily", value: "$50" },
+      { label: "Weekly", value: "$250" },
+      { label: "Monthly", value: "$600" },
+    ],
+    features: [
+      "Perfect for city navigation & short trips",
+      "4 passengers + luggage space",
+      "VETC card for toll roads included",
+      "Free delivery within Haiphong",
+    ],
+    popular: false,
+    ctaText: "Reserve Compact Car",
+  },
+  {
+    name: "Sedan / Small SUV",
+    subtitle: "Honda CRV or similar",
+    rates: [
+      { label: "Daily", value: "$80" },
+      { label: "Weekly", value: "$400" },
+      { label: "Monthly", value: "$900" },
+    ],
+    features: [
+      "Comfortable for business or family travel",
+      "5 passengers with premium comfort",
+      "Full insurance & VETC included",
+      "24/7 driver service available (extra)",
+    ],
+    popular: true,
+    ctaText: "Book Sedan Now",
+  },
+  {
+    name: "7-Seater SUV",
+    subtitle: "Vinfast Lux SA or similar",
+    rates: [
+      { label: "Daily", value: "$130" },
+      { label: "Weekly", value: "$690" },
+      { label: "Monthly", value: "$1,380" },
+    ],
+    features: [
+      "Spacious for families & group tours",
+      "7 passengers with ample luggage room",
+      "Premium interior & advanced safety",
+      "Airport pickup & long-distance ready",
+    ],
+    popular: false,
+    ctaText: "Check SUV Availability",
+  },
+];
+
+const PricingCard = ({ plan, index, vehicleType }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
@@ -92,13 +146,17 @@ const PricingCard = ({ plan, index }) => {
       <Card
         className={`h-full border-2 ${
           plan.popular
-            ? "border-blue-600 shadow-xl shadow-blue-100"
+            ? vehicleType === "motorbike"
+              ? "border-green-600 shadow-xl shadow-green-100"
+              : "border-blue-600 shadow-xl shadow-blue-100"
             : "border-gray-200"
-        } relative overflow-hidden`}
+        } relative overflow-hidden transition-all duration-300`}
       >
         {plan.popular && (
           <div className="absolute top-0 right-0">
-            <div className="bg-blue-600 text-white text-xs font-semibold py-1 px-4 rounded-bl-lg">
+            <div className={`${
+              vehicleType === "motorbike" ? "bg-green-600" : "bg-blue-600"
+            } text-white text-xs font-semibold py-1 px-4 rounded-bl-lg`}>
               Most Popular
             </div>
           </div>
@@ -108,7 +166,9 @@ const PricingCard = ({ plan, index }) => {
             {plan.name}
           </CardTitle>
           {plan.subtitle && (
-            <p className="mt-2 text-sm uppercase tracking-wide text-blue-600 font-semibold">
+            <p className={`mt-2 text-sm uppercase tracking-wide ${
+              vehicleType === "motorbike" ? "text-green-600" : "text-blue-600"
+            } font-semibold`}>
               {plan.subtitle}
             </p>
           )}
@@ -129,7 +189,11 @@ const PricingCard = ({ plan, index }) => {
               <li key={i} className="flex items-start">
                 <div
                   className={`flex-shrink-0 h-5 w-5 rounded-full ${
-                    plan.popular ? "bg-blue-600" : "bg-gray-200"
+                    plan.popular 
+                      ? vehicleType === "motorbike" 
+                        ? "bg-green-600" 
+                        : "bg-blue-600"
+                      : "bg-gray-200"
                   } flex items-center justify-center mr-2 mt-0.5`}
                 >
                   <Check
@@ -148,9 +212,11 @@ const PricingCard = ({ plan, index }) => {
             asChild
             className={`w-full ${
               plan.popular
-                ? "bg-blue-600 hover:bg-blue-700"
+                ? vehicleType === "motorbike"
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-blue-600 hover:bg-blue-700"
                 : "bg-gray-800 hover:bg-gray-900"
-            } text-white`}
+            } text-white transition-colors duration-300`}
           >
             <a
               href={`https://wa.me/84902197160?text=${whatsappMessage}`}
@@ -170,12 +236,15 @@ const Pricing = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
+  const [vehicleType, setVehicleType] = useState("motorbike");
 
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
     }
   }, [isInView, controls]);
+
+  const currentPricing = vehicleType === "motorbike" ? motorbikePricing : carPricing;
 
   return (
     <section id="pricing" className="py-20 bg-gray-50">
@@ -188,22 +257,73 @@ const Pricing = () => {
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { duration: 0.6 } },
           }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-            Transparent <span className="text-blue-600">Pricing</span> & Free Add-ons
+            Transparent <span className={vehicleType === "motorbike" ? "text-green-600" : "text-blue-600"}>Pricing</span> & Free Add-ons
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Choose the ride that matches your trip. Every rental includes premium helmets,
-            free hotel delivery within Haiphong, phone holder, rain poncho and on-demand roadside support.
+            Choose the ride that matches your trip. Every rental includes premium service,
+            free hotel delivery within Haiphong, and 24/7 roadside support.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} plan={plan} index={index} />
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0, transition: { delay: 0.3 } } : { opacity: 0, y: 20 }}
+          className="flex justify-center mb-12"
+        >
+          <div className="relative inline-flex items-center bg-white rounded-full p-1 shadow-lg border-2 border-gray-200">
+            <motion.div
+              className={`absolute top-1 bottom-1 left-1 rounded-full ${
+                vehicleType === "motorbike" ? "bg-green-500" : "bg-blue-500"
+              } shadow-md`}
+              initial={false}
+              animate={{
+                x: vehicleType === "motorbike" ? 0 : "100%",
+                width: vehicleType === "motorbike" ? "calc(50% - 4px)" : "calc(50% - 4px)",
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            />
+            <button
+              onClick={() => setVehicleType("motorbike")}
+              className={`relative z-10 flex items-center gap-2 px-8 py-3 rounded-full font-semibold transition-colors duration-300 ${
+                vehicleType === "motorbike"
+                  ? "text-white"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              <Bike className="w-5 h-5" />
+              <span>Motorbikes</span>
+            </button>
+            <button
+              onClick={() => setVehicleType("car")}
+              className={`relative z-10 flex items-center gap-2 px-8 py-3 rounded-full font-semibold transition-colors duration-300 ${
+                vehicleType === "car"
+                  ? "text-white"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+            >
+              <Car className="w-5 h-5" />
+              <span>Cars</span>
+            </button>
+          </div>
+        </motion.div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={vehicleType}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {currentPricing.map((plan, index) => (
+              <PricingCard key={index} plan={plan} index={index} vehicleType={vehicleType} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

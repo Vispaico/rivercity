@@ -75,34 +75,6 @@ const Hero = () => {
               size="lg"
               variant="outline"
               className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
-              asChild
-            >
-              <a
-                href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I'd%20like%20to%20check%20availability."
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp a Quick Quote
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
-              asChild
-            >
-              <a
-                href="https://zalo.me/0902197160"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Zalo Quick Quote
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 rounded-full px-8"
               onClick={() => scrollToSection("bike-showcase")}
             >
               View Motorbikes & Cars

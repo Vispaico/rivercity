@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ChevronRight } from "lucide-react";
 import VehicleCard from "@/components/VehicleCard"; 
 
@@ -135,56 +134,44 @@ const BikeShowcase = () => {
           </p>
         </motion.div>
 
-        <Tabs defaultValue="scooters" className="w-full">
-          <div className="flex justify-center mb-8">
-            <TabsList className="bg-gray-200 text-gray-700">
-              {bikeCategories.map((category) => (
-                <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-                >
-                  {category.label}
-                </TabsTrigger>
+        {bikeCategories.map((category, categoryIndex) => (
+          <motion.div
+            key={category.id}
+            initial="hidden"
+            animate={controls}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: categoryIndex * 0.2 } },
+            }}
+            className="mb-16"
+          >
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {category.label}
+              </h3>
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6"
+                asChild
+              >
+                <Link to={category.id === "scooters" ? "/motorbikes" : "/cars"}>
+                  View All
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {category.bikes.map((bike, index) => (
+                <VehicleCard 
+                  key={index} 
+                  vehicle={bike} 
+                  index={index} 
+                  type={category.id === "scooters" ? "motorbike" : "car"} 
+                />
               ))}
-            </TabsList>
-          </div>
-
-          {bikeCategories.map((category) => (
-            <TabsContent key={category.id} value={category.id}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {category.bikes.map((bike, index) => (
-                  <VehicleCard key={index} vehicle={bike} index={index} type="motorbike" />
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        <div className="text-center mt-12">
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8"
-            asChild
-          >
-            <Link to="/motorbikes">
-              View All Motorbikes
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-        <div className="text-center mt-12">
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8"
-            asChild
-          >
-            <Link to="/cars">
-              View All Cars
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
