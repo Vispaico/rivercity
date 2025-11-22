@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const PageHeader = ({ title, subtitle, breadcrumbs }) => {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-blue-800 py-16 md:py-24 text-white">
+    <div className="bg-gradient-to-r from-blue-600 to-blue-800 pt-28 pb-16 md:pt-32 md:pb-24 text-white">
       <div className="container mx-auto px-4 text-center">
         {breadcrumbs && (
           <motion.div

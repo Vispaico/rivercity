@@ -194,7 +194,7 @@ const DashboardPostForm = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 pt-24 md:pt-28">
       <h1 className="text-3xl font-bold mb-8">{isNewPost ? 'Create New Post' : 'Edit Post'}</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>

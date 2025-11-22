@@ -13,7 +13,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-screen overflow-hidden pt-16 md:pt-20">
       <div className="absolute inset-0 z-0">
         <img
           alt="Boat on a scenic sea in Haiphong, Vietnam"
