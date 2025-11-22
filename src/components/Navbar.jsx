@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone, LayoutDashboard } from "lucide-react";
+import { Menu, X, LayoutDashboard } from "lucide-react";
+import ContactModal from "@/components/ContactModal";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,7 +35,13 @@ const Navbar = () => {
   const isHomePage = location.pathname === "/";
 
   return (
-    <header
+    <>
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        context={{}}
+      />
+      <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || !isHomePage
           ? "bg-black/60 backdrop-blur-md shadow-md py-2"
@@ -104,15 +112,13 @@ const Navbar = () => {
                 Dashboard
               </Button>
             </Link>
-            <a href="tel:+84902197160">
             <Button
+              onClick={() => setIsContactModalOpen(true)}
               size="lg"
               className="text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white"
             >
-                <Phone className="mr-2 h-4 w-4" />
-                Book Now
+              Get Quick Quotes and Info
             </Button>
-            </a>
           </motion.div>
 
           <div className="md:hidden">
@@ -166,21 +172,22 @@ const Navbar = () => {
                 <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
               </Link>
               <Button
+                onClick={() => {
+                  setIsContactModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
                 variant="default"
                 size="sm"
                 className="rounded-full bg-blue-600 hover:bg-blue-700 text-white w-full mt-3"
-                asChild
               >
-                <a href="tel:+84902197160">
-                  <Phone className="mr-2 h-4 w-4" />
-                  Book Now
-                </a>
+                Get Quick Quotes and Info
               </Button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 };
 
