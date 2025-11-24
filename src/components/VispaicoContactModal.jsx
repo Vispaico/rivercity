@@ -21,7 +21,8 @@ const MessengerIcon = (props) => (
   </svg>
 );
 
-const ContactModal = ({ isOpen, onClose, context = {} }) => {
+// Vispaico Contact Modal
+const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
   const { vehicleName, vehiclePrice, messageType = "rental" } = context;
 
   const getWhatsAppMessage = () => {
@@ -186,4 +187,4 @@ const ContactModal = ({ isOpen, onClose, context = {} }) => {
   );
 };
 
-export default ContactModal;
+export default VispaicoContactModal;

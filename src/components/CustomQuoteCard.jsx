@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import ContactModal from "@/components/ContactModal";
+import VispaicoContactModal from "@/components/VispaicoContactModal";
 
 const CustomQuoteCard = () => {
     const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
     return (
         <>
-            <ContactModal
+            <VispaicoContactModal
                 isOpen={isCustomModalOpen}
                 onClose={() => setIsCustomModalOpen(false)}
                 context={{

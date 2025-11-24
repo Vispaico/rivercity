@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Zap, Users, Gauge, Cog } from "lucide-react";
-import ContactModal from "@/components/ContactModal";
+import VispaicoContactModal from "@/components/VispaicoContactModal";
 
 const iconMap = {
   engine: <Gauge className="h-3 w-3 mr-1 text-gray-700" />,
@@ -22,7 +22,7 @@ const VehicleCard = ({ vehicle, index, type }) => {
 
   return (
     <>
-      <ContactModal
+      <VispaicoContactModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         context={{

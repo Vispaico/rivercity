@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import FloatingContacts from "@/components/FloatingWhatsApp";
+import VispaicoWheel from "@/components/VispaicoWheel";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -102,7 +102,7 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-        <FloatingContacts />
+        <VispaicoWheel />
         <Footer />
         <Toaster />
       </div>

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LayoutDashboard } from "lucide-react";
-import ContactModal from "@/components/ContactModal";
+import VispaicoContactModal from "@/components/VispaicoContactModal";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <>
-      <ContactModal
+      <VispaicoContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
         context={{}}

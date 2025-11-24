@@ -5,7 +5,7 @@ import { useInView } from "framer-motion";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Bike, Car } from "lucide-react";
-import ContactModal from "@/components/ContactModal";
+import VispaicoContactModal from "@/components/VispaicoContactModal";
 
 const motorbikePricing = [
   {
@@ -129,7 +129,7 @@ const PricingCard = ({ plan, index, vehicleType }) => {
 
   return (
     <>
-      <ContactModal
+      <VispaicoContactModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         context={{
@@ -330,7 +330,7 @@ const Pricing = () => {
           </motion.div>
         </AnimatePresence>
 
-        <ContactModal
+        <VispaicoContactModal
           isOpen={isCustomModalOpen}
           onClose={() => setIsCustomModalOpen(false)}
           context={{

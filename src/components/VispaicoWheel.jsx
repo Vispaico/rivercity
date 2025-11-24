@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WhatsAppIcon = (props) => (
@@ -21,7 +20,8 @@ const MessengerIcon = (props) => (
   </svg>
 );
 
-const FloatingContacts = () => {
+// Vispaico Contact Wheel
+const VispaicoWheel = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const contacts = [
@@ -61,7 +61,7 @@ const FloatingContacts = () => {
     <>
       {/* Desktop Version - Always visible wheel */}
       <div className="hidden md:block fixed bottom-8 right-8 z-40">
-        <div className="relative w-32 h-32">
+        <div className="relative w-32 h-32 rounded-full overflow-hidden">
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
             <defs>
               <filter id="glow">
@@ -142,7 +142,7 @@ const FloatingContacts = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="absolute bottom-0 right-0 w-40 h-40"
+              className="absolute bottom-0 right-0 w-40 h-40 rounded-full overflow-hidden"
               style={{ transformOrigin: "bottom right" }}
             >
               <div className="relative w-full h-full">
@@ -239,4 +239,4 @@ const FloatingContacts = () => {
   );
 };
 
-export default FloatingContacts;
+export default VispaicoWheel;
