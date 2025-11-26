@@ -121,3 +121,11 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+.prose iframe {
+  width: 100%;
+  border: 0;
+  border-radius: 0.75rem;
+  min-height: 320px;
+  margin: 2rem 0;
+}

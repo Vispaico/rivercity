@@ -3,11 +3,48 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 const CLOUDINARY_FOLDER = 'rvc';
+
+const EditorToolbar = () => (
+  <div id="editor-toolbar" className="ql-toolbar ql-snow rounded-md border border-gray-200 mb-2">
+    <span className="ql-formats">
+      <select className="ql-header" defaultValue="">
+        <option value="1">Heading 1</option>
+        <option value="2">Heading 2</option>
+        <option value="">Normal</option>
+      </select>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-bold" />
+      <button className="ql-italic" />
+      <button className="ql-underline" />
+      <button className="ql-strike" />
+      <button className="ql-blockquote" />
+    </span>
+    <span className="ql-formats">
+      <button className="ql-list" value="ordered" />
+      <button className="ql-list" value="bullet" />
+      <button className="ql-indent" value="-1" />
+      <button className="ql-indent" value="+1" />
+    </span>
+    <span className="ql-formats">
+      <button className="ql-link" />
+      <button className="ql-image" />
+      <button className="ql-video" />
+      <button className="ql-embed" type="button">
+        <span className="text-xs font-semibold uppercase tracking-wide">Embed</span>
+      </button>
+    </span>
+    <span className="ql-formats">
+      <button className="ql-clean" />
+    </span>
+  </div>
+);
 
 const DashboardPostForm = () => {
   const { id } = useParams();
@@ -24,15 +61,14 @@ const DashboardPostForm = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
+  const domPurifyOptions = useMemo(() => ({
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'title', 'style', 'src']
+  }), []);
+
   const modules = useMemo(() => ({
     toolbar: {
-      container: [
-        [{ 'header': [1, 2, false] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-        ['link', 'image', 'video'],
-        ['clean']
-      ],
+      container: '#editor-toolbar',
       handlers: {
         image: function() {
           const input = document.createElement('input');
@@ -84,6 +120,47 @@ const DashboardPostForm = () => {
             const range = quill.getSelection();
             quill.insertEmbed(range.index, 'video', videoUrl);
           }
+        },
+        embed: function() {
+          const embedInput = prompt('Paste the Google Maps embed HTML or any iframe embed link:');
+
+          if (!embedInput) {
+            return;
+          }
+
+          let embedHtml = '';
+          if (embedInput.includes('<iframe')) {
+            embedHtml = embedInput;
+          } else {
+            let processedUrl = embedInput.trim();
+            try {
+              const url = new URL(processedUrl);
+              if (url.hostname.includes('google.') && !url.pathname.includes('/embed')) {
+                url.pathname = '/maps/embed';
+                processedUrl = url.toString();
+              } else {
+                processedUrl = url.toString();
+              }
+            } catch (error) {
+              console.warn('Invalid URL provided for embed:', error);
+            }
+
+            embedHtml = `<iframe src="${processedUrl}" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+          }
+
+          const sanitized = DOMPurify.sanitize(embedHtml, {
+            ADD_TAGS: ['iframe'],
+            ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'title', 'style', 'src']
+          });
+
+          if (!sanitized.includes('<iframe')) {
+            alert('Unable to embed content. Please ensure you provided a valid iframe snippet or URL.');
+            return;
+          }
+
+          const quill = this.quill;
+          const range = quill.getSelection(true);
+          quill.clipboard.dangerouslyPasteHTML(range.index, sanitized);
         }
       }
     },
@@ -103,7 +180,7 @@ const DashboardPostForm = () => {
           const { data, error } = await supabase.from('posts').select('*').eq('id', id).single();
           if (error) throw error;
           setTitle(data.title);
-          setContent(data.content);
+          setContent(DOMPurify.sanitize(data.content || '', domPurifyOptions));
           setSlug(data.slug);
           setIsPublished(data.is_published);
           setMetaTitle(data.meta_title || '');
@@ -115,7 +192,7 @@ const DashboardPostForm = () => {
       };
       fetchPost();
     }
-  }, [id, isNewPost]);
+  }, [id, isNewPost, domPurifyOptions]);
 
   const handleTitleChange = useCallback((e) => {
     const newTitle = e.target.value;
@@ -162,9 +239,11 @@ const DashboardPostForm = () => {
       return;
     }
 
+    const sanitizedContent = DOMPurify.sanitize(content, domPurifyOptions);
+
     const postData = {
       title,
-      content,
+      content: sanitizedContent,
       slug,
       is_published: isPublished,
       meta_title: metaTitle,
@@ -266,6 +345,7 @@ const DashboardPostForm = () => {
         </div>
         <div>
           <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
+          <EditorToolbar />
           <ReactQuill
             id="content"
             theme="snow"
@@ -274,6 +354,7 @@ const DashboardPostForm = () => {
             className="bg-white"
             modules={modules}
           />
+          <p className="text-sm text-gray-500 mt-2">Use the Embed button in the toolbar to insert Google Maps or other iframe-based widgets safely.</p>
         </div>
 
         <div className="space-y-2 p-4 border border-gray-200 rounded-lg">
