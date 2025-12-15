@@ -82,15 +82,25 @@ const DashboardVehiclesPage = () => {
     const price = newVehicle.price_per_day === '' ? null : Number(newVehicle.price_per_day);
 
     setSavingId('new');
-    const { error } = await supabase.from('vehicles').insert([
+    const baseRow = {
+      category: newVehicle.category,
+      name,
+      inventory_count: inventory,
+      price_per_day: Number.isFinite(price) ? price : null,
+      active: Boolean(newVehicle.active),
+    };
+
+    // If the marketplace schema is installed, mark Rivercity fleet vehicles as approved by default.
+    let { error } = await supabase.from('vehicles').insert([
       {
-        category: newVehicle.category,
-        name,
-        inventory_count: inventory,
-        price_per_day: Number.isFinite(price) ? price : null,
-        active: Boolean(newVehicle.active),
+        ...baseRow,
+        listing_status: 'approved',
       },
     ]);
+
+    if (error && /column .*listing_status.* does not exist/i.test(error.message)) {
+      ({ error } = await supabase.from('vehicles').insert([baseRow]));
+    }
 
     if (error) {
       toast({ title: 'Create failed', description: error.message, variant: 'destructive' });

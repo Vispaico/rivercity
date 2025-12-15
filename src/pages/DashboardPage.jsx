@@ -78,11 +78,37 @@ const DashboardPage = () => {
                         <CalendarDays className="mr-2 h-4 w-4" /> Manage Vehicle Inventory
                       </Button>
                     </Link>
+                    <Link to="/dashboard/marketplace">
+                      <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
+                        <Briefcase className="mr-2 h-4 w-4" /> Marketplace Admin
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           )}
+
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mb-8"
+          >
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle>Earn with your vehicle</CardTitle>
+                <CardDescription>
+                  List your car or motorbike on Rivercity. We set the rental price, pay you 70% by bank transfer, 7 days after completion.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/dashboard/partner">
+                  <Button className="bg-blue-600 hover:bg-blue-700">Open Partner Portal</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </motion.div>
 
           <Tabs defaultValue="bookings" className="w-full">
             <motion.div
