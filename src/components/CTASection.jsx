@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -40,10 +41,10 @@ const CTASection = () => {
               size="lg"
               className="bg-white text-blue-700 hover:bg-blue-50 rounded-full px-8"
             >
-              <a href="#contact">
-                Request Availability
+              <Link to="/book">
+                Book Online
                 <ChevronRight className="ml-2 h-4 w-4" />
-              </a>
+              </Link>
             </Button>
             <Button
               asChild

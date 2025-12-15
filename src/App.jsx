@@ -21,6 +21,9 @@ const BlogPage = lazy(() => import("@/pages/BlogPage"));
 const BlogPostPage = lazy(() => import("@/pages/BlogPostPage"));
 const DashboardBlogPage = lazy(() => import("@/pages/DashboardBlogPage"));
 const DashboardPostForm = lazy(() => import("@/pages/DashboardPostForm"));
+const BookingPage = lazy(() => import("@/pages/BookingPage"));
+const BookingSuccessPage = lazy(() => import("@/pages/BookingSuccessPage"));
+const DashboardVehiclesPage = lazy(() => import("@/pages/DashboardVehiclesPage"));
 
 function App() {
   const location = useLocation();
@@ -65,11 +68,21 @@ function App() {
               <Route path="/terms-of-use" element={<TermsOfUsePage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/book" element={<BookingPage />} />
+              <Route path="/book/success/:id" element={<BookingSuccessPage />} />
               <Route 
                 path="/dashboard" 
                 element={
                   <ProtectedRoute>
                     <DashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard/vehicles" 
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <DashboardVehiclesPage />
                   </ProtectedRoute>
                 } 
               />

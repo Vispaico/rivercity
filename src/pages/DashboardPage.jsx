@@ -67,11 +67,18 @@ const DashboardPage = () => {
                   <CardDescription className="text-blue-100">Access special management sections.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link to="/dashboard/blog">
-                    <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
-                      <Edit3 className="mr-2 h-4 w-4" /> Manage Blog Posts
-                    </Button>
-                  </Link>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link to="/dashboard/blog">
+                      <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
+                        <Edit3 className="mr-2 h-4 w-4" /> Manage Blog Posts
+                      </Button>
+                    </Link>
+                    <Link to="/dashboard/vehicles">
+                      <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
+                        <CalendarDays className="mr-2 h-4 w-4" /> Manage Vehicle Inventory
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
