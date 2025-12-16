@@ -26,6 +26,7 @@ const BookingSuccessPage = lazy(() => import("@/pages/BookingSuccessPage"));
 const DashboardVehiclesPage = lazy(() => import("@/pages/DashboardVehiclesPage"));
 const PartnerPortalPage = lazy(() => import("@/pages/PartnerPortalPage"));
 const DashboardMarketplacePage = lazy(() => import("@/pages/DashboardMarketplacePage"));
+const RentOutVehiclePage = lazy(() => import("@/pages/RentOutVehiclePage"));
 
 function App() {
   const location = useLocation();
@@ -72,6 +73,7 @@ function App() {
               <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/book" element={<BookingPage />} />
               <Route path="/book/success/:id" element={<BookingSuccessPage />} />
+              <Route path="/rent-out" element={<RentOutVehiclePage />} />
               <Route 
                 path="/dashboard" 
                 element={

@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import BikeShowcase from "@/components/BikeShowcase"; 
@@ -7,6 +8,8 @@ import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import ContactSection from "@/components/ContactSection";
 import CTASection from "@/components/CTASection";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const HomePage = () => {
   const structuredData = {
@@ -83,7 +86,50 @@ const HomePage = () => {
         <BikeShowcase />
       </section>
       <Pricing />
+
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <Card className="shadow-lg overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12">
+              <div className="lg:col-span-7 p-8">
+                <CardHeader className="p-0">
+                  <CardTitle className="text-2xl md:text-3xl">Earn extra income with your vehicle</CardTitle>
+                  <CardDescription className="mt-2">
+                    Have a motorbike or car you don’t use every day? List it on Rivercity, control your availability, and get paid 70% by bank transfer.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-0 mt-6 space-y-4">
+                  <ul className="text-sm text-gray-700 grid gap-2">
+                    <li><span className="font-semibold">70% owner payout</span> (Rivercity fee 30% only when rented)</li>
+                    <li><span className="font-semibold">You control availability</span> by blocking dates anytime</li>
+                    <li><span className="font-semibold">We handle customer support</span> and keep renter contact private</li>
+                  </ul>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                      <Link to="/rent-out">Learn how it works</Link>
+                    </Button>
+                    <Button asChild variant="outline">
+                      <Link to="/dashboard/partner">Open Partner Portal</Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </div>
+              <div className="lg:col-span-5 relative">
+                <img
+                  src="/bgindex1600x800.jpg"
+                  alt="Road in Vietnam"
+                  className="w-full h-full object-cover min-h-[220px]"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-transparent" />
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       <Testimonials />
+      <CTASection />
       <ContactSection />
     </>
   );
