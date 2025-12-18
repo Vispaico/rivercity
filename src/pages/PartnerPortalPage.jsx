@@ -45,6 +45,8 @@ const PartnerPortalPage = () => {
     image_url: '',
   });
 
+  const [uploadingImage, setUploadingImage] = useState(false);
+
   const [unavailability, setUnavailability] = useState([]);
   const [block, setBlock] = useState({
     vehicle_id: '',
@@ -267,6 +269,77 @@ const PartnerPortalPage = () => {
     setSavingVehicle(false);
   };
 
+  const uploadImageFile = async (file) => {
+    if (!supabase || !user) return;
+    if (!file) return;
+
+    if (!file.type?.startsWith('image/')) {
+      toast({ title: 'Invalid file', description: 'Please choose an image.', variant: 'destructive' });
+      return;
+    }
+
+    if (file.size > 8 * 1024 * 1024) {
+      toast({ title: 'File too large', description: 'Please upload an image up to 8MB.', variant: 'destructive' });
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.access_token) {
+        throw new Error('You must be signed in to upload images.');
+      }
+
+      const signRes = await fetch('/api/cloudinary-sign', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!signRes.ok) {
+        const payload = await signRes.json().catch(() => null);
+        throw new Error(payload?.error || 'Could not prepare upload.');
+      }
+
+      const { cloudName, apiKey, folder, timestamp, signature } = await signRes.json();
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('api_key', apiKey);
+      formData.append('timestamp', String(timestamp));
+      formData.append('signature', signature);
+      formData.append('folder', folder);
+
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const uploadPayload = await uploadRes.json().catch(() => null);
+      if (!uploadRes.ok) {
+        throw new Error(uploadPayload?.error?.message || 'Upload failed.');
+      }
+
+      if (!uploadPayload?.secure_url) {
+        throw new Error('Upload failed (missing URL).');
+      }
+
+      setNewVehicle((p) => ({ ...p, image_url: uploadPayload.secure_url }));
+      toast({ title: 'Uploaded', description: 'Image uploaded successfully.', className: 'bg-blue-500 text-white' });
+    } catch (err) {
+      toast({ title: 'Upload failed', description: err?.message || 'Please try again.', variant: 'destructive' });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const submitForApproval = async (vehicleId) => {
     if (!supabase) return;
     setSubmittingVehicleId(vehicleId);
@@ -473,16 +546,49 @@ const PartnerPortalPage = () => {
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <Label htmlFor="new_image">Image URL (optional)</Label>
-                    <Input
-                      id="new_image"
-                      value={newVehicle.image_url}
-                      onChange={(e) => setNewVehicle((p) => ({ ...p, image_url: e.target.value }))}
-                      placeholder="https://..."
-                    />
+                    <Label>Vehicle image (optional)</Label>
+                    <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+                      <div>
+                        <label className="text-sm text-gray-700">Upload image</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          disabled={uploadingImage}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            if (file) void uploadImageFile(file);
+                            e.target.value = '';
+                          }}
+                          className="mt-1 block w-full text-sm"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">PNG/JPG/WebP up to 8MB.</p>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="new_image">Or paste image URL</Label>
+                        <Input
+                          id="new_image"
+                          value={newVehicle.image_url}
+                          onChange={(e) => setNewVehicle((p) => ({ ...p, image_url: e.target.value }))}
+                          placeholder="https://..."
+                        />
+                      </div>
+                    </div>
+
+                    {newVehicle.image_url ? (
+                      <div className="mt-3">
+                        <p className="text-xs text-gray-500 mb-2">Preview</p>
+                        <img
+                          src={newVehicle.image_url}
+                          alt="Vehicle preview"
+                          className="h-24 w-40 object-cover rounded-md border"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : null}
                   </div>
                   <div className="md:col-span-2 flex gap-3">
-                    <Button type="button" onClick={createVehicle} disabled={savingVehicle} className="bg-blue-600 hover:bg-blue-700">
+                    <Button type="button" onClick={createVehicle} disabled={savingVehicle || uploadingImage} className="bg-blue-600 hover:bg-blue-700">
                       {savingVehicle ? 'Saving…' : 'Create draft'}
                     </Button>
                     <Button type="button" variant="outline" onClick={fetchAll} disabled={loading}>

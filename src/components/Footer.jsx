@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,17 +42,44 @@ const XIcon = (props) => (
 
 const Footer = () => {
   const { toast } = useToast();
+  const [subscribing, setSubscribing] = useState(false);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    
-    toast({
-      title: "Subscription Pending",
-      description: `Attempting to subscribe ${email}. Backend functionality needed.`,
-      duration: 5000,
-    });
-    e.target.reset();
+
+    if (!email) return;
+
+    setSubscribing(true);
+    try {
+      const res = await fetch('/api/newsletter-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null);
+        throw new Error(payload?.error || 'Failed to subscribe.');
+      }
+
+      toast({
+        title: 'Subscribed',
+        description: 'Thanks — you’re on the list.',
+        duration: 5000,
+        className: 'bg-blue-500 text-white',
+      });
+      e.target.reset();
+    } catch (err) {
+      toast({
+        title: 'Could not subscribe',
+        description: err?.message || 'Please try again.',
+        variant: 'destructive',
+        duration: 6000,
+      });
+    } finally {
+      setSubscribing(false);
+    }
   };
 
   const quickLinks = [
@@ -184,7 +211,7 @@ const Footer = () => {
                 className="bg-gray-800 border-gray-700 text-white focus:border-blue-500"
               />
               <Button type="submit" className="bg-blue-600 hover:bg-blue-700" aria-label="Subscribe">
-                <ArrowRight className="h-4 w-4" />
+                {subscribing ? '…' : <ArrowRight className="h-4 w-4" />}
               </Button>
             </form>
           </div>

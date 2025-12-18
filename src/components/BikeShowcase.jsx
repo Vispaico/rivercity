@@ -61,8 +61,8 @@ const bikeCategories = [
       {
         name: "Compact Car (e.g., Vinfast Fadil)",
     price: "50",
-    image: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageSrcSet: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
+    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp",
+    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 900w",
     description: "Reliable and fuel-efficient, perfect for navigating city streets and short trips. Easy to park and maneuver.",
     specs: [
       { type: "engine", value: "1.0L - 1.2L" },
@@ -74,8 +74,8 @@ const bikeCategories = [
       {
         name: "Sedan or small SUV (e.g., Honda CRV)",
     price: "80",
-    image: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageSrcSet: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
+    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp",
+    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 900w",
     description: "Experience ultimate comfort and style. Perfect for business travel or making a statement on special occasions.",
     specs: [
       { type: "engine", value: "2.0L Petrol" },

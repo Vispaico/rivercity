@@ -70,6 +70,10 @@ const BookingPage = () => {
     notes: '',
   });
 
+  const [inquiryEmail, setInquiryEmail] = useState('');
+  const [inquiryMessage, setInquiryMessage] = useState('');
+  const [sendingInquiry, setSendingInquiry] = useState(false);
+
   const start = useMemo(() => parseLocalDate(startDate), [startDate]);
   const end = useMemo(() => parseLocalDate(endDate), [endDate]);
   const dayCount = useMemo(() => {
@@ -95,6 +99,74 @@ const BookingPage = () => {
   }, [vehicles]);
 
   const groupedVehicles = useMemo(() => groupByCategory(vehicles), [vehicles]);
+
+  const handleInquirySubmit = async (e) => {
+    e.preventDefault();
+
+    const email = inquiryEmail.trim();
+    const message = inquiryMessage.trim();
+
+    if (!email) {
+      toast({
+        title: 'Email required',
+        description: 'Please enter your email address so we can reply.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!/.+@.+\..+/.test(email)) {
+      toast({
+        title: 'Invalid email',
+        description: 'Please enter a valid email address.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!message) {
+      toast({
+        title: 'Message required',
+        description: 'Please type a short message so we know how to help.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setSendingInquiry(true);
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          message,
+          source: 'booking_page',
+        }),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null);
+        throw new Error(payload?.error || 'Failed to send.');
+      }
+
+      toast({
+        title: 'Message sent',
+        description: 'Thanks — we’ll reply to your email shortly.',
+        className: 'bg-blue-500 text-white',
+      });
+      setInquiryEmail('');
+      setInquiryMessage('');
+    } catch (err) {
+      toast({
+        title: 'Could not send message',
+        description: err?.message || 'Please try again, or use WhatsApp/Zalo.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSendingInquiry(false);
+    }
+  };
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -324,8 +396,46 @@ const BookingPage = () => {
         )}
 
         {supabase && (
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle>Quick inquiry</CardTitle>
+                <CardDescription>Just have a question? Send us a message and we’ll reply by email.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleInquirySubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="inquiry_email">Email</Label>
+                    <Input
+                      id="inquiry_email"
+                      type="email"
+                      value={inquiryEmail}
+                      onChange={(e) => setInquiryEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <Label htmlFor="inquiry_message">Message</Label>
+                    <Textarea
+                      id="inquiry_message"
+                      value={inquiryMessage}
+                      onChange={(e) => setInquiryMessage(e.target.value)}
+                      placeholder="Tell us what you need (dates, vehicle type, pickup location, etc.)"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2 flex justify-end">
+                    <Button type="submit" disabled={sendingInquiry} className="bg-blue-600 hover:bg-blue-700">
+                      {sendingInquiry ? 'Sending…' : 'Send message'}
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-6">
               <Card className="shadow-lg">
                 <CardHeader>
                   <CardTitle>1) Choose your dates</CardTitle>
@@ -626,8 +736,9 @@ const BookingPage = () => {
                   </p>
                 </div>
               </Card>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         )}
       </main>
     </div>
