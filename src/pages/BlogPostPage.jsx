@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { Helmet } from 'react-helmet-async';
@@ -89,12 +89,9 @@ const BlogPostPage = () => {
 
   const plainTextContent = post.content.replace(/<[^>]+>/g, '');
   const canonicalUrl = `https://rivercitybikerentals.com/blog/${post.slug}`;
-  const shareUrl = useMemo(() => {
-    if (typeof window !== 'undefined' && window.location?.href) {
-      return window.location.href.split('#')[0];
-    }
-    return canonicalUrl;
-  }, [canonicalUrl]);
+  const shareUrl = typeof window !== 'undefined' && window.location?.href
+    ? window.location.href.split('#')[0]
+    : canonicalUrl;
 
   return (
     <>

@@ -119,11 +119,11 @@ const RentOutVehiclePage = () => {
                     <img
                       src="/bgindex1600x800.jpg"
                       alt="Haiphong road scene"
-                      className="w-full h-44 md:h-56 object-cover"
+                      className="absolute inset-0 h-full w-full object-cover"
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/30" />
-                    <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                    <div className="relative min-h-[320px] md:min-h-[360px] p-6 md:p-8 flex flex-col justify-end">
                       <p className="text-white/90 text-sm">Rivercity Partners</p>
                       <h2 className="text-white text-2xl md:text-3xl font-bold">Make your vehicle work for you</h2>
                       <p className="text-white/90 mt-2 max-w-2xl">
