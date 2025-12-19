@@ -36,6 +36,30 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
+    if (!location.hash) return;
+
+    const id = decodeURIComponent(location.hash.replace('#', '')).trim();
+    if (!id) return;
+
+    let tries = 0;
+    const maxTries = 30;
+
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      tries += 1;
+      if (tries >= maxTries) return;
+      requestAnimationFrame(tryScroll);
+    };
+
+    requestAnimationFrame(tryScroll);
+  }, [location.hash]);
+
+  useEffect(() => {
     const handleScrollAnimation = () => {
       const scrollElements = document.querySelectorAll(".scroll-animation");
       scrollElements.forEach((element) => {

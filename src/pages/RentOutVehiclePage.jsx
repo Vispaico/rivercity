@@ -242,24 +242,27 @@ const RentOutVehiclePage = () => {
                 </CardContent>
               </Card>
 
-              <Card className="shadow-lg">
-                <CardHeader>
-                  <CardTitle>Ready to start?</CardTitle>
-                  <CardDescription>If you already have an account, jump straight into the portal.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col sm:flex-row gap-3">
-                  <Button asChild className="bg-blue-600 hover:bg-blue-700">
-                    <Link to="/dashboard/partner">Open Partner Portal</Link>
-                  </Button>
-                  <Button asChild variant="outline">
-                    <Link to="/book">Book a vehicle instead</Link>
-                  </Button>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="lg:col-span-5">
               <div className="lg:sticky lg:top-24 space-y-6">
+                <Card className="shadow-lg">
+                  <CardHeader>
+                    <CardTitle>Ready to start?</CardTitle>
+                    <CardDescription>If you already have an account, jump straight into the portal.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-col gap-3">
+                    <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                      <Link to="/dashboard/partner">Open Partner Portal</Link>
+                    </Button>
+                    <div className="text-center text-sm text-gray-700">
+                      Or{' '}
+                      <Link to="/login" className="font-medium text-blue-600 hover:underline">log in</Link>
+                      {' '}to your existing account.
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <Card className="shadow-xl">
                   <CardHeader className="text-center">
                     <CardTitle>Let’s start</CardTitle>

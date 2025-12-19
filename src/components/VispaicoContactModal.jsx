@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, Mail, MessageSquare } from "lucide-react";
+import { ArrowLeft, Mail, MessageSquare, Phone, Send, X } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 
 const WhatsAppIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -24,6 +31,22 @@ const MessengerIcon = (props) => (
 // Vispaico Contact Modal
 const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
   const { vehicleName, vehiclePrice, messageType = "rental" } = context;
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const [view, setView] = useState("options"); // options | form
+  const [formEmail, setFormEmail] = useState("");
+  const [formMessage, setFormMessage] = useState("");
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setView("options");
+      setFormEmail("");
+      setFormMessage("");
+      setSending(false);
+    }
+  }, [isOpen]);
 
   const getWhatsAppMessage = () => {
     if (vehicleName && vehiclePrice) {
@@ -50,6 +73,21 @@ const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
       return `Hi Rivercity Team,\n\nI would like to request a custom quote for:\n\n[Please specify your requirements]\n\nThank you!`;
     }
     return `Hi Rivercity Team,\n\nI have a question about your rental services.\n\nThank you!`;
+  };
+
+  const openFullContactForm = () => {
+    onClose();
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/#contact");
+    }
+  };
+
+  const openInlineForm = () => {
+    setView("form");
+    setFormMessage((prev) => (prev ? prev : getEmailBody()));
   };
 
   const contactOptions = [
@@ -84,7 +122,13 @@ const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
       href: `mailto:info@rivercitybikerentals.com?subject=${encodeURIComponent(getEmailSubject())}&body=${encodeURIComponent(getEmailBody())}`,
     },
     {
-      name: "Contact Form",
+      name: "Quick Message",
+      icon: MessageSquare,
+      color: "bg-gray-700 hover:bg-gray-800",
+      action: "inline_form",
+    },
+    {
+      name: "Full Contact Form",
       icon: MessageSquare,
       color: "bg-gray-700 hover:bg-gray-800",
       action: "form",
@@ -92,15 +136,81 @@ const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
   ];
 
   const handleContactClick = (option) => {
-    if (option.action === "form") {
-      onClose();
-      const contactSection = document.getElementById("contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth" });
-      }
+    if (option.action === "inline_form") {
+      openInlineForm();
+    } else if (option.action === "form") {
+      openFullContactForm();
     } else if (option.href) {
       window.open(option.href, "_blank", "noopener,noreferrer");
       onClose();
+    }
+  };
+
+  const handleInlineSubmit = async (e) => {
+    e.preventDefault();
+
+    const email = formEmail.trim();
+    const message = formMessage.trim();
+
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address so we can reply.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!/.+@.+\..+/.test(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!message) {
+      toast({
+        title: "Message required",
+        description: "Please type a short message so we know how to help.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSending(true);
+    try {
+      const res = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          message,
+          source: vehicleName ? `modal:${vehicleName}` : "modal",
+        }),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null);
+        throw new Error(payload?.error || "Failed to send.");
+      }
+
+      toast({
+        title: "Message sent",
+        description: "Thanks — we’ll reply to your email shortly.",
+        className: "bg-blue-500 text-white",
+      });
+
+      onClose();
+    } catch (err) {
+      toast({
+        title: "Could not send message",
+        description: err?.message || "Please try again, or use WhatsApp/Zalo.",
+        variant: "destructive",
+      });
+    } finally {
+      setSending(false);
     }
   };
 
@@ -156,22 +266,78 @@ const VispaicoContactModal = ({ isOpen, onClose, context = {} }) => {
                 )}
               </div>
 
-              {/* Contact Options Grid */}
+              {/* Body */}
               <div className="p-6">
-                <div className="grid grid-cols-2 gap-3">
-                  {contactOptions.map((option) => (
-                    <motion.button
-                      key={option.name}
-                      onClick={() => handleContactClick(option)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`${option.color} text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg`}
-                    >
-                      <option.icon className="w-8 h-8" />
-                      <span className="text-sm font-semibold">{option.name}</span>
-                    </motion.button>
-                  ))}
-                </div>
+                {view === "options" ? (
+                  <div className="grid grid-cols-2 gap-3">
+                    {contactOptions.map((option) => (
+                      <motion.button
+                        key={option.name}
+                        onClick={() => handleContactClick(option)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`${option.color} text-white rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg`}
+                      >
+                        <option.icon className="w-8 h-8" />
+                        <span className="text-sm font-semibold">{option.name}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => setView("options")}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-blue-600"
+                      >
+                        <ArrowLeft className="h-4 w-4" />
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={openFullContactForm}
+                        className="text-sm font-medium text-blue-600 hover:underline"
+                      >
+                        Open full contact form
+                      </button>
+                    </div>
+
+                    <form onSubmit={handleInlineSubmit} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="contact_modal_email">Email</Label>
+                        <Input
+                          id="contact_modal_email"
+                          type="email"
+                          value={formEmail}
+                          onChange={(e) => setFormEmail(e.target.value)}
+                          placeholder="you@example.com"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="contact_modal_message">Message</Label>
+                        <Textarea
+                          id="contact_modal_message"
+                          value={formMessage}
+                          onChange={(e) => setFormMessage(e.target.value)}
+                          rows={6}
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={sending}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      >
+                        <Send className="mr-2 h-4 w-4" />
+                        {sending ? "Sending…" : "Send message"}
+                      </Button>
+                    </form>
+                  </div>
+                )}
 
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <p className="text-center text-xs text-gray-500">
