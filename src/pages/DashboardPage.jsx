@@ -199,6 +199,7 @@ const DashboardPage = () => {
           </Tabs>
         </div>
       </section>
+      <ContactSection />
     </div>
   );
 };

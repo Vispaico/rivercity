@@ -182,6 +182,7 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+      <ContactSection />
     </div>
   );
 };

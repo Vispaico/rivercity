@@ -760,7 +760,9 @@ const PartnerPortalPage = () => {
           </Tabs>
         )}
       </main>
+      <ContactSection />
     </div>
+    
   );
 };
 

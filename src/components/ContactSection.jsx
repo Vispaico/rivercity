@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -33,11 +33,83 @@ const ContactSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
 
+  const [quickEmail, setQuickEmail] = useState("");
+  const [quickMessage, setQuickMessage] = useState("");
+  const [quickSending, setQuickSending] = useState(false);
+
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
     }
   }, [isInView, controls]);
+
+  const handleQuickInquirySubmit = async (e) => {
+    e.preventDefault();
+
+    const email = quickEmail.trim();
+    const message = quickMessage.trim();
+
+    if (!email) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address so we can reply.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!/.+@.+\..+/.test(email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!message) {
+      toast({
+        title: "Message required",
+        description: "Please type a short message so we know how to help.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setQuickSending(true);
+    try {
+      const res = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          message,
+          source: "contact_section",
+        }),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null);
+        throw new Error(payload?.error || "Failed to send.");
+      }
+
+      toast({
+        title: "Message sent",
+        description: "Thanks — we’ll reply to your email shortly.",
+        className: "bg-blue-500 text-white",
+      });
+      setQuickEmail("");
+      setQuickMessage("");
+    } catch (err) {
+      toast({
+        title: "Could not send message",
+        description: err?.message || "Please try again, or use WhatsApp/Zalo.",
+        variant: "destructive",
+      });
+    } finally {
+      setQuickSending(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -256,16 +328,59 @@ const ContactSection = () => {
                 : { opacity: 0, x: 30 }
             }
           >
-            <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-lg">
-              <h3 className="text-2xl font-bold mb-2 text-gray-800">
-                Secure Your Ride
-              </h3>
-              <p className="text-gray-600 mb-6">
-                Complete the form and we will reply within two working hours with availability,
-                insurance options and confirmation details.
-              </p>
+            <div className="space-y-6">
+              <div className="bg-white border border-gray-200 p-6 rounded-xl shadow-lg">
+                <h3 className="text-xl font-bold mb-2 text-gray-800">Quick question?</h3>
+                <p className="text-gray-600 mb-4">
+                  Send a short message and we’ll reply by email.
+                </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleQuickInquirySubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="quick_inquiry_email">Email</Label>
+                    <Input
+                      id="quick_inquiry_email"
+                      type="email"
+                      value={quickEmail}
+                      onChange={(e) => setQuickEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="quick_inquiry_message">Message</Label>
+                    <Textarea
+                      id="quick_inquiry_message"
+                      value={quickMessage}
+                      onChange={(e) => setQuickMessage(e.target.value)}
+                      placeholder="Tell us what you need (dates, vehicle type, pickup location, etc.)"
+                      rows={4}
+                      required
+                      className="border-gray-300 focus:border-blue-600 focus:ring-blue-600"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={quickSending}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    <Send className="mr-2 h-4 w-4" />
+                    {quickSending ? "Sending…" : "Send message"}
+                  </Button>
+                </form>
+              </div>
+
+              <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-bold mb-2 text-gray-800">
+                  Secure Your Ride
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Complete the form and we will reply within two working hours with availability,
+                  insurance options and confirmation details.
+                </p>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="sr-only">
                   <Label htmlFor="company">Company</Label>
                   <Input
@@ -376,7 +491,8 @@ const ContactSection = () => {
                   <Send className="mr-2 h-4 w-4" />
                   Send Message
                 </Button>
-              </form>
+                </form>
+              </div>
             </div>
           </motion.div>
         </div>

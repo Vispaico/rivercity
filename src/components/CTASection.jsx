@@ -50,7 +50,7 @@ const CTASection = () => {
               asChild
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white/10 rounded-full px-8"
+              className="border-white text-blue-700 hover:bg-white/10 rounded-full px-8"
             >
               <a
                 href="https://wa.me/84902197160?text=Hi%20Rivercity!%20I%20want%20to%20book%20a%20vehicle."
@@ -65,7 +65,7 @@ const CTASection = () => {
               asChild
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white/10 rounded-full px-8"
+              className="border-white text-blue-700 hover:bg-white/10 rounded-full px-8"
             >
               <a
                 href="https://zalo.me/0902197160"
