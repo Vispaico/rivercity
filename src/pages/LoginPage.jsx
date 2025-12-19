@@ -14,9 +14,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { signIn, signInWithProvider } = useAuth();
+  const { signIn, signInWithProvider, requestPasswordReset } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +54,39 @@ const LoginPage = () => {
       toast({
         title: `${provider} Login Failed`,
         description: error.message || `Could not log in with ${provider}.`,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    const nextEmail = (resetEmail || email).trim();
+    if (!nextEmail) {
+      toast({
+        title: "Email required",
+        description: "Enter the email address you used to register.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await requestPasswordReset(nextEmail);
+      if (error) throw error;
+      toast({
+        title: "Reset link sent",
+        description: "Check your email for a password reset link.",
+        className: "bg-green-500 text-white",
+      });
+      setShowForgot(false);
+    } catch (error) {
+      toast({
+        title: "Could not send reset link",
+        description: error.message || "Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -104,11 +139,55 @@ const LoginPage = () => {
                     disabled={loading}
                   />
                 </div>
+
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    className="text-sm font-medium text-blue-600 hover:underline"
+                    onClick={() => {
+                      setShowForgot((v) => !v);
+                      setResetEmail((resetEmail || email).trim());
+                    }}
+                    disabled={loading}
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+
                 <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={loading}>
                   {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <LogIn className="mr-2 h-4 w-4" />}
                   Log In
                 </Button>
               </form>
+
+              {showForgot && (
+                <div className="rounded-lg border border-gray-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-gray-900">Reset your password</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    We can’t send your current password, but we can email you a link to create a new one.
+                  </p>
+                  <form onSubmit={handlePasswordReset} className="mt-3 space-y-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="reset_email">Email</Label>
+                      <Input
+                        id="reset_email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        required
+                        disabled={loading}
+                      />
+                    </div>
+                    <Button type="submit" variant="outline" className="w-full" disabled={loading}>
+                      {loading ? "Sending…" : "Send password reset link"}
+                    </Button>
+                    <p className="text-xs text-gray-500">
+                      You’ll be sent a secure link to <Link to="/reset-password" className="text-blue-600 hover:underline">reset your password</Link>.
+                    </p>
+                  </form>
+                </div>
+              )}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />

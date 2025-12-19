@@ -17,6 +17,7 @@ const TermsOfUsePage = lazy(() => import("@/pages/TermsOfUsePage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
+const ResetPasswordPage = lazy(() => import("@/pages/ResetPasswordPage"));
 const BlogPage = lazy(() => import("@/pages/BlogPage"));
 const BlogPostPage = lazy(() => import("@/pages/BlogPostPage"));
 const DashboardBlogPage = lazy(() => import("@/pages/DashboardBlogPage"));
@@ -158,6 +159,7 @@ function App() {
                 } 
               />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/signup" element={<SignupPage />} />
             </Routes>
           </Suspense>

@@ -2,7 +2,7 @@ import React from "react";
 import PageHeader from "@/components/PageHeader";
 import { motion } from "framer-motion";
 
-const LAST_UPDATED = "2025-12-19";
+const LAST_UPDATED = "2025-12-20";
 
 const TermsOfUsePage = () => {
   return (
@@ -73,6 +73,20 @@ const TermsOfUsePage = () => {
             </p>
             <p>
               All partner listings are subject to review and may be approved or rejected at Rivercity’s discretion (for safety, quality, or compliance reasons).
+            </p>
+
+            <h3>7.1 Owner responsibility, insurance &amp; liability</h3>
+            <p>
+              Vehicle owners (partners) are solely responsible for their vehicle’s insurance, maintenance, legality, and roadworthiness. You are responsible for assessing and accepting risks related to road conditions, weather, traffic, and the vehicle’s operation.
+            </p>
+            <ul>
+              <li><strong>Insurance:</strong> You must maintain any insurance required by law and any insurance you deem necessary for your vehicle and rental activity.</li>
+              <li><strong>Condition &amp; safety:</strong> You must ensure your vehicle is safe to operate, properly maintained, and has no known defects that could create a safety risk.</li>
+              <li><strong>Loss or damage:</strong> You are responsible for loss, theft, or damage to your vehicle except to the extent covered by your own insurance or a separate written agreement.</li>
+              <li><strong>Road and operating conditions:</strong> You acknowledge that Vietnam road and traffic conditions can be hazardous, and you assume the risks related to the vehicle being used on public roads.</li>
+            </ul>
+            <p>
+              To the maximum extent permitted by applicable law, Rivercity Bike Rentals does not assume responsibility or liability for any damage to, loss of, theft of, or diminution in value of owner-listed vehicles, or for any claims arising from road conditions or the operation of an owner-listed vehicle.
             </p>
 
             <h2>8. Intellectual Property</h2>

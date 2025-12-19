@@ -57,7 +57,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center">
-              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-400" : "text-blue-800"}`}>
+              <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-400" : "text-blue-500"}`}>
                 Rivercity
               </span>
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-white" : "text-white"}`}>

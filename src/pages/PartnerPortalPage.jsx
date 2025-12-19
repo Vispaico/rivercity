@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,7 +32,6 @@ const PartnerPortalPage = () => {
     bank_branch: '',
     payout_notes: '',
   });
-  const [insuranceAck, setInsuranceAck] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
 
   const [vehicles, setVehicles] = useState([]);
@@ -106,7 +106,6 @@ const PartnerPortalPage = () => {
         bank_branch: profileRes.data.bank_branch || '',
         payout_notes: profileRes.data.payout_notes || '',
       });
-      setInsuranceAck(Boolean(profileRes.data.insurance_ack_at));
     }
 
     if (vehiclesRes.error) {
@@ -193,7 +192,6 @@ const PartnerPortalPage = () => {
       bank_account_number: profile.bank_account_number || null,
       bank_branch: profile.bank_branch || null,
       payout_notes: profile.payout_notes || null,
-      insurance_ack_at: insuranceAck ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
     };
 
@@ -214,14 +212,6 @@ const PartnerPortalPage = () => {
       toast({ title: 'Name required', description: 'Enter a vehicle name.', variant: 'destructive' });
       return;
     }
-    if (!insuranceAck) {
-      toast({
-        title: 'Insurance required',
-        description: 'Please confirm you have the required insurance before submitting vehicles.',
-        variant: 'destructive',
-      });
-      return;
-    }
 
     // Ensure owner profile exists so payouts can be created later.
     const { error: profileError } = await supabase.from('owner_profiles').upsert(
@@ -234,7 +224,6 @@ const PartnerPortalPage = () => {
         bank_account_number: profile.bank_account_number || null,
         bank_branch: profile.bank_branch || null,
         payout_notes: profile.payout_notes || null,
-        insurance_ack_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'user_id' }
@@ -438,7 +427,7 @@ const PartnerPortalPage = () => {
 
         {supabase && !schemaMissing && (
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 bg-white shadow-sm">
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 gap-2 h-auto p-2 bg-white shadow-sm">
               <TabsTrigger value="vehicles">My Vehicles</TabsTrigger>
               <TabsTrigger value="availability">Availability</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
@@ -496,24 +485,7 @@ const PartnerPortalPage = () => {
                     />
                   </div>
 
-                  <div className="md:col-span-2 flex items-center justify-between gap-3">
-                    <label className="flex items-center gap-2 text-sm text-gray-800">
-                      <input
-                        type="checkbox"
-                        checked={insuranceAck}
-                        onChange={(e) => setInsuranceAck(e.target.checked)}
-                      />
-                      <span>
-                        I confirm I have the insurance required to rent out this vehicle.{' '}
-                        <button
-                          type="button"
-                          className="text-blue-600 hover:underline"
-                          onClick={() => setActiveTab('policies')}
-                        >
-                          View policies
-                        </button>
-                      </span>
-                    </label>
+                  <div className="md:col-span-2 flex justify-end">
                     <Button type="button" onClick={saveProfile} disabled={savingProfile} className="bg-blue-600 hover:bg-blue-700">
                       {savingProfile ? 'Saving…' : 'Save'}
                     </Button>
@@ -599,13 +571,19 @@ const PartnerPortalPage = () => {
                       </div>
                     ) : null}
                   </div>
-                  <div className="md:col-span-2 flex gap-3">
-                    <Button type="button" onClick={createVehicle} disabled={savingVehicle || uploadingImage} className="bg-blue-600 hover:bg-blue-700">
-                      {savingVehicle ? 'Saving…' : 'Create draft'}
-                    </Button>
-                    <Button type="button" variant="outline" onClick={fetchAll} disabled={loading}>
-                      Refresh
-                    </Button>
+                  <div className="md:col-span-2 space-y-2">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Button type="button" onClick={createVehicle} disabled={savingVehicle || uploadingImage} className="bg-blue-600 hover:bg-blue-700">
+                        {savingVehicle ? 'Saving…' : 'Create draft'}
+                      </Button>
+                      <Button type="button" variant="outline" onClick={fetchAll} disabled={loading}>
+                        Refresh
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      By creating a draft, you confirm you meet the necessary requirements and accept the risks outlined in our{' '}
+                      <Link to="/terms-of-use" className="text-blue-600 hover:underline">Terms of Use</Link>.
+                    </p>
                   </div>
                 </CardContent>
               </Card>

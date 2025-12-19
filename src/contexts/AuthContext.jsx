@@ -42,15 +42,15 @@ export const AuthProvider = ({ children }) => {
     throw new Error('Supabase auth is disabled.');
   };
 
-  const getRedirectTo = () => {
+  const getRedirectTo = (path = '/dashboard') => {
     if (typeof window === 'undefined') return undefined;
-    return `${window.location.origin}/dashboard`;
+    return `${window.location.origin}${path}`;
   };
 
   const value = {
     signUp: supabase
       ? (data) => {
-          const redirectTo = getRedirectTo();
+          const redirectTo = getRedirectTo('/dashboard');
           const nextOptions = {
             ...(data?.options || {}),
             emailRedirectTo: data?.options?.emailRedirectTo || redirectTo,
@@ -59,9 +59,15 @@ export const AuthProvider = ({ children }) => {
         }
       : unsupported,
     signIn: supabase ? (data) => supabase.auth.signInWithPassword(data) : unsupported,
+    requestPasswordReset: supabase
+      ? async (email) => {
+          const redirectTo = getRedirectTo('/reset-password');
+          return supabase.auth.resetPasswordForEmail(email, redirectTo ? { redirectTo } : undefined);
+        }
+      : unsupported,
     signInWithProvider: supabase
       ? (provider) => {
-          const redirectTo = getRedirectTo();
+          const redirectTo = getRedirectTo('/dashboard');
           return supabase.auth.signInWithOAuth({
             provider,
             options: redirectTo ? { redirectTo } : undefined,
