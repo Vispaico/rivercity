@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { Helmet } from 'react-helmet-async';
 import { format } from 'date-fns';
 import PageHeader from '../components/PageHeader';
+import SocialShareBar from '../components/SocialShareBar';
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -87,6 +88,13 @@ const BlogPostPage = () => {
   }
 
   const plainTextContent = post.content.replace(/<[^>]+>/g, '');
+  const canonicalUrl = `https://rivercitybikerentals.com/blog/${post.slug}`;
+  const shareUrl = useMemo(() => {
+    if (typeof window !== 'undefined' && window.location?.href) {
+      return window.location.href.split('#')[0];
+    }
+    return canonicalUrl;
+  }, [canonicalUrl]);
 
   return (
     <>
@@ -97,7 +105,7 @@ const BlogPostPage = () => {
         <meta property="og:description" content={post.meta_description || plainTextContent.substring(0, 160)} />
         {post.featured_image_url && <meta property="og:image" content={post.featured_image_url} />}
         <meta property="og:type" content="article" />
-        <link rel="canonical" href={`https://rivercitybikerentals.com/blog/${post.slug}`} />
+        <link rel="canonical" href={canonicalUrl} />
       </Helmet>
       <PageHeader 
         title={post.title}
@@ -112,6 +120,11 @@ const BlogPostPage = () => {
               className="w-full h-auto object-cover rounded-lg mb-8"
             />
           )}
+
+          <div className="mb-6">
+            <SocialShareBar title={post.title} url={shareUrl} imageUrl={post.featured_image_url} />
+          </div>
+
           <div className="my-6 flex justify-center">
             <div className="text-center">
               <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-2">Advertisement</p>
