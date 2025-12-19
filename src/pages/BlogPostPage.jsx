@@ -129,7 +129,6 @@ const BlogPostPage = () => {
           />
         </div>
       </div>
-      <ContactSection />
     </>
   );
 };
