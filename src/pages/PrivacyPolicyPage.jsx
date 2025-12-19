@@ -2,6 +2,8 @@ import React from "react";
 import PageHeader from "@/components/PageHeader";
 import { motion } from "framer-motion";
 
+const LAST_UPDATED = "2025-12-19";
+
 const PrivacyPolicyPage = () => {
   return (
     <div>
@@ -18,11 +20,11 @@ const PrivacyPolicyPage = () => {
       >
         <div className="container mx-auto px-4">
           <div className="prose prose-lg max-w-4xl mx-auto text-gray-700">
-            <p className="text-sm text-gray-500">Last Updated: {new Date().toLocaleDateString()}</p>
+            <p className="text-sm text-gray-500">Last Updated: {LAST_UPDATED}</p>
 
             <h2>1. Introduction</h2>
             <p>
-              Welcome to Rivercity Bike Rentals ("we", "our", "us"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices with regards to your personal information, please contact us at privacy@rivercityrentals.com.
+              Welcome to Rivercity Bike Rentals ("we", "our", "us"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice, please contact us at info@rivercitybikerentals.com.
             </p>
 
             <h2>2. Information We Collect</h2>
@@ -31,38 +33,54 @@ const PrivacyPolicyPage = () => {
             </p>
             <p>The personal information that we collect depends on the context of your interactions with us and the website, the choices you make, and the products and features you use. The personal information we collect may include the following:</p>
             <ul>
-              <li><strong>Personal Information Provided by You:</strong> We collect names; phone numbers; email addresses; mailing addresses; usernames; passwords; contact preferences; contact or authentication data; billing addresses; debit/credit card numbers; and other similar information.</li>
-              <li><strong>Payment Data:</strong> We may collect data necessary to process your payment if you make purchases, such as your payment instrument number (such as a credit card number), and the security code associated with your payment instrument. All payment data is stored by our payment processor and you should review its privacy policies and contact the payment processor directly to respond to your questions.</li>
+              <li>
+                <strong>Account data:</strong> name, email address, and password (stored and managed by our authentication provider).
+              </li>
+              <li>
+                <strong>Booking / inquiry data:</strong> name, email address, phone number, rental dates, vehicle preference, and your message.
+              </li>
+              <li>
+                <strong>Identification details (when required for rentals):</strong> passport number and/or a passport copy may be collected to help verify the renter and support traffic-fine responsibility during the rental period.
+              </li>
+              <li>
+                <strong>Partner (owner) data:</strong> if you list a vehicle for rent, we may collect vehicle details (category, description, images) and payout details such as bank account name/number and bank name.
+              </li>
+              <li>
+                <strong>Newsletter signups:</strong> email address.
+              </li>
             </ul>
+
+            <p>
+              <strong>Payments:</strong> At this time, we do not collect or store credit/debit card details on our website. If we introduce online payments in the future, this policy will be updated.
+            </p>
             
             <h2>3. How We Use Your Information</h2>
             <p>We use personal information collected via our website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations. We indicate the specific processing grounds we rely on next to each purpose listed below.</p>
             <p>We use the information we collect or receive:</p>
             <ul>
-              <li>To facilitate account creation and logon process.</li>
-              <li>To post testimonials.</li>
-              <li>Request feedback.</li>
-              <li>To enable user-to-user communications.</li>
-              <li>To manage user accounts.</li>
-              <li>To send administrative information to you.</li>
-              <li>To protect our Services.</li>
-              <li>To enforce our terms, conditions and policies for business purposes, to comply with legal and regulatory requirements or in connection with our contract.</li>
-              <li>To respond to legal requests and prevent harm.</li>
-              <li>Fulfill and manage your orders.</li>
-              <li>To deliver and facilitate delivery of services to the user.</li>
-              <li>To respond to user inquiries/offer support to users.</li>
-              <li>To send you marketing and promotional communications.</li>
-              <li>Deliver targeted advertising to you.</li>
+              <li>To create and manage user accounts and authentication.</li>
+              <li>To receive and manage booking requests and respond to inquiries.</li>
+              <li>To operate the partner portal (vehicle listings, availability management, and payouts).</li>
+              <li>To send service emails (e.g., booking received confirmations, admin notifications) and respond to support requests.</li>
+              <li>To send newsletter emails if you subscribe (you can unsubscribe at any time).</li>
+              <li>To enforce our terms and policies, prevent fraud/abuse, and comply with legal requirements in Vietnam.</li>
             </ul>
 
             <h2>4. Will Your Information Be Shared With Anyone?</h2>
             <p>We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.</p>
             <p>Specifically, we may need to process your data or share your personal information in the following situations:</p>
             <ul>
-              <li>Business Transfers. We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.</li>
-              <li>Affiliates. We may share your information with our affiliates, in which case we will require those affiliates to honor this privacy notice. Affiliates include our parent company and any subsidiaries, joint venture partners or other companies that we control or that are under common control with us.</li>
-              <li>Business Partners. We may share your information with our business partners to offer you certain products, services or promotions.</li>
+              <li>
+                <strong>Service providers:</strong> we use third-party infrastructure providers to run the website and core features. This may include hosting, email delivery, authentication, database, and image hosting.
+              </li>
+              <li>
+                <strong>Legal &amp; safety:</strong> we may share information if required to comply with applicable laws, lawful requests, or to protect safety and prevent fraud.
+              </li>
             </ul>
+
+            <p>
+              Examples of service providers may include website hosting and deployment providers, authentication/database providers, email (SMTP) providers, and image hosting providers.
+            </p>
 
             <h2>5. How Long Do We Keep Your Information?</h2>
             <p>We will only keep your personal information for as long as it is necessary for the purposes set out in this privacy notice, unless a longer retention period is required or permitted by law (such as tax, accounting or other legal requirements).</p>
