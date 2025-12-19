@@ -125,6 +125,7 @@ export default async (req, res) => {
     const referer = String(req.headers.referer || '');
     const userAgent = String(req.headers['user-agent'] || '');
 
+    // 1) Admin notification
     await sendMail({
       scope: 'BOOKING',
       subject: `New booking received: ${bookingId}`,
@@ -157,6 +158,7 @@ export default async (req, res) => {
         .join('\n'),
     });
 
+    // Mark as notified ASAP to avoid duplicate admin emails (even if the renter email fails).
     const { error: updateError } = await supabase
       .from('bookings')
       .update({ notified_at: now })
@@ -167,7 +169,39 @@ export default async (req, res) => {
       return;
     }
 
-    res.status(200).json({ ok: true });
+    // 2) Renter confirmation (best-effort)
+    let renterEmailSent = false;
+    const renterEmail = isEmail(intakeEmail) ? intakeEmail : null;
+
+    if (renterEmail) {
+      try {
+        await sendMail({
+          scope: 'BOOKING',
+          to: renterEmail,
+          subject: `Booking received — Reference ${bookingId}`,
+          text: [
+            'Thanks for your booking — we have received it.',
+            '',
+            `Booking reference: ${bookingId}`,
+            `Dates: ${startDate} → ${endDate}${Number.isFinite(dayCount) && dayCount > 0 ? ` (${dayCount} day${dayCount === 1 ? '' : 's'})` : ''}`,
+            '',
+            'Items:',
+            itemLines.length ? itemLines.join('\n') : '- (none)',
+            '',
+            'We will contact you shortly to confirm details.',
+            '',
+            'RiverCity Bike Rentals',
+          ]
+            .filter(Boolean)
+            .join('\n'),
+        });
+        renterEmailSent = true;
+      } catch {
+        // Best-effort: admin notification already sent.
+      }
+    }
+
+    res.status(200).json({ ok: true, renterEmailSent });
   } catch (err) {
     res.status(500).json({ error: err?.message || 'Internal error' });
   }
