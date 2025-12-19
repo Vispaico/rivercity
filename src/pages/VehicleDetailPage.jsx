@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
@@ -16,6 +16,7 @@ import CustomQuoteCard from "@/components/CustomQuoteCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AdBanner from "@/components/AdBanner";
 
 import {
   getVehicleByCategoryAndSlug,
@@ -44,7 +45,6 @@ const VehicleDetailPage = ({ category }) => {
   const { slug } = useParams();
   const ui = categoryUi[category] || categoryUi.motorbike;
   const vehicle = useMemo(() => getVehicleByCategoryAndSlug(category, slug), [category, slug]);
-  const adSlotRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -59,40 +59,6 @@ const VehicleDetailPage = ({ category }) => {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (!vehicle) return;
-
-    const slot = adSlotRef.current;
-    if (!slot) return;
-
-    slot.innerHTML = "";
-
-    const configScript = document.createElement("script");
-    configScript.type = "text/javascript";
-    configScript.innerHTML = `
-      atOptions = {
-        key: 'b612b7529555730cbd4d2a6607dff9b5',
-        format: 'iframe',
-        height: 50,
-        width: 320,
-        params: {}
-      };
-    `;
-
-    const invokeScript = document.createElement("script");
-    invokeScript.type = "text/javascript";
-    invokeScript.src = "//prototypesorting.com/b612b7529555730cbd4d2a6607dff9b5/invoke.js";
-    invokeScript.async = true;
-
-    slot.appendChild(configScript);
-    slot.appendChild(invokeScript);
-
-    return () => {
-      slot.innerHTML = "";
-      if (window.atOptions) delete window.atOptions;
-    };
-  }, [vehicle?.slug]);
 
   const canonicalPath = vehicle
     ? getVehicleDetailPath(category, vehicle.slug)
@@ -305,10 +271,9 @@ const VehicleDetailPage = ({ category }) => {
               <div className="text-center">
                 <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-2">Advertisement</p>
                 <div
-                  ref={adSlotRef}
                   className="mx-auto flex h-[70px] w-[340px] items-center justify-center rounded-md border border-dashed border-gray-200 bg-gray-50"
                 >
-                  <span className="text-xs text-gray-400">Loading ad…</span>
+                  <AdBanner />
                 </div>
               </div>
             </div>
