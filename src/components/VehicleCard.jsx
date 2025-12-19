@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Zap, Users, Gauge, Cog } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { getVehicleDetailPath } from "@/lib/vehicleCatalog";
+
 const iconMap = {
   engine: <Gauge className="h-3 w-3 mr-1 text-gray-700" />,
   transmission: <Cog className="h-3 w-3 mr-1 text-gray-700" />,
@@ -17,6 +19,11 @@ const VehicleCard = ({ vehicle, index, type }) => {
   const getSpecIcon = (specType) => {
     return iconMap[specType] || <Zap className="h-3 w-3 mr-1 text-gray-700" />;
   };
+
+  const detailPath = vehicle?.slug ? getVehicleDetailPath(type, vehicle.slug) : null;
+  const day = vehicle?.price;
+  const week = vehicle?.priceWeek;
+  const month = vehicle?.priceMonth;
 
   return (
     <motion.div
@@ -44,6 +51,27 @@ const VehicleCard = ({ vehicle, index, type }) => {
         <CardContent className="p-5 flex-grow">
           <h3 className="text-xl font-bold mb-2 text-gray-900">{vehicle.name}</h3>
           <p className="text-gray-700 text-sm mb-4 flex-grow">{vehicle.description}</p>
+
+          {(day || week || month) && (
+            <div className="mb-4 flex flex-wrap gap-2">
+              {day && (
+                <span className="text-xs font-semibold rounded-full bg-blue-50 text-blue-800 px-3 py-1">
+                  Day: ${day}
+                </span>
+              )}
+              {week && (
+                <span className="text-xs font-semibold rounded-full bg-gray-100 text-gray-800 px-3 py-1">
+                  Week: ${week}
+                </span>
+              )}
+              {month && (
+                <span className="text-xs font-semibold rounded-full bg-gray-100 text-gray-800 px-3 py-1">
+                  Month: ${month}
+                </span>
+              )}
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-2 mt-auto">
             {vehicle.specs.map((spec, i) => (
               <span
@@ -55,17 +83,27 @@ const VehicleCard = ({ vehicle, index, type }) => {
             ))}
           </div>
         </CardContent>
-        <CardFooter className="p-5 pt-0 mt-auto">
+        <CardFooter className="p-5 pt-0 mt-auto flex flex-col gap-3">
           <Button
             asChild
             variant="outline"
             className="w-full border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white transition-colors"
           >
-            <Link to={`/book?vehicle=${encodeURIComponent(vehicle.name)}`}>
+            <Link to={`/book?vehicle=${encodeURIComponent(vehicle.bookingQuery || vehicle.name)}`}>
               Book Now
               <ChevronRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
+
+          {detailPath && (
+            <Link
+              to={detailPath}
+              className="text-sm font-semibold text-gray-700 hover:text-blue-700 transition-colors inline-flex items-center justify-center"
+            >
+              View details &amp; specs
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Link>
+          )}
         </CardFooter>
       </Card>
     </motion.div>

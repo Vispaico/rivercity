@@ -5,47 +5,9 @@ import VehicleCard from "@/components/VehicleCard";
 import ContactSection from "@/components/ContactSection";
 import CustomQuoteCard from "@/components/CustomQuoteCard";
 
-const cars = [
-  {
-    name: "Compact Car (e.g., Vinfast Fadil)",
-    price: "50",
-    image: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageSrcSet: "https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1649475659702-b641646c1322?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
-    description: "Reliable and fuel-efficient, perfect for navigating city streets and short trips. Easy to park and maneuver.",
-    specs: [
-      { type: "engine", value: "1.0L - 1.2L" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "4 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-  },
-  {
-    name: "Sedan or small SUV (e.g., Honda CRV)",
-    price: "100",
-    image: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageSrcSet: "https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 300w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 600w, https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 900w",
-    description: "Experience ultimate comfort and style. Perfect for business travel or making a statement on special occasions.",
-    specs: [
-      { type: "engine", value: "2.0L Petrol" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "5 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-  },
-  {
-    name: "SUV, 7 Seater (e.g., Vinfast Lux SA)",
-    price: "130",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761195856/rvc/vf_l5tiij.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761195856/rvc/vf_l5tiij.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761195856/rvc/vf_l5tiij.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761195856/rvc/vf_l5tiij.webp 900w",
-    description: "Spacious and versatile, ideal for families or groups needing extra room and comfort for longer journeys or varied terrains.",
-    specs: [
-      { type: "engine", value: "2.5L Petrol" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "7 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-  },
-];
+import { vehicleCatalog } from "@/lib/vehicleCatalog";
+
+const cars = vehicleCatalog.car;
 
 const CarRentalPage = () => {
   const structuredData = {
@@ -55,7 +17,7 @@ const CarRentalPage = () => {
     url: "https://www.rivercitybikerentals.com/cars",
     description:
       "Hire VinFast and Honda cars in Haiphong with airport pickup, driver services and premium insurance options.",
-    priceRange: "$50-$180",
+    priceRange: "$50-$130",
     telephone: "+84902197160",
     areaServed: "Haiphong, Cat Bi Airport, Ha Long Bay",
     makesOffer: cars.map((car) => ({
@@ -70,7 +32,7 @@ const CarRentalPage = () => {
   return (
     <div>
       <Helmet>
-        <title>Car Rentals Haiphong | VinFast &amp; Honda | Airport Pickup | $50-180/Day</title>
+        <title>Car Rentals Haiphong | VinFast &amp; Honda | Airport Pickup | $50-130/Day</title>
         <meta
           name="description"
           content="Reserve VinFast and Honda cars in Haiphong with airport pickup, driver service and full insurance. Transparent pricing from $50 per day."

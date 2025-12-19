@@ -35,7 +35,7 @@ const motorbikePricing = [
     ],
     features: [
       "Spacious under-seat storage",
-      "Smart key & ABS braking",
+      "Lightweight and fuel-efficient",
       "Free delivery within Haiphong",
       "24/7 roadside assistance included",
     ],

@@ -5,47 +5,9 @@ import PageHeader from "@/components/PageHeader";
 import ContactSection from "@/components/ContactSection";
 import CustomQuoteCard from "@/components/CustomQuoteCard";
 
-const motorbikes = [
-  {
-    name: "Honda Airblade",
-    price: "7",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 900w",
-    description: "Lightweight and fuel-efficient, perfect for city exploration.",
-    specs: [
-      { type: "engine", value: "125cc" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "2 Persons" },
-      { type: "feature", value: "Storage" }
-    ],
-  },
-  {
-    name: "Yamaha NVX",
-    price: "10",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 900w",
-    description: "Sporty design with powerful engine for city and countryside.",
-    specs: [
-      { type: "engine", value: "155cc" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "2 Persons" },
-      { type: "feature", value: "ABS" }
-    ],
-  },
-  {
-    name: "Honda Wave",
-    price: "4",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 900w",
-    description: "Smooth handling and robust for enduring anything.",
-    specs: [
-      { type: "engine", value: "125cc" },
-      { type: "transmission", value: "Half Automatic" },
-      { type: "capacity", value: "2 Persons" },
-      { type: "feature", value: "Countryside" }
-    ],
-  },
-];
+import { vehicleCatalog } from "@/lib/vehicleCatalog";
+
+const motorbikes = vehicleCatalog.motorbike;
 
 const MotorbikeRentalPage = () => {
   const structuredData = {

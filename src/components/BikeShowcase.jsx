@@ -6,98 +6,22 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import VehicleCard from "@/components/VehicleCard"; 
 
-// TODO: Optimize the images by resizing them to a smaller size.
-// For example, /nvx1.webp is displayed at 380x277, but the original image is 1000x591.
-const bikeCategories = [
+import { vehicleCatalog } from "@/lib/vehicleCatalog";
+
+const fleetCategories = [
   {
-    id: "scooters",
+    id: "motorbikes",
     label: "Motorbikes",
-    bikes: [
-      {
-        name: "Honda Airblade",
-        price: "7",
-        image: "public/airblade.webp",
-        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 900w",
-        description: "Lightweight and fuel-efficient, perfect for city exploration.",
-        specs: [
-            { type: "engine", value: "125cc" },
-            { type: "transmission", value: "Automatic" },
-            { type: "capacity", value: "2 Persons" },
-            { type: "feature", value: "Storage" }
-        ],
-      },
-      {
-        name: "Yamaha NVX",
-        price: "10",
-        image: "public/nvx1.webp",
-        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/nvx1_omtxja.webp 900w",
-        description: "Sporty design with powerful engine for city and countryside.",
-        specs: [
-            { type: "engine", value: "155cc" },
-            { type: "transmission", value: "Automatic" },
-            { type: "capacity", value: "2 Persons" },
-            { type: "feature", value: "ABS" }
-        ],
-      },
-      {
-        name: "Honda Wave",
-        price: "4",
-        image: "public/wave01.webp",
-        imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/wave01_yhfzpr.webp 900w",
-        description: "Smooth handling and robust for enduring anything.",
-        specs: [
-            { type: "engine", value: "125cc" },
-            { type: "transmission", value: "Half Automatic" },
-            { type: "capacity", value: "2 Persons" },
-            { type: "feature", value: "Countryside" }
-        ],
-      },
-    ],
+    listPath: "/motorbikes",
+    type: "motorbike",
+    vehicles: vehicleCatalog.motorbike,
   },
   {
-    id: "motorcycles",
+    id: "cars",
     label: "Cars",
-    bikes: [
-      {
-        name: "Compact Car (e.g., Vinfast Fadil)",
-    price: "50",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061620/rvc/compact_thofbd.webp 900w",
-    description: "Reliable and fuel-efficient, perfect for navigating city streets and short trips. Easy to park and maneuver.",
-    specs: [
-      { type: "engine", value: "1.0L - 1.2L" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "4 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-      },
-      {
-        name: "Sedan or small SUV (e.g., Honda CRV)",
-    price: "80",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/v1766061621/rvc/small-suv_yo9098.webp 900w",
-    description: "Experience ultimate comfort and style. Perfect for business travel or making a statement on special occasions.",
-    specs: [
-      { type: "engine", value: "2.0L Petrol" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "5 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-      },
-      {
-        name: "SUV, 7 Seater (e.g., Vinfast Lux SA)",
-    price: "130",
-    image: "https://res.cloudinary.com/kinhcode01/image/upload/v1761195856/rvc/vf_l5tiij.webp",
-    imageSrcSet: "https://res.cloudinary.com/kinhcode01/image/upload/w_300/v1761195856/rvc/vf_l5tiij.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600/v1761195856/rvc/vf_l5tiij.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900/v1761195856/rvc/vf_l5tiij.webp 900w",
-    description: "Spacious and versatile, ideal for families or groups needing extra room and comfort for longer journeys or varied terrains.",
-    specs: [
-      { type: "engine", value: "2.5L Petrol" },
-      { type: "transmission", value: "Automatic" },
-      { type: "capacity", value: "7 Passengers" },
-      { type: "feature", value: "VETC Card" },
-    ],
-      },
-    ],
+    listPath: "/cars",
+    type: "car",
+    vehicles: vehicleCatalog.car,
   },
 ];
 
@@ -134,7 +58,7 @@ const BikeShowcase = () => {
           </p>
         </motion.div>
 
-        {bikeCategories.map((category, categoryIndex) => (
+        {fleetCategories.map((category, categoryIndex) => (
           <motion.div
             key={category.id}
             initial="hidden"
@@ -154,19 +78,19 @@ const BikeShowcase = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6"
                 asChild
               >
-                <Link to={category.id === "scooters" ? "/motorbikes" : "/cars"}>
+                <Link to={category.listPath}>
                   View All
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {category.bikes.map((bike, index) => (
+              {category.vehicles.map((bike, index) => (
                 <VehicleCard 
-                  key={index} 
+                  key={bike.slug || index} 
                   vehicle={bike} 
                   index={index} 
-                  type={category.id === "scooters" ? "motorbike" : "car"} 
+                  type={category.type} 
                 />
               ))}
             </div>

@@ -2,6 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import dotenv from 'dotenv';
 
+import { vehicleCatalog } from './src/lib/vehicleCatalog.js';
+
 dotenv.config({ path: '.env.local' });
 
 const generateSitemap = async () => {
@@ -16,7 +18,7 @@ const generateSitemap = async () => {
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   const baseUrl = 'https://rivercitybikerentals.com';
-  const pages = [
+  const basePages = [
     '/',
     '/about',
     '/cars',
@@ -26,6 +28,13 @@ const generateSitemap = async () => {
     '/terms-of-use',
     '/blog',
   ];
+
+  const vehiclePages = [
+    ...(vehicleCatalog.motorbike || []).map((v) => `/motorbikes/${v.slug}`),
+    ...(vehicleCatalog.car || []).map((v) => `/cars/${v.slug}`),
+  ];
+
+  const pages = [...basePages, ...vehiclePages];
 
   const { data: posts, error } = await supabase
     .from('posts')

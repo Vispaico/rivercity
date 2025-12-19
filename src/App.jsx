@@ -27,6 +27,7 @@ const DashboardVehiclesPage = lazy(() => import("@/pages/DashboardVehiclesPage")
 const PartnerPortalPage = lazy(() => import("@/pages/PartnerPortalPage"));
 const DashboardMarketplacePage = lazy(() => import("@/pages/DashboardMarketplacePage"));
 const RentOutVehiclePage = lazy(() => import("@/pages/RentOutVehiclePage"));
+const VehicleDetailPage = lazy(() => import("@/pages/VehicleDetailPage"));
 
 function App() {
   const location = useLocation();
@@ -89,7 +90,9 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/cars" element={<CarRentalPage />} />
+              <Route path="/cars/:slug" element={<VehicleDetailPage category="car" />} />
               <Route path="/motorbikes" element={<MotorbikeRentalPage />} />
+              <Route path="/motorbikes/:slug" element={<VehicleDetailPage category="motorbike" />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/cookies" element={<CookiesPage />} />
               <Route path="/terms-of-use" element={<TermsOfUsePage />} />
