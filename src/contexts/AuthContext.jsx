@@ -42,10 +42,32 @@ export const AuthProvider = ({ children }) => {
     throw new Error('Supabase auth is disabled.');
   };
 
+  const getRedirectTo = () => {
+    if (typeof window === 'undefined') return undefined;
+    return `${window.location.origin}/dashboard`;
+  };
+
   const value = {
-    signUp: supabase ? (data) => supabase.auth.signUp(data) : unsupported,
+    signUp: supabase
+      ? (data) => {
+          const redirectTo = getRedirectTo();
+          const nextOptions = {
+            ...(data?.options || {}),
+            emailRedirectTo: data?.options?.emailRedirectTo || redirectTo,
+          };
+          return supabase.auth.signUp({ ...data, options: nextOptions });
+        }
+      : unsupported,
     signIn: supabase ? (data) => supabase.auth.signInWithPassword(data) : unsupported,
-    signInWithProvider: supabase ? (provider) => supabase.auth.signInWithOAuth({ provider }) : unsupported,
+    signInWithProvider: supabase
+      ? (provider) => {
+          const redirectTo = getRedirectTo();
+          return supabase.auth.signInWithOAuth({
+            provider,
+            options: redirectTo ? { redirectTo } : undefined,
+          });
+        }
+      : unsupported,
     signOut: supabase ? () => supabase.auth.signOut() : unsupported,
     user,
     isAdmin,
