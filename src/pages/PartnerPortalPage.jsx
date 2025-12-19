@@ -60,6 +60,8 @@ const PartnerPortalPage = () => {
   const [payouts, setPayouts] = useState([]);
   const [loadingPayouts, setLoadingPayouts] = useState(false);
 
+  const [activeTab, setActiveTab] = useState('vehicles');
+
   const myApprovedVehicles = useMemo(
     () => vehicles.filter((v) => v.listing_status === 'approved' && v.active),
     [vehicles]
@@ -435,11 +437,12 @@ const PartnerPortalPage = () => {
         )}
 
         {supabase && !schemaMissing && (
-          <Tabs defaultValue="vehicles" className="w-full">
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 bg-white shadow-sm">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 bg-white shadow-sm">
               <TabsTrigger value="vehicles">My Vehicles</TabsTrigger>
               <TabsTrigger value="availability">Availability</TabsTrigger>
               <TabsTrigger value="payouts">Payouts</TabsTrigger>
+              <TabsTrigger value="policies">Policies &amp; Guidelines</TabsTrigger>
             </TabsList>
 
             <TabsContent value="vehicles" className="mt-6 space-y-6">
@@ -500,7 +503,16 @@ const PartnerPortalPage = () => {
                         checked={insuranceAck}
                         onChange={(e) => setInsuranceAck(e.target.checked)}
                       />
-                      I confirm I have the insurance required to rent out this vehicle.
+                      <span>
+                        I confirm I have the insurance required to rent out this vehicle.{' '}
+                        <button
+                          type="button"
+                          className="text-blue-600 hover:underline"
+                          onClick={() => setActiveTab('policies')}
+                        >
+                          View policies
+                        </button>
+                      </span>
                     </label>
                     <Button type="button" onClick={saveProfile} disabled={savingProfile} className="bg-blue-600 hover:bg-blue-700">
                       {savingProfile ? 'Saving…' : 'Save'}
@@ -753,6 +765,82 @@ const PartnerPortalPage = () => {
                     <Button type="button" variant="outline" onClick={fetchPayouts} disabled={loadingPayouts}>
                       Refresh
                     </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="policies" className="mt-6 space-y-6">
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle>Policies &amp; guidelines (Vietnam)</CardTitle>
+                  <CardDescription>
+                    These guidelines clarify insurance, responsibility, deposits, and what happens if there is damage, theft, or fines.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6 text-sm text-gray-700">
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-gray-900">Insurance</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        Owners are responsible for ensuring the vehicle is legal, roadworthy, registered, and has the required insurance/coverage.
+                      </li>
+                      <li>
+                        Cars: full/comprehensive coverage is recommended and commonly available in Vietnam (often covering major damage and total loss, subject to the insurer’s terms).
+                      </li>
+                      <li>
+                        Motorbikes: coverage varies; owners should understand what is and isn’t covered (especially theft and collision).
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-gray-900">Traffic police fines &amp; violations</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        The renter/driver is responsible for fines and violations during the rental period (speeding, parking, helmet violations, etc.).
+                      </li>
+                      <li>
+                        Rivercity keeps the renter details (including passport copy where required) and rental time window on record to support enforcement.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-gray-900">Accidents, damage, and breakdowns</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        If an accident happens, the renter must notify Rivercity/owner immediately and provide photos/video of the situation and damage.
+                      </li>
+                      <li>
+                        If damage is caused by renter use or negligence, the renter is responsible for repair costs (and any applicable loss-of-use days).
+                      </li>
+                      <li>
+                        If a breakdown is due to mechanical failure not caused by misuse, owners should assist with a reasonable solution (replacement, repair, or adjustment for unused time).
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-gray-900">Theft / loss</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>
+                        Renters must take reasonable precautions (do not leave keys unattended, lock vehicle, park sensibly).
+                      </li>
+                      <li>
+                        If theft/loss occurs, the renter must notify Rivercity/owner immediately and cooperate with reporting/insurance documentation.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-gray-900">Deposits</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>Motorbikes: no deposit (for now).</li>
+                      <li>
+                        Cars: 13,000,000 VND security deposit. May be used for unpaid fines, damage not covered by insurance, towing/recovery due to misuse, or missing keys/items. Refund is handled after return and condition check.
+                      </li>
+                    </ul>
                   </div>
                 </CardContent>
               </Card>
