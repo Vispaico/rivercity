@@ -5,7 +5,7 @@ const AdBanner = ({ className }) => {
     <div className={className}>
       <iframe
         title="Advertisement"
-        sandbox="allow-scripts allow-top-navigation-by-user-activation"
+        sandbox="allow-scripts allow-same-origin allow-top-navigation-by-user-activation"
         referrerPolicy="no-referrer-when-downgrade"
         loading="lazy"
         className="h-[50px] w-[320px] border-0"
