@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import useRevealInView from "@/hooks/useRevealInView";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,7 +30,7 @@ const MessengerIcon = (props) => (
 const ContactSection = () => {
   const { toast } = useToast();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
 
   const [quickEmail, setQuickEmail] = useState("");

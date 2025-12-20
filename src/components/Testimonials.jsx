@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import useRevealInView from "@/hooks/useRevealInView";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 
@@ -38,7 +38,7 @@ const testimonials = [
 
 const TestimonialCard = ({ testimonial, index }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const TestimonialCard = ({ testimonial, index }) => {
 
 const Testimonials = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
 
   useEffect(() => {

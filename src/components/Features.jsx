@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import useRevealInView from "@/hooks/useRevealInView";
 import { Shield, Clock, Map, Settings, Award, CreditCard } from "lucide-react";
 
 const features = [
@@ -45,7 +45,7 @@ const features = [
 
 const FeatureCard = ({ icon, title, description, index }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.3 });
   const controls = useAnimation();
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const FeatureCard = ({ icon, title, description, index }) => {
 
 const Features = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
 
   useEffect(() => {

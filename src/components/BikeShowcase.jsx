@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import useRevealInView from "@/hooks/useRevealInView";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import VehicleCard from "@/components/VehicleCard"; 
@@ -27,7 +27,7 @@ const fleetCategories = [
 
 const BikeShowcase = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
 
   useEffect(() => {

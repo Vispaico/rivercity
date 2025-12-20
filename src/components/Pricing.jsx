@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
+import useRevealInView from "@/hooks/useRevealInView";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Bike, Car } from "lucide-react";
@@ -117,7 +117,7 @@ const carPricing = [
 
 const PricingCard = ({ plan, index, vehicleType }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -238,7 +238,7 @@ const PricingCard = ({ plan, index, vehicleType }) => {
 
 const Pricing = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
   const [vehicleType, setVehicleType] = useState("motorbike");
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);

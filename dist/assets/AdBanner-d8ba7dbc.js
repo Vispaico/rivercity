@@ -1,0 +1,1 @@
+import{j as r}from"./index-ee56453c.js";const n=({className:e})=>r.jsx("div",{className:e,children:r.jsx("iframe",{title:"Advertisement",sandbox:"allow-scripts allow-same-origin allow-top-navigation-by-user-activation",referrerPolicy:"no-referrer-when-downgrade",loading:"lazy",className:"h-[50px] w-[320px] border-0",src:"/adsterra-banner-320x50.html"})});export{n as A};
