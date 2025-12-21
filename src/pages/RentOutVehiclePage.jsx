@@ -117,7 +117,7 @@ const RentOutVehiclePage = () => {
                 <Card className="shadow-lg overflow-hidden">
                   <div className="relative">
                     <img
-                      src="/bgindex1600x800.jpg"
+                      src="/haiphong-port-scenic-view.webp"
                       alt="Haiphong road scene"
                       className="absolute inset-0 h-full w-full object-cover"
                       loading="lazy"

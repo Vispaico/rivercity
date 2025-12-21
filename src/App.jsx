@@ -20,6 +20,11 @@ const SignupPage = lazy(() => import("@/pages/SignupPage"));
 const ResetPasswordPage = lazy(() => import("@/pages/ResetPasswordPage"));
 const BlogPage = lazy(() => import("@/pages/BlogPage"));
 const BlogPostPage = lazy(() => import("@/pages/BlogPostPage"));
+const GuidesPage = lazy(() => import("@/pages/GuidesPage"));
+const HaiphongTravelGuidePage = lazy(() => import("@/pages/guides/HaiphongTravelGuidePage"));
+const LivingInHaiphongExpatGuidePage = lazy(() => import("@/pages/guides/LivingInHaiphongExpatGuidePage"));
+const MotorbikeRentalGuideVietnamPage = lazy(() => import("@/pages/guides/MotorbikeRentalGuideVietnamPage"));
+const NorthernVietnamRoadTripsPage = lazy(() => import("@/pages/guides/NorthernVietnamRoadTripsPage"));
 const DashboardBlogPage = lazy(() => import("@/pages/DashboardBlogPage"));
 const DashboardPostForm = lazy(() => import("@/pages/DashboardPostForm"));
 const BookingPage = lazy(() => import("@/pages/BookingPage"));
@@ -99,6 +104,14 @@ function App() {
               <Route path="/terms-of-use" element={<TermsOfUsePage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
+
+              <Route path="/guides" element={<GuidesPage />} />
+              <Route path="/guides/" element={<GuidesPage />} />
+              <Route path="/guides/haiphong-travel-guide" element={<HaiphongTravelGuidePage />} />
+              <Route path="/guides/living-in-haiphong-expat-guide" element={<LivingInHaiphongExpatGuidePage />} />
+              <Route path="/guides/motorbike-rental-guide-vietnam" element={<MotorbikeRentalGuideVietnamPage />} />
+              <Route path="/guides/northern-vietnam-road-trips" element={<NorthernVietnamRoadTripsPage />} />
+
               <Route path="/book" element={<BookingPage />} />
               <Route path="/book/success/:id" element={<BookingSuccessPage />} />
               <Route path="/rent-out" element={<RentOutVehiclePage />} />

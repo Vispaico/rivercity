@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import BikeShowcase from "@/components/BikeShowcase"; 
 import Pricing from "@/components/Pricing";
+import FeaturedGuides from "@/components/FeaturedGuides";
 import Testimonials from "@/components/Testimonials";
 import ContactSection from "@/components/ContactSection";
 import CTASection from "@/components/CTASection";
@@ -87,6 +88,10 @@ const HomePage = () => {
       </section>
       <Pricing />
 
+      <FeaturedGuides />
+
+      <Testimonials />
+
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <Card className="shadow-lg overflow-hidden">
@@ -116,7 +121,7 @@ const HomePage = () => {
               </div>
               <div className="lg:col-span-5 relative">
                 <img
-                  src="/bgindex1600x800.jpg"
+                  src="/haiphong-port-scenic-view.webp"
                   alt="Road in Vietnam"
                   className="w-full h-full object-cover min-h-[220px]"
                   loading="lazy"
@@ -127,8 +132,6 @@ const HomePage = () => {
           </Card>
         </div>
       </section>
-
-      <Testimonials />
       <CTASection />
       <ContactSection />
     </>

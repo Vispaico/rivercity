@@ -27,6 +27,11 @@ const generateSitemap = async () => {
     '/cookies',
     '/terms-of-use',
     '/blog',
+    '/guides',
+    '/guides/haiphong-travel-guide',
+    '/guides/living-in-haiphong-expat-guide',
+    '/guides/motorbike-rental-guide-vietnam',
+    '/guides/northern-vietnam-road-trips',
   ];
 
   const vehiclePages = [

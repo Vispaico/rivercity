@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X, LayoutDashboard } from "lucide-react";
+import { Menu, X, LayoutDashboard, ChevronDown } from "lucide-react";
 import VispaicoContactModal from "@/components/VispaicoContactModal";
+import { guides } from "@/lib/guides";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileGuidesOpen, setMobileGuidesOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const location = useLocation();
 
@@ -22,16 +24,21 @@ const Navbar = () => {
 
   useEffect(() => {
     setMobileMenuOpen(false); 
+    setMobileGuidesOpen(false);
   }, [location.pathname]);
 
-  const navItems = [
+  const navItemsLeft = [
     { name: "Home", path: "/" },
     { name: "Motorbikes", path: "/motorbikes" },
     { name: "Cars", path: "/cars" },
     { name: "Earn", path: "/rent-out" },
-    { name: "Blog", path: "/blog" },
-    { name: "About", path: "/about" },
   ];
+
+  const navItemsRight = [
+    { name: "Blog", path: "/blog" },
+  ];
+
+  const guideItems = guides.map((g) => ({ name: g.title, path: g.href }));
 
   const isHomePage = location.pathname === "/";
 
@@ -58,7 +65,7 @@ const Navbar = () => {
           >
             <Link to="/" className="flex items-center">
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-blue-400" : "text-blue-500"}`}>
-                Rivercity
+                RiverCity
               </span>
               <span className={`text-xl sm:text-2xl font-bold ml-1 ${isScrolled || !isHomePage ? "text-white" : "text-white"}`}>
                 Bike Rentals
@@ -67,7 +74,7 @@ const Navbar = () => {
           </motion.div>
 
           <nav className="hidden md:flex items-center space-x-6">
-            {navItems.map((item, index) => (
+            {navItemsLeft.map((item, index) => (
               <motion.div
                 key={item.name}
                 initial={{ opacity: 0, y: -10 }}
@@ -77,7 +84,7 @@ const Navbar = () => {
                 {item.path.startsWith("/#") ? (
                   <a
                     href={item.path}
-                    className={`text-sm font-medium transition-colors hover:text-blue-600 ${
+                    className={`text-base font-medium transition-colors hover:text-blue-600 ${
                       isScrolled || !isHomePage ? "text-white" : "text-white"
                     }`}
                   >
@@ -86,13 +93,79 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to={item.path}
-                    className={`text-lg font-medium transition-colors hover:text-blue-600 ${
+                    className={`text-base font-medium transition-colors hover:text-blue-600 ${
                       isScrolled || !isHomePage ? "text-white" : "text-white"
                     }`}
                   >
                     {item.name}
                   </Link>
                 )}
+              </motion.div>
+            ))}
+
+            <motion.div
+              key="Guides"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: navItemsLeft.length * 0.1 }}
+              className="relative"
+            >
+              <div className="group relative">
+                <button
+                  type="button"
+                  className={`inline-flex items-center gap-2 text-base font-medium transition-colors hover:text-blue-600 ${
+                    isScrolled || !isHomePage ? "text-white" : "text-white"
+                  }`}
+                  aria-haspopup="menu"
+                >
+                  Guides
+                  <ChevronDown className="h-4 w-4 opacity-80" />
+                </button>
+
+                <div className="pointer-events-none absolute left-0 top-full z-50 mt-3 w-[320px] opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
+                  <div className="overflow-hidden rounded-2xl border bg-white shadow-xl">
+                    <div className="p-4 border-b bg-gray-50">
+                      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gray-500">Travel Guides</p>
+                      <p className="mt-1 text-sm text-gray-700">Big, evergreen guides (not blog posts).</p>
+                    </div>
+                    <div className="p-2">
+                      {guideItems.map((g) => (
+                        <Link
+                          key={g.path}
+                          to={g.path}
+                          className="block rounded-xl px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-blue-50 hover:text-blue-800"
+                        >
+                          {g.name}
+                        </Link>
+                      ))}
+                      <div className="my-2 h-px bg-gray-200" />
+                      <Link
+                        to="/guides"
+                        className="block rounded-xl px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50"
+                      >
+                        View All Guides →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {navItemsRight.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: (navItemsLeft.length + 1 + index) * 0.1 }}
+              >
+                <Link
+                  to={item.path}
+                  className={`text-base font-medium transition-colors hover:text-blue-600 ${
+                    isScrolled || !isHomePage ? "text-white" : "text-white"
+                  }`}
+                >
+                  {item.name}
+                </Link>
               </motion.div>
             ))}
           </nav>
@@ -107,7 +180,7 @@ const Navbar = () => {
               <Button
                 variant="ghost"
                 size="lg"
-                className={`rounded-full ${isScrolled || !isHomePage ? "text-white text-lg hover:text-blue-600 hover:bg-blue-50" : "text-white text-lg hover:text-blue-600 hover:bg-white/20" } `}
+                className={`rounded-full ${isScrolled || !isHomePage ? "text-white text-base hover:text-blue-600 hover:bg-blue-50" : "text-white text-lg hover:text-blue-600 hover:bg-white/20" } `}
               >
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 Dashboard
@@ -116,7 +189,7 @@ const Navbar = () => {
             <Button
               onClick={() => setIsContactModalOpen(true)}
               size="lg"
-              className="text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="text-base rounded-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               Get Quick Quotes and Info
             </Button>
@@ -150,8 +223,47 @@ const Navbar = () => {
             className="md:hidden bg-white border-t"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-2">
-              {navItems.map((item) => (
-                 item.path.startsWith("/#") ? (
+              {[...navItemsLeft, { name: "Blog", path: "/blog" }].map((item) => {
+                if (item.name === 'Blog') {
+                  return (
+                    <React.Fragment key="mobile-guides-block">
+                      <button
+                        type="button"
+                        onClick={() => setMobileGuidesOpen((v) => !v)}
+                        className="flex items-center justify-between text-gray-800 hover:text-blue-600 py-2 text-sm font-medium"
+                        aria-expanded={mobileGuidesOpen}
+                      >
+                        <span>Travel Guides</span>
+                        <ChevronDown className={`h-4 w-4 transition-transform ${mobileGuidesOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {mobileGuidesOpen && (
+                        <div className="ml-3 border-l pl-3 space-y-1">
+                          {guideItems.map((g) => (
+                            <Link
+                              key={g.path}
+                              to={g.path}
+                              className="block text-gray-700 hover:text-blue-600 py-1.5 text-sm"
+                            >
+                              {g.name}
+                            </Link>
+                          ))}
+                          <Link to="/guides" className="block text-blue-700 font-semibold hover:underline py-1.5 text-sm">
+                            View All Guides →
+                          </Link>
+                        </div>
+                      )}
+
+                      <Link
+                        to={item.path}
+                        className="text-gray-800 hover:text-blue-600 py-2 text-sm font-medium"
+                      >
+                        {item.name}
+                      </Link>
+                    </React.Fragment>
+                  );
+                }
+
+                return item.path.startsWith("/#") ? (
                   <a
                     key={item.name}
                     href={item.path}
@@ -167,8 +279,8 @@ const Navbar = () => {
                   >
                     {item.name}
                   </Link>
-                )
-              ))}
+                );
+              })}
               <Link to="/dashboard" className="text-gray-800 hover:text-blue-600 py-2 text-sm font-medium flex items-center">
                 <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
               </Link>
