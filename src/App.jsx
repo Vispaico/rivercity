@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import VispaicoWheel from "@/components/VispaicoWheel";
+import AdBanner from "@/components/AdBanner";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -37,6 +38,14 @@ const VehicleDetailPage = lazy(() => import("@/pages/VehicleDetailPage"));
 
 function App() {
   const location = useLocation();
+
+  const path = location.pathname || "/";
+  const hasInlineAd =
+    path.startsWith("/guides") ||
+    path.startsWith("/blog/") ||
+    path.startsWith("/cars/") ||
+    path.startsWith("/motorbikes/");
+  const showGlobalAd = path !== "/" && !hasInlineAd;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -177,6 +186,22 @@ function App() {
             </Routes>
           </Suspense>
         </main>
+
+        {showGlobalAd && (
+          <div className="border-t bg-gray-50">
+            <div className="container mx-auto px-4 py-6">
+              <div className="flex justify-center">
+                <div className="text-center">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-2">Advertisement</p>
+                  <div className="mx-auto flex h-[70px] w-[340px] items-center justify-center rounded-md border border-dashed border-gray-200 bg-white">
+                    <AdBanner />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <VispaicoWheel />
         <Footer />
         <Toaster />

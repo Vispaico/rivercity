@@ -15,6 +15,7 @@ import { supabase } from "@/lib/supabaseClient";
 const DashboardPage = () => {
   const { user, signOut, loading: authLoading, isAdmin } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [tab, setTab] = useState("bookings");
   const [savingAccount, setSavingAccount] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -124,7 +125,7 @@ const DashboardPage = () => {
             </Card>
           </motion.div>
 
-          <Tabs defaultValue="bookings" className="w-full">
+          <Tabs value={tab} onValueChange={setTab} className="w-full">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -189,7 +190,9 @@ const DashboardPage = () => {
                             <p className="text-sm text-gray-500">{user?.email}</p>
                         </div>
                     </div>
-                     <Button variant="outline" disabled><Edit3 className="mr-2 h-4 w-4" /> Edit Profile (Coming Soon)</Button>
+                     <Button variant="outline" onClick={() => setTab("settings")}>
+                      <Edit3 className="mr-2 h-4 w-4" /> Edit Profile
+                    </Button>
                   </CardContent>
                 </Card>
               </TabsContent>
