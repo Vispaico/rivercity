@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LayoutDashboard, ChevronDown } from "lucide-react";
 import VispaicoContactModal from "@/components/VispaicoContactModal";
@@ -110,45 +111,56 @@ const Navbar = () => {
               transition={{ duration: 0.5, delay: navItemsLeft.length * 0.1 }}
               className="relative"
             >
-              <div className="group relative">
-                <button
-                  type="button"
-                  className={`inline-flex items-center gap-2 text-base font-medium transition-colors hover:text-blue-600 ${
-                    isScrolled || !isHomePage ? "text-white" : "text-white"
-                  }`}
-                  aria-haspopup="menu"
-                >
-                  Guides
-                  <ChevronDown className="h-4 w-4 opacity-80" />
-                </button>
+              <DropdownMenu.Root modal={false}>
+                <DropdownMenu.Trigger asChild>
+                  <button
+                    type="button"
+                    className={`inline-flex items-center gap-2 text-base font-medium transition-colors hover:text-blue-600 ${
+                      isScrolled || !isHomePage ? "text-white" : "text-white"
+                    }`}
+                    aria-label="Open guides menu"
+                  >
+                    Guides
+                    <ChevronDown className="h-4 w-4 opacity-80" />
+                  </button>
+                </DropdownMenu.Trigger>
 
-                <div className="pointer-events-none absolute left-0 top-full z-50 mt-3 w-[320px] opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
-                  <div className="overflow-hidden rounded-2xl border bg-white shadow-xl">
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content
+                    sideOffset={10}
+                    align="start"
+                    className="z-50 w-[320px] overflow-hidden rounded-2xl border bg-white shadow-xl"
+                  >
                     <div className="p-4 border-b bg-gray-50">
                       <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gray-500">Travel Guides</p>
                       <p className="mt-1 text-sm text-gray-700">Big, evergreen guides (not blog posts).</p>
                     </div>
                     <div className="p-2">
                       {guideItems.map((g) => (
-                        <Link
-                          key={g.path}
-                          to={g.path}
-                          className="block rounded-xl px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-blue-50 hover:text-blue-800"
-                        >
-                          {g.name}
-                        </Link>
+                        <DropdownMenu.Item key={g.path} asChild>
+                          <Link
+                            to={g.path}
+                            className="block rounded-xl px-3 py-2 text-sm font-semibold text-gray-900 outline-none hover:bg-blue-50 hover:text-blue-800 focus:bg-blue-50 focus:text-blue-800"
+                          >
+                            {g.name}
+                          </Link>
+                        </DropdownMenu.Item>
                       ))}
-                      <div className="my-2 h-px bg-gray-200" />
-                      <Link
-                        to="/guides"
-                        className="block rounded-xl px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50"
-                      >
-                        View All Guides →
-                      </Link>
+
+                      <DropdownMenu.Separator className="my-2 h-px bg-gray-200" />
+
+                      <DropdownMenu.Item asChild>
+                        <Link
+                          to="/guides"
+                          className="block rounded-xl px-3 py-2 text-sm font-semibold text-blue-700 outline-none hover:bg-blue-50 focus:bg-blue-50"
+                        >
+                          View All Guides →
+                        </Link>
+                      </DropdownMenu.Item>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
             </motion.div>
 
             {navItemsRight.map((item, index) => (
