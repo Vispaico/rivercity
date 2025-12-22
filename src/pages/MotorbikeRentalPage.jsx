@@ -16,7 +16,7 @@ const MotorbikeRentalPage = () => {
     name: "Rivercity Motorbike Rentals",
     url: "https://www.rivercitybikerentals.com/motorbikes",
     description:
-      "Rent Honda Airblade, Yamaha NVX and Honda Wave motorbikes in Haiphong with helmets, insurance and 24/7 support.",
+      "Rent Honda Airblade, Yamaha NVX, Yamaha Exciter 150 and Honda Wave motorbikes in Haiphong with helmets, insurance and 24/7 support.",
     priceRange: "$4-$10",
     telephone: "+84902197160",
     makesOffer: motorbikes.map((bike) => ({
@@ -34,7 +34,7 @@ const MotorbikeRentalPage = () => {
         <title>Haiphong Motorbike Rentals | Honda &amp; Yamaha | $4-10/Day | Free Helmets</title>
         <meta
           name="description"
-          content="Choose Honda Airblade, Yamaha NVX or Honda Wave motorbikes in Haiphong. Free helmets, phone holders, hotel delivery and 24/7 support included."
+          content="Choose Honda Airblade, Yamaha NVX, Yamaha Exciter 150 or Honda Wave motorbikes in Haiphong. Free helmets, phone holders, hotel delivery and 24/7 support included."
         />
         <link rel="canonical" href="https://www.rivercitybikerentals.com/motorbikes" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>

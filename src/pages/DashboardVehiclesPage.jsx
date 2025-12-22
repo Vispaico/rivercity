@@ -5,18 +5,37 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabaseClient';
+import { vehicleCatalog } from '@/lib/vehicleCatalog';
 
 const DashboardVehiclesPage = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
   const [vehicles, setVehicles] = useState([]);
+  const [catalogPresetKey, setCatalogPresetKey] = useState('');
+
+  const catalogPresets = useMemo(() => {
+    const all = [...(vehicleCatalog.motorbike || []), ...(vehicleCatalog.car || [])];
+    return all
+      .filter((v) => v?.category && v?.slug)
+      .map((v) => ({
+        key: `${v.category}:${v.slug}`,
+        category: v.category,
+        name: v.name,
+        price_per_day: v.price ?? '',
+        description: v.description ?? '',
+        image_url: v.image ?? '',
+      }));
+  }, []);
 
   const [newVehicle, setNewVehicle] = useState({
     category: 'motorbike',
     name: '',
+    description: '',
+    image_url: '',
     price_per_day: '',
     inventory_count: '0',
     active: true,
@@ -39,7 +58,7 @@ const DashboardVehiclesPage = () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('vehicles')
-      .select('id, category, name, price_per_day, inventory_count, active, sort_order')
+      .select('id, category, name, description, image_url, price_per_day, inventory_count, active, sort_order')
       .order('sort_order', { ascending: true })
       .order('name', { ascending: true });
 
@@ -73,6 +92,8 @@ const DashboardVehiclesPage = () => {
   const createVehicle = async () => {
     if (!supabase) return;
     const name = newVehicle.name.trim();
+    const description = newVehicle.description.trim();
+    const imageUrl = newVehicle.image_url.trim();
     if (!name) {
       toast({ title: 'Name required', description: 'Enter a vehicle name.', variant: 'destructive' });
       return;
@@ -85,6 +106,8 @@ const DashboardVehiclesPage = () => {
     const baseRow = {
       category: newVehicle.category,
       name,
+      description: description || null,
+      image_url: imageUrl || null,
       inventory_count: inventory,
       price_per_day: Number.isFinite(price) ? price : null,
       active: Boolean(newVehicle.active),
@@ -109,7 +132,8 @@ const DashboardVehiclesPage = () => {
     }
 
     toast({ title: 'Created', description: 'Vehicle added.', className: 'bg-blue-500 text-white' });
-    setNewVehicle({ category: 'motorbike', name: '', price_per_day: '', inventory_count: '0', active: true });
+    setCatalogPresetKey('');
+    setNewVehicle({ category: 'motorbike', name: '', description: '', image_url: '', price_per_day: '', inventory_count: '0', active: true });
     await fetchVehicles();
     setSavingId(null);
   };
@@ -141,49 +165,119 @@ const DashboardVehiclesPage = () => {
                   This controls what shows on the booking page. You can also manage vehicles in Supabase Table Editor.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-                <div>
-                  <Label htmlFor="new_category">Category</Label>
-                  <select
-                    id="new_category"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    value={newVehicle.category}
-                    onChange={(e) => setNewVehicle((p) => ({ ...p, category: e.target.value }))}
-                  >
-                    <option value="motorbike">Motorbike</option>
-                    <option value="car">Car</option>
-                  </select>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-end">
+                  <div>
+                    <Label htmlFor="new_category">Category</Label>
+                    <select
+                      id="new_category"
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={newVehicle.category}
+                      onChange={(e) => {
+                        setNewVehicle((p) => ({ ...p, category: e.target.value }));
+                        setCatalogPresetKey('');
+                      }}
+                    >
+                      <option value="motorbike">Motorbike</option>
+                      <option value="car">Car</option>
+                    </select>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="new_preset">From site catalog (optional)</Label>
+                    <select
+                      id="new_preset"
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={catalogPresetKey}
+                      onChange={(e) => {
+                        const nextKey = e.target.value;
+                        setCatalogPresetKey(nextKey);
+                        const preset = catalogPresets.find((p) => p.key === nextKey);
+                        if (!preset) return;
+
+                        setNewVehicle((prev) => ({
+                          ...prev,
+                          category: preset.category,
+                          name: preset.name,
+                          description: preset.description,
+                          image_url: preset.image_url,
+                          price_per_day: String(preset.price_per_day ?? ''),
+                          inventory_count: prev.inventory_count === '0' ? '1' : prev.inventory_count,
+                          active: true,
+                        }));
+                      }}
+                    >
+                      <option value="">Select a model…</option>
+                      {catalogPresets
+                        .slice()
+                        .sort((a, b) => `${a.category} ${a.name}`.localeCompare(`${b.category} ${b.name}`))
+                        .map((p) => (
+                          <option key={p.key} value={p.key}>
+                            {p.category} — {p.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Label htmlFor="new_name">Name</Label>
+                    <Input
+                      id="new_name"
+                      value={newVehicle.name}
+                      onChange={(e) => {
+                        setNewVehicle((p) => ({ ...p, name: e.target.value }));
+                        setCatalogPresetKey('');
+                      }}
+                      placeholder="e.g. Yamaha Exciter 150"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="new_inventory">Inventory</Label>
+                    <Input
+                      id="new_inventory"
+                      type="number"
+                      min={0}
+                      value={newVehicle.inventory_count}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, inventory_count: e.target.value }))}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="new_price">Price/day (USD)</Label>
+                    <Input
+                      id="new_price"
+                      type="number"
+                      min={0}
+                      value={newVehicle.price_per_day}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, price_per_day: e.target.value }))}
+                    />
+                  </div>
                 </div>
-                <div className="md:col-span-2">
-                  <Label htmlFor="new_name">Name</Label>
-                  <Input
-                    id="new_name"
-                    value={newVehicle.name}
-                    onChange={(e) => setNewVehicle((p) => ({ ...p, name: e.target.value }))}
-                    placeholder="e.g. Honda Airblade"
-                  />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="new_image_url">Image URL (optional)</Label>
+                    <Input
+                      id="new_image_url"
+                      value={newVehicle.image_url}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, image_url: e.target.value }))}
+                      placeholder="https://... or /image.webp"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="new_description">Short description (optional)</Label>
+                    <Textarea
+                      id="new_description"
+                      value={newVehicle.description}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, description: e.target.value }))}
+                      rows={2}
+                      placeholder="Shown on the booking page"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="new_inventory">Inventory</Label>
-                  <Input
-                    id="new_inventory"
-                    type="number"
-                    min={0}
-                    value={newVehicle.inventory_count}
-                    onChange={(e) => setNewVehicle((p) => ({ ...p, inventory_count: e.target.value }))}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="new_price">Price/day (USD)</Label>
-                  <Input
-                    id="new_price"
-                    type="number"
-                    min={0}
-                    value={newVehicle.price_per_day}
-                    onChange={(e) => setNewVehicle((p) => ({ ...p, price_per_day: e.target.value }))}
-                  />
-                </div>
-                <div className="md:col-span-5 flex gap-3">
+
+                <div className="flex gap-3">
                   <Button type="button" onClick={createVehicle} disabled={savingId === 'new'} className="bg-blue-600 hover:bg-blue-700">
                     {savingId === 'new' ? 'Adding…' : 'Add vehicle'}
                   </Button>

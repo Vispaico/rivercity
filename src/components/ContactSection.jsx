@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { MapPin, Phone, Mail, Clock, Send, Navigation } from "lucide-react";
+import { vehicleCatalog } from "@/lib/vehicleCatalog";
 
 const WhatsAppIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -138,6 +139,17 @@ const ContactSection = () => {
     });
     e.target.reset();
   };
+
+  const vehicleOptions = [
+    {
+      label: "Motorbikes",
+      items: (vehicleCatalog.motorbike || []).map((v) => ({ value: v.name, label: v.name })),
+    },
+    {
+      label: "Cars",
+      items: (vehicleCatalog.car || []).map((v) => ({ value: v.name, label: v.name })),
+    },
+  ];
 
   return (
     <section id="contact" className="py-20 bg-white">
@@ -462,12 +474,15 @@ const ContactSection = () => {
                     <option value="" disabled>
                       Select a vehicle
                     </option>
-                    <option value="Honda Wave 110cc">Honda Wave 110cc</option>
-                    <option value="Honda Airblade 125cc">Honda Airblade 125cc</option>
-                    <option value="Yamaha NVX 155cc">Yamaha NVX 155cc</option>
-                    <option value="VinFast Fadil">VinFast Fadil</option>
-                    <option value="Honda CR-V">Honda CR-V</option>
-                    <option value="VinFast Lux SA">VinFast Lux SA (7 seats)</option>
+                    {vehicleOptions.map((group) => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.items.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
                     <option value="Not sure yet">Not sure yet</option>
                   </select>
                 </div>

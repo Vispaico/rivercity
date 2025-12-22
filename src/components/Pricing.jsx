@@ -59,6 +59,23 @@ const motorbikePricing = [
     popular: false,
     ctaText: "Check NVX Availability",
   },
+  {
+    name: "Yamaha Exciter 150",
+    subtitle: "Sporty manual motorbike",
+    rates: [
+      { label: "Daily", value: "$10" },
+      { label: "Weekly", value: "$50" },
+      { label: "Monthly", value: "$100" },
+    ],
+    features: [
+      "Manual transmission for experienced riders",
+      "150cc engine with responsive acceleration",
+      "Includes 2 helmets + phone holder",
+      "Optional delivery within Haiphong (availability)",
+    ],
+    popular: false,
+    ctaText: "Reserve Exciter 150",
+  },
 ];
 
 const carPricing = [

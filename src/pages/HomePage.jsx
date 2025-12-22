@@ -55,6 +55,13 @@ const HomePage = () => {
       },
       {
         "@type": "Offer",
+        name: "Yamaha Exciter 150 Rental",
+        price: "10",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
         name: "VinFast Fadil Car Rental",
         price: "50",
         priceCurrency: "USD",
