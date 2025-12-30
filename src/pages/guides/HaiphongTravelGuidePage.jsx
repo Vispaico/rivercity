@@ -29,7 +29,7 @@ const HaiphongTravelGuidePage = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="mx-auto max-w-6xl">
           <div className="relative overflow-hidden rounded-3xl border bg-white shadow-lg">
-            <div className="relative h-64 sm:h-72 md:h-80">
+            <div className="relative h-56 sm:h-64">
               <img
                 src="/haiphong-port-scenic-view.webp"
                 alt="Haiphong: the port at golden hour."
