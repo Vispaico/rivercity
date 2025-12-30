@@ -38,7 +38,7 @@ const HaiphongTravelGuidePage = () => {
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-              <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-end"><br/>
+              <div className="absolute inset-0 p-8 pt-12 sm:p-10 flex flex-col justify-end">
                 <p className="text-xs uppercase tracking-[0.35em] text-white/80">Quick plan</p>
                 <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white max-w-2xl">
                   48 hours in Haiphong: eat crab noodles, ride somewhere green, and brag about it later.
