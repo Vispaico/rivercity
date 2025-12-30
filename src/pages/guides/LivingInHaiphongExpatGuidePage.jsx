@@ -77,8 +77,8 @@ const LivingInHaiphongExpatGuidePage = () => {
                     loading="eager"
                     decoding="async"
                   />
-                  <div className="absolute inset-1 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
-                  <div className="absolute inset-2 p-6 sm:p-10 flex flex-col justify-end">
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent" />
+                  <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-end"><br/>
                     <p className="text-xs uppercase tracking-[0.35em] text-white/80">Quick vibe check</p>
                     <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">
                       Haiphong is a working city. That’s the whole charm.
