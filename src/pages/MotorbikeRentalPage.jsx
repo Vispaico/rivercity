@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import VehicleCard from "@/components/VehicleCard";
 import PageHeader from "@/components/PageHeader";
 import ContactSection from "@/components/ContactSection";
 import CustomQuoteCard from "@/components/CustomQuoteCard";
 
-import { vehicleCatalog } from "@/lib/vehicleCatalog";
-
-const motorbikes = vehicleCatalog.motorbike;
+import { fetchVehiclesByCategory, mapDbVehicleToCardFormat } from "@/lib/vehicleDb";
 
 const MotorbikeRentalPage = () => {
+  const [motorbikes, setMotorbikes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadMotorbikes = async () => {
+      const data = await fetchVehiclesByCategory('motorbike');
+      const formatted = data.map(mapDbVehicleToCardFormat);
+      setMotorbikes(formatted);
+      setLoading(false);
+    };
+    loadMotorbikes();
+  }, []);
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VehicleRentalBusiness",
     name: "Rivercity Motorbike Rentals",
     url: "https://www.rivercitybikerentals.com/motorbikes",
     description:
-      "Rent Honda Airblade, Yamaha NVX, Yamaha Exciter 150 and Honda Wave motorbikes in Haiphong with helmets, insurance and 24/7 support.",
+      "Rent motorbikes in Haiphong with helmets, insurance and 24/7 support.",
     priceRange: "$4-$10",
     telephone: "+84902197160",
     makesOffer: motorbikes.map((bike) => ({
@@ -45,11 +56,21 @@ const MotorbikeRentalPage = () => {
         backgroundImage="https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200&auto=format&fit=crop"
       />
       <main className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {motorbikes.map((bike, index) => (
-            <VehicleCard key={index} vehicle={bike} index={index} type="motorbike" />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-700">Loading motorbikes...</p>
+          </div>
+        ) : motorbikes.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-700">No motorbikes available at the moment.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {motorbikes.map((bike, index) => (
+              <VehicleCard key={bike.id || index} vehicle={bike} index={index} type="motorbike" />
+            ))}
+          </div>
+        )}
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">

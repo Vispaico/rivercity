@@ -1,27 +1,25 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import useRevealInView from "@/hooks/useRevealInView";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
-import VehicleCard from "@/components/VehicleCard"; 
+import VehicleCard from "@/components/VehicleCard";
 
-import { vehicleCatalog } from "@/lib/vehicleCatalog";
+import { fetchAllVehicles, mapDbVehicleToCardFormat } from "@/lib/vehicleDb";
 
 const fleetCategories = [
   {
     id: "motorbikes",
     label: "Motorbikes",
     listPath: "/motorbikes",
-    type: "motorbike",
-    vehicles: vehicleCatalog.motorbike,
+    category: "motorbike",
   },
   {
     id: "cars",
     label: "Cars",
     listPath: "/cars",
-    type: "car",
-    vehicles: vehicleCatalog.car,
+    category: "car",
   },
 ];
 
@@ -29,6 +27,15 @@ const BikeShowcase = () => {
   const ref = useRef(null);
   const isInView = useRevealInView(ref, { once: true, amount: 0.1 });
   const controls = useAnimation();
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+    const loadVehicles = async () => {
+      const data = await fetchAllVehicles();
+      setVehicles(data);
+    };
+    loadVehicles();
+  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -58,44 +65,52 @@ const BikeShowcase = () => {
           </p>
         </motion.div>
 
-        {fleetCategories.map((category, categoryIndex) => (
-          <motion.div
-            key={category.id}
-            initial="hidden"
-            animate={controls}
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: categoryIndex * 0.2 } },
-            }}
-            className="mb-16"
-          >
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
-                {category.label}
-              </h3>
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6"
-                asChild
-              >
-                <Link to={category.listPath}>
-                  View All
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {category.vehicles.map((bike, index) => (
-                <VehicleCard 
-                  key={bike.slug || index} 
-                  vehicle={bike} 
-                  index={index} 
-                  type={category.type} 
-                />
-              ))}
-            </div>
-          </motion.div>
-        ))}
+        {fleetCategories.map((category, categoryIndex) => {
+          const categoryVehicles = vehicles.filter((v) => v.category === category.category);
+          if (categoryVehicles.length === 0) return null;
+
+          return (
+            <motion.div
+              key={category.id}
+              initial="hidden"
+              animate={controls}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: categoryIndex * 0.2 } },
+              }}
+              className="mb-16"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  {category.label}
+                </h3>
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6"
+                  asChild
+                >
+                  <Link to={category.listPath}>
+                    View All
+                    <ChevronRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {categoryVehicles.map((v, index) => {
+                  const mappedVehicle = mapDbVehicleToCardFormat(v);
+                  return (
+                    <VehicleCard
+                      key={v.id}
+                      vehicle={mappedVehicle}
+                      index={index}
+                      type={category.category}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );

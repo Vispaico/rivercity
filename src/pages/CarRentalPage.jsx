@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import PageHeader from "@/components/PageHeader";
 import VehicleCard from "@/components/VehicleCard";
 import ContactSection from "@/components/ContactSection";
 import CustomQuoteCard from "@/components/CustomQuoteCard";
 
-import { vehicleCatalog } from "@/lib/vehicleCatalog";
-
-const cars = vehicleCatalog.car;
+import { fetchVehiclesByCategory, mapDbVehicleToCardFormat } from "@/lib/vehicleDb";
 
 const CarRentalPage = () => {
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCars = async () => {
+      const data = await fetchVehiclesByCategory('car');
+      const formatted = data.map(mapDbVehicleToCardFormat);
+      setCars(formatted);
+      setLoading(false);
+    };
+    loadCars();
+  }, []);
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "VehicleRentalBusiness",
     name: "Rivercity Car Rentals",
     url: "https://www.rivercitybikerentals.com/cars",
     description:
-      "Hire VinFast and Honda cars in Haiphong with airport pickup, driver services and premium insurance options.",
+      "Hire cars in Haiphong with airport pickup, driver services and premium insurance options.",
     priceRange: "$50-$130",
     telephone: "+84902197160",
     areaServed: "Haiphong, Cat Bi Airport, Ha Long Bay",
@@ -47,11 +58,21 @@ const CarRentalPage = () => {
       />
       <section className="py-16 lg:py-24 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {cars.map((car, index) => (
-              <VehicleCard key={index} vehicle={car} index={index} type="car" />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-gray-700">Loading cars...</p>
+            </div>
+          ) : cars.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-700">No cars available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {cars.map((car, index) => (
+                <VehicleCard key={car.id || index} vehicle={car} index={index} type="car" />
+              ))}
+            </div>
+          )}
 
           <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
