@@ -37,6 +37,15 @@ export const fetchVehiclesByCategory = async (category) => {
 
 export const mapDbVehicleToCardFormat = (dbVehicle) => {
   const dailyPrice = Number(dbVehicle.price_per_day) || 0;
+  const nameLower = dbVehicle.name.toLowerCase();
+
+  let slug = slugify(dbVehicle.name);
+
+  // Map specific database vehicles to their catalog slugs
+  if (nameLower.includes('vinfast') && nameLower.includes('feliz')) {
+    slug = 'vinfast-feliz';
+  }
+
   return {
     id: dbVehicle.id,
     category: dbVehicle.category,
@@ -47,7 +56,7 @@ export const mapDbVehicleToCardFormat = (dbVehicle) => {
     priceWeek: (dailyPrice * 5).toString(),
     priceMonth: (dailyPrice * 10).toString(),
     bookingQuery: dbVehicle.name,
-    slug: slugify(dbVehicle.name),
+    slug: slug,
     specs: [],
   };
 };
