@@ -26,15 +26,16 @@ export const fetchVehiclesByCategory = async (category) => {
 };
 
 export const mapDbVehicleToCardFormat = (dbVehicle) => {
+  const dailyPrice = Number(dbVehicle.price_per_day) || 0;
   return {
     id: dbVehicle.id,
     category: dbVehicle.category,
     name: dbVehicle.name,
     description: dbVehicle.description,
     image: dbVehicle.image_url,
-    price: dbVehicle.price_per_day?.toString() || '0',
-    priceWeek: null,
-    priceMonth: null,
+    price: dailyPrice.toString(),
+    priceWeek: (dailyPrice * 5).toString(),
+    priceMonth: (dailyPrice * 10).toString(),
     bookingQuery: dbVehicle.name,
     slug: null,
     specs: [],
