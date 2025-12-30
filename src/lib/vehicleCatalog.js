@@ -187,6 +187,52 @@ export const vehicleCatalog = {
         ],
       },
     },
+    {
+      category: 'motorbike',
+      slug: 'vinfast-feliz',
+      name: 'VinFast Feliz',
+      bookingQuery: 'Feliz',
+      brand: 'VinFast',
+      model: 'Feliz',
+      price: '7',
+      priceWeek: '35',
+      priceMonth: '70',
+      image: '/vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp',
+      imageSrcSet:
+        '/vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 300w, /vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 600w, /vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 900w',
+      description: 'Eco-friendly electric scooter with quiet ride and low operating cost, perfect for city commuting.',
+      specs: [
+        { type: 'engine', value: 'Electric' },
+        { type: 'transmission', value: 'Automatic' },
+        { type: 'capacity', value: '2 Persons' },
+        { type: 'feature', value: 'Eco-friendly' },
+      ],
+      detailSpecs: [
+        { label: 'Type', value: 'Electric scooter' },
+        { label: 'Power', value: 'Electric motor' },
+        { label: 'Charge time', value: '4-6 hours (typical)' },
+        { label: 'Range', value: '80-130km per charge (typical)' },
+        { label: 'Best use', value: 'City commuting + short trips + eco-friendly travel' },
+      ],
+      included: ['2 helmets', 'Phone holder', 'Charger included', '24/7 support'],
+      bestFor: ['Eco-conscious riders', 'City commuting', 'Quiet rides'],
+      seo: {
+        metaTitle: 'VinFast Feliz Rental Haiphong | Electric Scooter | $7/Day | Book Now',
+        metaDescription:
+          'Rent a VinFast Feliz electric scooter in Haiphong for eco-friendly silent rides. Zero emissions, low running cost, helmets included, and convenient charging.',
+        longTailKeywords: [
+          'VinFast Feliz electric scooter rental in Haiphong',
+          'Eco-friendly scooter hire in Haiphong Vietnam',
+          'Electric motorbike rental Haiphong with helmets',
+          'Best electric scooter for Haiphong city commuting',
+        ],
+        aiSummaryBullets: [
+          'VinFast Feliz is an electric scooter for emissions-free Haiphong city riding with quiet operation.',
+          'Daily price is $7 and it includes helmets plus phone holder for navigation.',
+          'Book online for convenient pickup and enjoy silent zero-emission rides.',
+        ],
+      },
+    },
   ],
   car: [
     {
