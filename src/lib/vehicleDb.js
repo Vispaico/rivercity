@@ -1,5 +1,15 @@
 import { supabase } from '@/lib/supabaseClient';
 
+const slugify = (text) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+};
+
 export const fetchAllVehicles = async () => {
   if (!supabase) {
     return [];
@@ -37,7 +47,7 @@ export const mapDbVehicleToCardFormat = (dbVehicle) => {
     priceWeek: (dailyPrice * 5).toString(),
     priceMonth: (dailyPrice * 10).toString(),
     bookingQuery: dbVehicle.name,
-    slug: null,
+    slug: slugify(dbVehicle.name),
     specs: [],
   };
 };
