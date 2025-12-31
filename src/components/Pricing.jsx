@@ -48,7 +48,7 @@ const motorbikePricing = [
     rates: [
       { label: "Daily", value: "$7" },
       { label: "Weekly", value: "$35" },
-      { label: "Monthly", value: "$100" },
+      { label: "Monthly", value: "$80" },
     ],
     features: [
       "Spacious under-seat storage",
@@ -63,8 +63,8 @@ const motorbikePricing = [
     name: "Yamaha Exciter 150",
     subtitle: "Sporty manual motorbike",
     rates: [
-      { label: "Daily", value: "$10" },
-      { label: "Weekly", value: "$50" },
+      { label: "Daily", value: "$9" },
+      { label: "Weekly", value: "$45" },
       { label: "Monthly", value: "$100" },
     ],
     features: [
@@ -116,7 +116,7 @@ const carPricing = [
     name: "Sedan / Small SUV",
     subtitle: "Honda CRV or similar",
     rates: [
-      { label: "Daily", value: "$80" },
+      { label: "Daily", value: "$90" },
       { label: "Weekly", value: "$400" },
       { label: "Monthly", value: "$900" },
     ],

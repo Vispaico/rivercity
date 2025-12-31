@@ -14,7 +14,7 @@ export const vehicleCatalog = {
       model: 'Airblade',
       price: '7',
       priceWeek: '35',
-      priceMonth: '60',
+      priceMonth: '80',
       image: 'https://res.cloudinary.com/kinhcode01/image/upload/f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp',
       imageSrcSet:
         'https://res.cloudinary.com/kinhcode01/image/upload/w_300,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 300w, https://res.cloudinary.com/kinhcode01/image/upload/w_600,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 600w, https://res.cloudinary.com/kinhcode01/image/upload/w_900,f_auto,q_auto/v1761196452/rvc/airblade_r8xuni.webp 900w',
@@ -104,8 +104,8 @@ export const vehicleCatalog = {
       bookingQuery: 'Yamaha Exciter 150',
       brand: 'Yamaha',
       model: 'Exciter 150',
-      price: '10',
-      priceWeek: '50',
+      price: '9',
+      priceWeek: '45',
       priceMonth: '100',
       image: '/yamaha-exciter-150cc-manual-rental-haiphong-side-view.webp',
       description: 'Manual motorbike with powerful engine,  for the experienced rider.',
@@ -290,9 +290,9 @@ export const vehicleCatalog = {
       bookingQuery: 'CRV',
       brand: 'Honda',
       model: 'CR-V',
-      price: '80',
+      price: '90',
       priceWeek: '400',
-      priceMonth: '850',
+      priceMonth: '900',
       image:
         'https://images.unsplash.com/photo-1623597780975-38ccd5030c83?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       imageSrcSet:
@@ -314,7 +314,7 @@ export const vehicleCatalog = {
       included: ['Air conditioning', 'VETC toll card', 'Optional airport pickup', 'Optional driver'],
       bestFor: ['Families', 'Business travel', 'Comfortable long drives'],
       seo: {
-        metaTitle: 'Honda CR-V Rental Haiphong | Comfortable SUV | $80/Day | Airport Pickup',
+        metaTitle: 'Honda CR-V Rental Haiphong | Comfortable SUV | $90/Day | Airport Pickup',
         metaDescription:
           'Reserve a Honda CR-V in Haiphong for comfortable travel with space for luggage. Transparent pricing, optional airport pickup, and professional driver service.',
         longTailKeywords: [
@@ -325,7 +325,7 @@ export const vehicleCatalog = {
         ],
         aiSummaryBullets: [
           'Honda CR-V is a comfortable SUV rental option in Haiphong with extra space for people and luggage.',
-          'Daily price is $80 with optional airport pickup and a professional driver add-on.',
+          'Daily price is $90 with optional airport pickup and a professional driver add-on.',
           'Book online for city travel, business trips, or longer drives from Haiphong.',
         ],
       },
