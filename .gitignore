@@ -1,8 +1,8 @@
 .env.local
 rivercity.txt
 rivercity-projectbrief.md
-supabase/booking_schema.sql
-partner_marketplace_schema.sql
+supabase/
 hubpages.md
 seo-image-naming-strategy.md
 rivercitynewarticles.md
+new_articles.md
