@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { addDays, differenceInCalendarDays } from 'date-fns';
 import PageHeader from '@/components/PageHeader';
@@ -94,6 +94,40 @@ const BookingPage = () => {
     return map;
   }, [vehicles]);
 
+  const computeBestTotal = useCallback((days, dayPrice, weekPrice, monthPrice) => {
+    if (!Number.isFinite(days) || days <= 0 || !Number.isFinite(dayPrice)) return null;
+
+    let bestTotal = dayPrice * days;
+    let label = 'daily';
+
+    const maxMonths = Math.ceil(days / 30);
+
+    for (let m = 0; m <= maxMonths; m += 1) {
+      const afterMonths = days - m * 30;
+      if (afterMonths < 0) continue;
+      if (m > 0 && !Number.isFinite(monthPrice)) continue;
+
+      const maxWeeks = Math.ceil(afterMonths / 7);
+      for (let w = 0; w <= maxWeeks; w += 1) {
+        const remaining = afterMonths - w * 7;
+        if (remaining < 0) continue;
+        if (w > 0 && !Number.isFinite(weekPrice)) continue;
+
+        const total =
+          (m > 0 && Number.isFinite(monthPrice) ? m * monthPrice : 0) +
+          (w > 0 && Number.isFinite(weekPrice) ? w * weekPrice : 0) +
+          remaining * dayPrice;
+
+        if (bestTotal === null || total < bestTotal) {
+          bestTotal = total;
+          label = m > 0 ? 'monthly bundle' : w > 0 ? 'weekly bundle' : 'daily';
+        }
+      }
+    }
+
+    return { total: bestTotal, label };
+  }, []);
+
   const pricingSummary = useMemo(() => {
     if (!dayCount || dayCount <= 0) return null;
     const items = selectedItems.map((item) => {
@@ -103,24 +137,15 @@ const BookingPage = () => {
       const month = Number(v.price_per_month);
 
       const baseTotal = Number.isFinite(day) ? day * dayCount : null;
-      let bestTotal = baseTotal;
-      let applied = 'daily';
+      const best = computeBestTotal(dayCount, day, week, month);
+      const bestTotal = best ? best.total : null;
+      const applied = best ? best.label : 'daily';
 
-      if (Number.isFinite(week) && (bestTotal === null || week < bestTotal)) {
-        bestTotal = week;
-        applied = 'weekly';
-      }
-
-      if (Number.isFinite(month) && (bestTotal === null || month < bestTotal)) {
-        bestTotal = month;
-        applied = 'monthly';
-      }
-
-      const effectiveDaily = bestTotal !== null ? bestTotal / dayCount : null;
       const qty = item.qty;
       const baseWithQty = baseTotal !== null ? baseTotal * qty : null;
       const bestWithQty = bestTotal !== null ? bestTotal * qty : null;
       const discount = baseWithQty !== null && bestWithQty !== null ? Math.max(0, baseWithQty - bestWithQty) : 0;
+      const effectiveDaily = bestTotal !== null ? bestTotal / dayCount : null;
 
       return {
         vehicleId: item.vehicleId,
@@ -151,7 +176,7 @@ const BookingPage = () => {
     );
 
     return { items, totals };
-  }, [dayCount, selectedItems, vehiclesById]);
+  }, [computeBestTotal, dayCount, selectedItems, vehiclesById]);
 
   const groupedVehicles = useMemo(() => groupByCategory(vehicles), [vehicles]);
 

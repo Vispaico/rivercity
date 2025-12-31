@@ -44,6 +44,39 @@ const diffDays = (startDateStr, endDateStr) => {
   return Number.isFinite(days) ? days : null;
 };
 
+const computeBestTotal = (days, dayPrice, weekPrice, monthPrice) => {
+  if (!Number.isFinite(days) || days <= 0 || !Number.isFinite(dayPrice)) return null;
+
+  let bestTotal = dayPrice * days;
+  let label = 'daily';
+
+  const maxMonths = Math.ceil(days / 30);
+  for (let m = 0; m <= maxMonths; m += 1) {
+    const afterMonths = days - m * 30;
+    if (afterMonths < 0) continue;
+    if (m > 0 && !Number.isFinite(monthPrice)) continue;
+
+    const maxWeeks = Math.ceil(afterMonths / 7);
+    for (let w = 0; w <= maxWeeks; w += 1) {
+      const remaining = afterMonths - w * 7;
+      if (remaining < 0) continue;
+      if (w > 0 && !Number.isFinite(weekPrice)) continue;
+
+      const total =
+        (m > 0 && Number.isFinite(monthPrice) ? m * monthPrice : 0) +
+        (w > 0 && Number.isFinite(weekPrice) ? w * weekPrice : 0) +
+        remaining * dayPrice;
+
+      if (bestTotal === null || total < bestTotal) {
+        bestTotal = total;
+        label = m > 0 ? 'monthly bundle' : w > 0 ? 'weekly bundle' : 'daily';
+      }
+    }
+  }
+
+  return { total: bestTotal, label };
+};
+
 const computePricingSummary = (items = [], dayCount = 0) => {
   if (!dayCount || dayCount <= 0) return { items: [], totals: { base: 0, best: 0, discount: 0 } };
 
@@ -53,15 +86,10 @@ const computePricingSummary = (items = [], dayCount = 0) => {
     const day = Number(vehicle.price_per_day);
     const week = Number(vehicle.price_per_week);
     const month = Number(vehicle.price_per_month);
-    const effective = Number(it?.unit_price_per_day);
+    const best = computeBestTotal(dayCount, day, week, month);
+    const bestTotal = best ? best.total : null;
 
     const baseTotal = Number.isFinite(day) ? day * dayCount : null;
-    const bestTotal = Number.isFinite(effective) ? effective * dayCount : baseTotal;
-
-    let applied = 'daily';
-    if (Number.isFinite(week) && Number.isFinite(bestTotal) && week <= bestTotal + 1e-6) applied = 'weekly';
-    if (Number.isFinite(month) && Number.isFinite(bestTotal) && month <= bestTotal + 1e-6) applied = 'monthly';
-
     const baseWithQty = baseTotal !== null ? baseTotal * qty : null;
     const bestWithQty = bestTotal !== null ? bestTotal * qty : null;
     const discount = baseWithQty !== null && bestWithQty !== null ? Math.max(0, baseWithQty - bestWithQty) : 0;
@@ -72,7 +100,7 @@ const computePricingSummary = (items = [], dayCount = 0) => {
       baseWithQty,
       bestWithQty,
       discount,
-      applied,
+      applied: best?.label || 'daily',
     };
   });
 

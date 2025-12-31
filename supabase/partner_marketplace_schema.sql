@@ -232,6 +232,10 @@ declare
   v_base_total numeric;
   v_best_total numeric;
   v_effective_daily numeric;
+  v_months integer;
+  v_weeks integer;
+  v_remaining integer;
+  v_total numeric;
   v_owner uuid;
 begin
   if p_start_date is null or p_end_date is null then
@@ -306,17 +310,41 @@ begin
     v_base_total := case when v_price is null then null else v_price * v_days end;
     v_best_total := v_base_total;
 
-    if v_price_week is not null then
-      if v_best_total is null or v_price_week < v_best_total then
-        v_best_total := v_price_week;
+    for v_months in 0..ceil(v_days / 30.0)::integer loop
+      if v_months > 0 and v_price_month is null then
+        continue;
       end if;
-    end if;
 
-    if v_price_month is not null then
-      if v_best_total is null or v_price_month < v_best_total then
-        v_best_total := v_price_month;
+      v_remaining := v_days - (v_months * 30);
+      if v_remaining < 0 then
+        continue;
       end if;
-    end if;
+
+      for v_weeks in 0..ceil(v_remaining / 7.0)::integer loop
+        if v_weeks > 0 and v_price_week is null then
+          continue;
+        end if;
+
+        v_total := 0;
+        if v_months > 0 then
+          v_total := v_total + (v_months * v_price_month);
+        end if;
+        if v_weeks > 0 then
+          v_total := v_total + (v_weeks * v_price_week);
+        end if;
+
+        v_remaining := v_days - (v_months * 30) - (v_weeks * 7);
+        if v_remaining < 0 then
+          continue;
+        end if;
+
+        v_total := v_total + (v_remaining * v_price);
+
+        if v_best_total is null or v_total < v_best_total then
+          v_best_total := v_total;
+        end if;
+      end loop;
+    end loop;
 
     if v_best_total is null then
       raise exception 'Vehicle pricing is not configured';
