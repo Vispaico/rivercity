@@ -100,23 +100,22 @@ const BookingPage = () => {
     let bestTotal = dayPrice * days;
     let label = 'daily';
 
-    const maxMonths = Math.ceil(days / 30);
+    const maxMonths = Math.ceil(days / 30) + 1;
+    const maxWeeks = Math.ceil(days / 7) + 1;
 
     for (let m = 0; m <= maxMonths; m += 1) {
-      const afterMonths = days - m * 30;
-      if (afterMonths < 0) continue;
       if (m > 0 && !Number.isFinite(monthPrice)) continue;
 
-      const maxWeeks = Math.ceil(afterMonths / 7);
       for (let w = 0; w <= maxWeeks; w += 1) {
-        const remaining = afterMonths - w * 7;
-        if (remaining < 0) continue;
         if (w > 0 && !Number.isFinite(weekPrice)) continue;
+
+        const remaining = days - m * 30 - w * 7;
+        const rem = remaining > 0 ? remaining : 0;
 
         const total =
           (m > 0 && Number.isFinite(monthPrice) ? m * monthPrice : 0) +
           (w > 0 && Number.isFinite(weekPrice) ? w * weekPrice : 0) +
-          remaining * dayPrice;
+          rem * dayPrice;
 
         if (bestTotal === null || total < bestTotal) {
           bestTotal = total;

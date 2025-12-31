@@ -310,19 +310,19 @@ begin
     v_base_total := case when v_price is null then null else v_price * v_days end;
     v_best_total := v_base_total;
 
-    for v_months in 0..ceil(v_days / 30.0)::integer loop
+    for v_months in 0..(ceil(v_days / 30.0)::integer + 1) loop
       if v_months > 0 and v_price_month is null then
         continue;
       end if;
 
-      v_remaining := v_days - (v_months * 30);
-      if v_remaining < 0 then
-        continue;
-      end if;
-
-      for v_weeks in 0..ceil(v_remaining / 7.0)::integer loop
+      for v_weeks in 0..(ceil(v_days / 7.0)::integer + 1) loop
         if v_weeks > 0 and v_price_week is null then
           continue;
+        end if;
+
+        v_remaining := v_days - (v_months * 30) - (v_weeks * 7);
+        if v_remaining < 0 then
+          v_remaining := 0;
         end if;
 
         v_total := 0;
@@ -331,11 +331,6 @@ begin
         end if;
         if v_weeks > 0 then
           v_total := v_total + (v_weeks * v_price_week);
-        end if;
-
-        v_remaining := v_days - (v_months * 30) - (v_weeks * 7);
-        if v_remaining < 0 then
-          continue;
         end if;
 
         v_total := v_total + (v_remaining * v_price);
