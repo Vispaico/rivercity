@@ -48,6 +48,13 @@ const HomePage = () => {
       },
       {
         "@type": "Offer",
+        name: "VinFast Feliz Electric Scooter Rental",
+        price: "8",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
         name: "Yamaha NVX 155cc Rental",
         price: "10",
         priceCurrency: "USD",

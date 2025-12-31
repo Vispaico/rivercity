@@ -9,21 +9,38 @@ import VispaicoContactModal from "@/components/VispaicoContactModal";
 
 const motorbikePricing = [
   {
-    name: "Honda Wave 110cc",
-    subtitle: "Budget-friendly city rider",
+    name: "Yamaha NVX 155cc",
+    subtitle: "Premium touring scooter",
     rates: [
-      { label: "Daily", value: "$4" },
-      { label: "Weekly", value: "$20" },
-      { label: "Monthly", value: "$60" },
+      { label: "Daily", value: "$10" },
+      { label: "Weekly", value: "$50" },
+      { label: "Monthly", value: "$150" },
     ],
     features: [
-      "Perfect for city trips and countryside cruising",
-      "Half-automatic transmission",
-      "Free helmets, phone holder & rain poncho",
+      "Powerful 155cc engine & sport suspension",
+      "ABS + traction control for confident riding",
+      "Long-range comfort seat",
+      "Includes waterproof luggage bag",
+    ],
+    popular: false,
+    ctaText: "Check NVX Availability",
+  },
+  {
+    name: "Vinfast Feliz Electric Scooter",
+    subtitle: "Eco-friendly city rider",
+    rates: [
+      { label: "Daily", value: "$8" },
+      { label: "Weekly", value: "$40" },
+      { label: "Monthly", value: "$90" },
+    ],
+    features: [
+      "Perfect for city trips and short trips and eco-friendly travel.",
+      "Automatic transmission",
+      "Free helmets, charger, phone holder & rain poncho",
       "Optional damage waiver available",
     ],
     popular: false,
-    ctaText: "Reserve Honda Wave",
+    ctaText: "Reserve Vinfast Feliz",
   },
   {
     name: "Honda Airblade 125cc",
@@ -43,23 +60,6 @@ const motorbikePricing = [
     ctaText: "Book Airblade Now",
   },
   {
-    name: "Yamaha NVX 155cc",
-    subtitle: "Premium touring scooter",
-    rates: [
-      { label: "Daily", value: "$10" },
-      { label: "Weekly", value: "$50" },
-      { label: "Monthly", value: "$150" },
-    ],
-    features: [
-      "Powerful 155cc engine & sport suspension",
-      "ABS + traction control for confident riding",
-      "Long-range comfort seat",
-      "Includes waterproof luggage bag",
-    ],
-    popular: false,
-    ctaText: "Check NVX Availability",
-  },
-  {
     name: "Yamaha Exciter 150",
     subtitle: "Sporty manual motorbike",
     rates: [
@@ -75,6 +75,22 @@ const motorbikePricing = [
     ],
     popular: false,
     ctaText: "Reserve Exciter 150",
+  },{
+    name: "Honda Wave 110cc",
+    subtitle: "Budget-friendly city rider",
+    rates: [
+      { label: "Daily", value: "$4" },
+      { label: "Weekly", value: "$20" },
+      { label: "Monthly", value: "$60" },
+    ],
+    features: [
+      "Perfect for city trips and countryside cruising",
+      "Half-automatic transmission",
+      "Free helmets, phone holder & rain poncho",
+      "Optional damage waiver available",
+    ],
+    popular: false,
+    ctaText: "Reserve Honda Wave",
   },
 ];
 
