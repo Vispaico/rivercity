@@ -14,6 +14,10 @@ alter table public.vehicles
 alter table public.vehicles
   add column if not exists listing_status text;
 
+alter table public.vehicles
+  add column if not exists price_per_week numeric,
+  add column if not exists price_per_month numeric;
+
 do $$
 begin
   if not exists (
@@ -330,7 +334,9 @@ $$;
 
 create or replace function public.approve_vehicle_listing(
   p_vehicle_id uuid,
-  p_price_per_day numeric
+  p_price_per_day numeric,
+  p_price_per_week numeric default null,
+  p_price_per_month numeric default null
 )
 returns void
 language plpgsql
@@ -346,8 +352,18 @@ begin
     raise exception 'price_per_day must be > 0';
   end if;
 
+  if p_price_per_week is not null and p_price_per_week <= 0 then
+    raise exception 'price_per_week must be null or > 0';
+  end if;
+
+  if p_price_per_month is not null and p_price_per_month <= 0 then
+    raise exception 'price_per_month must be null or > 0';
+  end if;
+
   update public.vehicles
      set price_per_day = p_price_per_day,
+         price_per_week = p_price_per_week,
+         price_per_month = p_price_per_month,
          inventory_count = 1,
          active = true,
          listing_status = 'approved',
@@ -380,6 +396,8 @@ begin
   update public.vehicles
      set active = false,
          price_per_day = null,
+         price_per_week = null,
+         price_per_month = null,
          listing_status = 'rejected',
          rejected_at = now(),
          rejection_reason = p_reason

@@ -81,7 +81,7 @@ const PartnerPortalPage = () => {
       supabase
         .from('vehicles')
         .select(
-          'id, category, name, description, image_url, active, listing_status, submitted_at, approved_at, rejected_at, rejection_reason, price_per_day, created_at'
+          'id, category, name, description, image_url, active, listing_status, submitted_at, approved_at, rejected_at, rejection_reason, price_per_day, price_per_week, price_per_month, created_at'
         )
         .eq('owner_user_id', user.id)
         .order('created_at', { ascending: false }),
@@ -245,6 +245,8 @@ const PartnerPortalPage = () => {
         active: false,
         listing_status: 'draft',
         price_per_day: null,
+        price_per_week: null,
+        price_per_month: null,
       },
     ]);
 
@@ -606,7 +608,9 @@ const PartnerPortalPage = () => {
                           {v.rejection_reason ? <p className="text-xs text-red-600">Reason: {v.rejection_reason}</p> : null}
                         </div>
                         <div className="text-sm text-gray-700">
-                          {v.price_per_day ? <p><span className="font-semibold">Price:</span> ${safeNumber(v.price_per_day)}/day</p> : <p className="text-gray-500">Price: pending</p>}
+                          <p><span className="font-semibold">Price/day:</span> {v.price_per_day ? `$${safeNumber(v.price_per_day)}` : '—'}</p>
+                          <p><span className="font-semibold">Price/week:</span> {v.price_per_week ? `$${safeNumber(v.price_per_week)}` : '—'}</p>
+                          <p><span className="font-semibold">Price/month:</span> {v.price_per_month ? `$${safeNumber(v.price_per_month)}` : '—'}</p>
                           <p className={v.active ? 'text-green-700 font-semibold' : 'text-gray-600 font-semibold'}>{v.active ? 'Active' : 'Inactive'}</p>
                         </div>
                       </div>

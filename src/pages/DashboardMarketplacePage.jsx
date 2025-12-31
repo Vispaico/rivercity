@@ -26,7 +26,9 @@ const DashboardMarketplacePage = () => {
 
   const [loadingListings, setLoadingListings] = useState(true);
   const [listings, setListings] = useState([]);
-  const [priceById, setPriceById] = useState({});
+  const [priceDayById, setPriceDayById] = useState({});
+  const [priceWeekById, setPriceWeekById] = useState({});
+  const [priceMonthById, setPriceMonthById] = useState({});
   const [approvingId, setApprovingId] = useState(null);
   const [rejectingId, setRejectingId] = useState(null);
   const [rejectReasonById, setRejectReasonById] = useState({});
@@ -50,7 +52,7 @@ const DashboardMarketplacePage = () => {
     setLoadingListings(true);
     const { data, error } = await supabase
       .from('vehicles')
-      .select('id, category, name, description, image_url, owner_user_id, listing_status, submitted_at, approved_at, rejected_at, rejection_reason, price_per_day, active, created_at')
+      .select('id, category, name, description, image_url, owner_user_id, listing_status, submitted_at, approved_at, rejected_at, rejection_reason, price_per_day, price_per_week, price_per_month, active, created_at')
       .not('owner_user_id', 'is', null)
       .order('submitted_at', { ascending: false })
       .order('created_at', { ascending: false });
@@ -64,10 +66,24 @@ const DashboardMarketplacePage = () => {
     } else {
       setSchemaMissing(false);
       setListings(data || []);
-      setPriceById((prev) => {
+      setPriceDayById((prev) => {
         const next = { ...prev };
         for (const v of data || []) {
           if (next[v.id] === undefined) next[v.id] = v.price_per_day ?? '';
+        }
+        return next;
+      });
+      setPriceWeekById((prev) => {
+        const next = { ...prev };
+        for (const v of data || []) {
+          if (next[v.id] === undefined) next[v.id] = v.price_per_week ?? '';
+        }
+        return next;
+      });
+      setPriceMonthById((prev) => {
+        const next = { ...prev };
+        for (const v of data || []) {
+          if (next[v.id] === undefined) next[v.id] = v.price_per_month ?? '';
         }
         return next;
       });
@@ -146,14 +162,35 @@ const DashboardMarketplacePage = () => {
 
   const approve = async (vehicleId) => {
     if (!supabase) return;
-    const raw = priceById[vehicleId];
-    const price = safeNumber(raw);
-    if (!price || price <= 0) {
+    const dayRaw = priceDayById[vehicleId];
+    const weekRaw = priceWeekById[vehicleId];
+    const monthRaw = priceMonthById[vehicleId];
+
+    const priceDay = safeNumber(dayRaw);
+    const priceWeek = safeNumber(weekRaw);
+    const priceMonth = safeNumber(monthRaw);
+
+    if (!priceDay || priceDay <= 0) {
       toast({ title: 'Price required', description: 'Enter a valid price/day.', variant: 'destructive' });
       return;
     }
+
+    if (priceWeek !== null && priceWeek <= 0) {
+      toast({ title: 'Weekly price invalid', description: 'Weekly price must be blank or greater than 0.', variant: 'destructive' });
+      return;
+    }
+
+    if (priceMonth !== null && priceMonth <= 0) {
+      toast({ title: 'Monthly price invalid', description: 'Monthly price must be blank or greater than 0.', variant: 'destructive' });
+      return;
+    }
     setApprovingId(vehicleId);
-    const { error } = await supabase.rpc('approve_vehicle_listing', { p_vehicle_id: vehicleId, p_price_per_day: price });
+    const { error } = await supabase.rpc('approve_vehicle_listing', {
+      p_vehicle_id: vehicleId,
+      p_price_per_day: priceDay,
+      p_price_per_week: priceWeek,
+      p_price_per_month: priceMonth,
+    });
     if (error) {
       toast({ title: 'Approve failed', description: error.message, variant: 'destructive' });
       setApprovingId(null);
@@ -282,19 +319,39 @@ const DashboardMarketplacePage = () => {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+                        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
                           <div>
                             <Label htmlFor={`price_${v.id}`}>Price/day (USD)</Label>
                             <Input
                               id={`price_${v.id}`}
                               type="number"
                               min={0}
-                              value={priceById[v.id] ?? ''}
-                              onChange={(e) => setPriceById((p) => ({ ...p, [v.id]: e.target.value }))}
+                              value={priceDayById[v.id] ?? ''}
+                              onChange={(e) => setPriceDayById((p) => ({ ...p, [v.id]: e.target.value }))}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor={`price_week_${v.id}`}>Price/week (USD)</Label>
+                            <Input
+                              id={`price_week_${v.id}`}
+                              type="number"
+                              min={0}
+                              value={priceWeekById[v.id] ?? ''}
+                              onChange={(e) => setPriceWeekById((p) => ({ ...p, [v.id]: e.target.value }))}
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor={`price_month_${v.id}`}>Price/month (USD)</Label>
+                            <Input
+                              id={`price_month_${v.id}`}
+                              type="number"
+                              min={0}
+                              value={priceMonthById[v.id] ?? ''}
+                              onChange={(e) => setPriceMonthById((p) => ({ ...p, [v.id]: e.target.value }))}
                             />
                           </div>
                           <div className="flex gap-2">
-                            <Button type="button" onClick={() => approve(v.id)} disabled={approvingId === v.id} className="bg-blue-600 hover:bg-blue-700">
+                            <Button type="button" onClick={() => approve(v.id)} disabled={approvingId === v.id} className="bg-blue-600 hover:bg-blue-700 w-full">
                               {approvingId === v.id ? 'Approving…' : 'Approve'}
                             </Button>
                           </div>
@@ -342,7 +399,9 @@ const DashboardMarketplacePage = () => {
                         {v.rejection_reason ? <p className="text-red-600">Reason: {v.rejection_reason}</p> : null}
                       </div>
                       <div className="text-sm text-gray-800">
-                        <p>Price: <span className="font-semibold">{v.price_per_day ? `$${safeNumber(v.price_per_day)}/day` : '—'}</span></p>
+                        <p>Price/day: <span className="font-semibold">{v.price_per_day ? `$${safeNumber(v.price_per_day)}` : '—'}</span></p>
+                        <p>Price/week: <span className="font-semibold">{v.price_per_week ? `$${safeNumber(v.price_per_week)}` : '—'}</span></p>
+                        <p>Price/month: <span className="font-semibold">{v.price_per_month ? `$${safeNumber(v.price_per_month)}` : '—'}</span></p>
                         <p className={v.active ? 'text-green-700 font-semibold' : 'text-gray-600 font-semibold'}>{v.active ? 'Active' : 'Inactive'}</p>
                       </div>
                     </div>

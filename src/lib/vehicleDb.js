@@ -17,7 +17,7 @@ export const fetchAllVehicles = async () => {
 
   const { data, error } = await supabase
     .from('vehicles')
-    .select('id, category, name, description, image_url, price_per_day, inventory_count, active, sort_order')
+    .select('id, category, name, description, image_url, price_per_day, price_per_week, price_per_month, inventory_count, active, sort_order')
     .eq('active', true)
     .order('sort_order', { ascending: true })
     .order('name', { ascending: true });
@@ -36,7 +36,13 @@ export const fetchVehiclesByCategory = async (category) => {
 };
 
 export const mapDbVehicleToCardFormat = (dbVehicle) => {
-  const dailyPrice = Number(dbVehicle.price_per_day) || 0;
+  const day = Number(dbVehicle.price_per_day);
+  const week = Number(dbVehicle.price_per_week);
+  const month = Number(dbVehicle.price_per_month);
+
+  const dailyPrice = Number.isFinite(day) ? day : null;
+  const weeklyPrice = Number.isFinite(week) ? week : dailyPrice !== null ? dailyPrice * 5 : null;
+  const monthlyPrice = Number.isFinite(month) ? month : dailyPrice !== null ? dailyPrice * 10 : null;
   const nameLower = dbVehicle.name.toLowerCase();
 
   let slug = slugify(dbVehicle.name);
@@ -60,9 +66,9 @@ export const mapDbVehicleToCardFormat = (dbVehicle) => {
     name: dbVehicle.name,
     description: dbVehicle.description,
     image: dbVehicle.image_url,
-    price: dailyPrice.toString(),
-    priceWeek: (dailyPrice * 5).toString(),
-    priceMonth: (dailyPrice * 10).toString(),
+    price: dailyPrice !== null ? dailyPrice.toString() : '',
+    priceWeek: weeklyPrice !== null ? weeklyPrice.toString() : '',
+    priceMonth: monthlyPrice !== null ? monthlyPrice.toString() : '',
     bookingQuery: dbVehicle.name,
     slug: slug,
     specs: [],

@@ -26,6 +26,8 @@ const DashboardVehiclesPage = () => {
         category: v.category,
         name: v.name,
         price_per_day: v.price ?? '',
+        price_per_week: v.priceWeek ?? '',
+        price_per_month: v.priceMonth ?? '',
         description: v.description ?? '',
         image_url: v.image ?? '',
       }));
@@ -37,6 +39,8 @@ const DashboardVehiclesPage = () => {
     description: '',
     image_url: '',
     price_per_day: '',
+    price_per_week: '',
+    price_per_month: '',
     inventory_count: '0',
     active: true,
   });
@@ -58,7 +62,7 @@ const DashboardVehiclesPage = () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('vehicles')
-      .select('id, category, name, description, image_url, price_per_day, inventory_count, active, sort_order')
+      .select('id, category, name, description, image_url, price_per_day, price_per_week, price_per_month, inventory_count, active, sort_order')
       .order('sort_order', { ascending: true })
       .order('name', { ascending: true });
 
@@ -101,6 +105,8 @@ const DashboardVehiclesPage = () => {
 
     const inventory = Math.max(0, parseInt(newVehicle.inventory_count, 10) || 0);
     const price = newVehicle.price_per_day === '' ? null : Number(newVehicle.price_per_day);
+    const priceWeek = newVehicle.price_per_week === '' ? null : Number(newVehicle.price_per_week);
+    const priceMonth = newVehicle.price_per_month === '' ? null : Number(newVehicle.price_per_month);
 
     setSavingId('new');
     const baseRow = {
@@ -110,6 +116,8 @@ const DashboardVehiclesPage = () => {
       image_url: imageUrl || null,
       inventory_count: inventory,
       price_per_day: Number.isFinite(price) ? price : null,
+      price_per_week: Number.isFinite(priceWeek) ? priceWeek : null,
+      price_per_month: Number.isFinite(priceMonth) ? priceMonth : null,
       active: Boolean(newVehicle.active),
     };
 
@@ -133,7 +141,17 @@ const DashboardVehiclesPage = () => {
 
     toast({ title: 'Created', description: 'Vehicle added.', className: 'bg-blue-500 text-white' });
     setCatalogPresetKey('');
-    setNewVehicle({ category: 'motorbike', name: '', description: '', image_url: '', price_per_day: '', inventory_count: '0', active: true });
+    setNewVehicle({
+      category: 'motorbike',
+      name: '',
+      description: '',
+      image_url: '',
+      price_per_day: '',
+      price_per_week: '',
+      price_per_month: '',
+      inventory_count: '0',
+      active: true,
+    });
     await fetchVehicles();
     setSavingId(null);
   };
@@ -166,7 +184,7 @@ const DashboardVehiclesPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-end">
+                <div className="grid grid-cols-1 md:grid-cols-9 gap-4 items-end">
                   <div>
                     <Label htmlFor="new_category">Category</Label>
                     <select
@@ -202,6 +220,8 @@ const DashboardVehiclesPage = () => {
                           description: preset.description,
                           image_url: preset.image_url,
                           price_per_day: String(preset.price_per_day ?? ''),
+                          price_per_week: String(preset.price_per_week ?? ''),
+                          price_per_month: String(preset.price_per_month ?? ''),
                           inventory_count: prev.inventory_count === '0' ? '1' : prev.inventory_count,
                           active: true,
                         }));
@@ -251,6 +271,28 @@ const DashboardVehiclesPage = () => {
                       min={0}
                       value={newVehicle.price_per_day}
                       onChange={(e) => setNewVehicle((p) => ({ ...p, price_per_day: e.target.value }))}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="new_price_week">Price/week (USD)</Label>
+                    <Input
+                      id="new_price_week"
+                      type="number"
+                      min={0}
+                      value={newVehicle.price_per_week}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, price_per_week: e.target.value }))}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="new_price_month">Price/month (USD)</Label>
+                    <Input
+                      id="new_price_month"
+                      type="number"
+                      min={0}
+                      value={newVehicle.price_per_month}
+                      onChange={(e) => setNewVehicle((p) => ({ ...p, price_per_month: e.target.value }))}
                     />
                   </div>
                 </div>
@@ -316,7 +358,7 @@ const DashboardVehiclesPage = () => {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                               <div>
                                 <Label htmlFor={`inv_${v.id}`}>Inventory</Label>
                                 <Input
@@ -346,6 +388,42 @@ const DashboardVehiclesPage = () => {
                                     const normalized = Number.isFinite(next) ? next : null;
                                     if (normalized !== current) {
                                       updateVehicle(v.id, { price_per_day: normalized });
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor={`price_week_${v.id}`}>Price/week</Label>
+                                <Input
+                                  id={`price_week_${v.id}`}
+                                  type="number"
+                                  min={0}
+                                  defaultValue={v.price_per_week ?? ''}
+                                  onBlur={(e) => {
+                                    const raw = e.target.value;
+                                    const next = raw === '' ? null : Number(raw);
+                                    const current = v.price_per_week === null || v.price_per_week === undefined ? null : Number(v.price_per_week);
+                                    const normalized = Number.isFinite(next) ? next : null;
+                                    if (normalized !== current) {
+                                      updateVehicle(v.id, { price_per_week: normalized });
+                                    }
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <Label htmlFor={`price_month_${v.id}`}>Price/month</Label>
+                                <Input
+                                  id={`price_month_${v.id}`}
+                                  type="number"
+                                  min={0}
+                                  defaultValue={v.price_per_month ?? ''}
+                                  onBlur={(e) => {
+                                    const raw = e.target.value;
+                                    const next = raw === '' ? null : Number(raw);
+                                    const current = v.price_per_month === null || v.price_per_month === undefined ? null : Number(v.price_per_month);
+                                    const normalized = Number.isFinite(next) ? next : null;
+                                    if (normalized !== current) {
+                                      updateVehicle(v.id, { price_per_month: normalized });
                                     }
                                   }}
                                 />
