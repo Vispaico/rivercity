@@ -226,6 +226,12 @@ declare
   v_inventory integer;
   v_used integer;
   v_price numeric;
+  v_price_week numeric;
+  v_price_month numeric;
+  v_days integer;
+  v_base_total numeric;
+  v_best_total numeric;
+  v_effective_daily numeric;
   v_owner uuid;
 begin
   if p_start_date is null or p_end_date is null then
@@ -244,6 +250,8 @@ begin
   values (auth.uid(), p_start_date, p_end_date, 'pending', coalesce(p_intake, '{}'::jsonb))
   returning id into v_booking_id;
 
+  v_days := (p_end_date - p_start_date);
+
   for v_item in select * from jsonb_array_elements(p_items)
   loop
     v_vehicle_id := nullif(v_item->>'vehicle_id', '')::uuid;
@@ -260,8 +268,8 @@ begin
     -- Serialize booking creation per vehicle model to avoid overbooking races.
     perform pg_advisory_xact_lock(hashtext(v_vehicle_id::text), 0);
 
-    select v.inventory_count, v.price_per_day, v.owner_user_id
-      into v_inventory, v_price, v_owner
+    select v.inventory_count, v.price_per_day, v.price_per_week, v.price_per_month, v.owner_user_id
+      into v_inventory, v_price, v_price_week, v_price_month, v_owner
       from public.vehicles v
      where v.id = v_vehicle_id
        and v.active = true
@@ -281,10 +289,6 @@ begin
       raise exception 'Vehicle is unavailable for requested dates';
     end if;
 
-    if v_price is null then
-      raise exception 'Vehicle pricing is not configured';
-    end if;
-
     select coalesce(sum(bi.quantity), 0)
       into v_used
       from public.booking_items bi
@@ -298,8 +302,30 @@ begin
       raise exception 'Not enough availability for requested dates';
     end if;
 
+    -- Best rate (daily vs weekly vs monthly) for the chosen duration.
+    v_base_total := case when v_price is null then null else v_price * v_days end;
+    v_best_total := v_base_total;
+
+    if v_price_week is not null then
+      if v_best_total is null or v_price_week < v_best_total then
+        v_best_total := v_price_week;
+      end if;
+    end if;
+
+    if v_price_month is not null then
+      if v_best_total is null or v_price_month < v_best_total then
+        v_best_total := v_price_month;
+      end if;
+    end if;
+
+    if v_best_total is null then
+      raise exception 'Vehicle pricing is not configured';
+    end if;
+
+    v_effective_daily := v_best_total / v_days;
+
     insert into public.booking_items (booking_id, vehicle_id, quantity, unit_price_per_day, vehicle_owner_user_id)
-    values (v_booking_id, v_vehicle_id, v_qty, v_price, v_owner);
+    values (v_booking_id, v_vehicle_id, v_qty, v_effective_daily, v_owner);
   end loop;
 
   return v_booking_id;

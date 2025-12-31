@@ -94,6 +94,65 @@ const BookingPage = () => {
     return map;
   }, [vehicles]);
 
+  const pricingSummary = useMemo(() => {
+    if (!dayCount || dayCount <= 0) return null;
+    const items = selectedItems.map((item) => {
+      const v = vehiclesById[item.vehicleId] || {};
+      const day = Number(v.price_per_day);
+      const week = Number(v.price_per_week);
+      const month = Number(v.price_per_month);
+
+      const baseTotal = Number.isFinite(day) ? day * dayCount : null;
+      let bestTotal = baseTotal;
+      let applied = 'daily';
+
+      if (Number.isFinite(week) && (bestTotal === null || week < bestTotal)) {
+        bestTotal = week;
+        applied = 'weekly';
+      }
+
+      if (Number.isFinite(month) && (bestTotal === null || month < bestTotal)) {
+        bestTotal = month;
+        applied = 'monthly';
+      }
+
+      const effectiveDaily = bestTotal !== null ? bestTotal / dayCount : null;
+      const qty = item.qty;
+      const baseWithQty = baseTotal !== null ? baseTotal * qty : null;
+      const bestWithQty = bestTotal !== null ? bestTotal * qty : null;
+      const discount = baseWithQty !== null && bestWithQty !== null ? Math.max(0, baseWithQty - bestWithQty) : 0;
+
+      return {
+        vehicleId: item.vehicleId,
+        name: v.name || 'Vehicle',
+        qty,
+        dayCount,
+        baseTotal,
+        bestTotal,
+        baseWithQty,
+        bestWithQty,
+        discount,
+        applied,
+        effectiveDaily,
+        pricePerDay: Number.isFinite(day) ? day : null,
+        pricePerWeek: Number.isFinite(week) ? week : null,
+        pricePerMonth: Number.isFinite(month) ? month : null,
+      };
+    });
+
+    const totals = items.reduce(
+      (acc, it) => {
+        acc.base += it.baseWithQty ?? 0;
+        acc.best += it.bestWithQty ?? 0;
+        acc.discount += it.discount ?? 0;
+        return acc;
+      },
+      { base: 0, best: 0, discount: 0 }
+    );
+
+    return { items, totals };
+  }, [dayCount, selectedItems, vehiclesById]);
+
   const groupedVehicles = useMemo(() => groupByCategory(vehicles), [vehicles]);
 
 
@@ -107,7 +166,7 @@ const BookingPage = () => {
       setLoadingVehicles(true);
       const { data, error } = await supabase
         .from('vehicles')
-        .select('id, category, name, description, image_url, price_per_day, inventory_count, active, sort_order')
+        .select('id, category, name, description, image_url, price_per_day, price_per_week, price_per_month, inventory_count, active, sort_order')
         .eq('active', true)
         .order('sort_order', { ascending: true })
         .order('name', { ascending: true });
@@ -274,6 +333,8 @@ const BookingPage = () => {
       contact_channels: selectedChannels,
       contact_channels_none: intake.contact_channels.none || selectedChannels.length === 0,
       notes: intake.notes,
+      day_count: dayCount,
+      pricing_summary: pricingSummary,
     };
 
     setSubmitting(true);
@@ -604,16 +665,65 @@ const BookingPage = () => {
                     {selectedItems.length === 0 ? (
                       <p className="text-sm text-gray-600">No vehicles selected yet.</p>
                     ) : (
-                      <ul className="space-y-2">
-                        {selectedItems.map((x) => (
-                          <li key={x.vehicleId} className="flex justify-between text-sm">
-                            <span className="text-gray-800">{vehiclesById[x.vehicleId]?.name || 'Vehicle'}</span>
-                            <span className="font-medium">× {x.qty}</span>
+                      <ul className="space-y-3">
+                        {(pricingSummary?.items?.length ? pricingSummary.items : selectedItems.map((x) => ({
+                          vehicleId: x.vehicleId,
+                          name: vehiclesById[x.vehicleId]?.name || 'Vehicle',
+                          qty: x.qty,
+                          baseWithQty: null,
+                          bestWithQty: null,
+                          discount: 0,
+                          applied: '',
+                        })) ).map((it) => (
+                          <li key={it.vehicleId} className="text-sm border rounded-lg p-3 bg-white">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-gray-900 font-medium">{it.name}</span>
+                              <span className="font-semibold">× {it.qty}</span>
+                            </div>
+                            <div className="mt-2 text-gray-700 space-y-1">
+                              {it.baseWithQty !== null ? (
+                                <div className="flex justify-between">
+                                  <span>Standard</span>
+                                  <span className="line-through text-gray-500">${it.baseWithQty.toFixed(2)}</span>
+                                </div>
+                              ) : null}
+                              {it.bestWithQty !== null ? (
+                                <div className="flex justify-between items-center">
+                                  <span className="font-semibold text-gray-800">Best rate ({it.applied})</span>
+                                  <span className="font-semibold text-emerald-700">${it.bestWithQty.toFixed(2)}</span>
+                                </div>
+                              ) : null}
+                              {it.discount > 0 ? (
+                                <div className="flex justify-between items-center text-amber-800 font-semibold">
+                                  <span>Lucky Day Bonus</span>
+                                  <span>- ${it.discount.toFixed(2)}</span>
+                                </div>
+                              ) : null}
+                            </div>
                           </li>
                         ))}
                       </ul>
                     )}
                   </div>
+
+                  {pricingSummary && pricingSummary.items.length > 0 ? (
+                    <div className="mt-4 space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-700">Subtotal</span>
+                        <span className="font-semibold text-gray-900">${pricingSummary.totals.base.toFixed(2)}</span>
+                      </div>
+                      {pricingSummary.totals.discount > 0 ? (
+                        <div className="flex justify-between items-center rounded-lg border border-amber-400 bg-amber-50 px-3 py-2 text-amber-900 font-semibold">
+                          <span>Lucky Day Bonus</span>
+                          <span>- ${pricingSummary.totals.discount.toFixed(2)}</span>
+                        </div>
+                      ) : null}
+                      <div className="flex justify-between text-lg font-bold text-emerald-700">
+                        <span>Total for {dayCount} day{dayCount === 1 ? '' : 's'}</span>
+                        <span>${pricingSummary.totals.best.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  ) : null}
                 </CardContent>
                 <div className="p-6 pt-0">
                   <Button

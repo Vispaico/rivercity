@@ -44,6 +44,51 @@ const diffDays = (startDateStr, endDateStr) => {
   return Number.isFinite(days) ? days : null;
 };
 
+const computePricingSummary = (items = [], dayCount = 0) => {
+  if (!dayCount || dayCount <= 0) return { items: [], totals: { base: 0, best: 0, discount: 0 } };
+
+  const mapped = items.map((it) => {
+    const qty = Number(it?.quantity || 0);
+    const vehicle = it?.vehicles || {};
+    const day = Number(vehicle.price_per_day);
+    const week = Number(vehicle.price_per_week);
+    const month = Number(vehicle.price_per_month);
+    const effective = Number(it?.unit_price_per_day);
+
+    const baseTotal = Number.isFinite(day) ? day * dayCount : null;
+    const bestTotal = Number.isFinite(effective) ? effective * dayCount : baseTotal;
+
+    let applied = 'daily';
+    if (Number.isFinite(week) && Number.isFinite(bestTotal) && week <= bestTotal + 1e-6) applied = 'weekly';
+    if (Number.isFinite(month) && Number.isFinite(bestTotal) && month <= bestTotal + 1e-6) applied = 'monthly';
+
+    const baseWithQty = baseTotal !== null ? baseTotal * qty : null;
+    const bestWithQty = bestTotal !== null ? bestTotal * qty : null;
+    const discount = baseWithQty !== null && bestWithQty !== null ? Math.max(0, baseWithQty - bestWithQty) : 0;
+
+    return {
+      name: vehicle.name || 'Vehicle',
+      qty,
+      baseWithQty,
+      bestWithQty,
+      discount,
+      applied,
+    };
+  });
+
+  const totals = mapped.reduce(
+    (acc, it) => {
+      acc.base += it.baseWithQty ?? 0;
+      acc.best += it.bestWithQty ?? 0;
+      acc.discount += it.discount ?? 0;
+      return acc;
+    },
+    { base: 0, best: 0, discount: 0 }
+  );
+
+  return { items: mapped, totals };
+};
+
 export default async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -80,7 +125,7 @@ export default async (req, res) => {
     const { data: booking, error: bookingError } = await supabase
       .from('bookings')
       .select(
-        'id, start_date, end_date, status, created_at, intake, notified_at, booking_items(quantity, vehicle_id, vehicles(name, category, price_per_day))'
+        'id, start_date, end_date, status, created_at, intake, notified_at, booking_items(quantity, unit_price_per_day, vehicle_id, vehicles(name, category, price_per_day, price_per_week, price_per_month))'
       )
       .eq('id', bookingId)
       .maybeSingle();
@@ -105,18 +150,19 @@ export default async (req, res) => {
     const intake = booking.intake && typeof booking.intake === 'object' ? booking.intake : {};
     const items = Array.isArray(booking.booking_items) ? booking.booking_items : [];
 
+    const pricingFromIntake = booking.intake?.pricing_summary;
+    const pricing = pricingFromIntake && pricingFromIntake.totals ? pricingFromIntake : computePricingSummary(items, dayCount);
+
     const intakeEmail = String(intake?.email || '').trim();
     const replyTo = isEmail(intakeEmail) ? intakeEmail : undefined;
 
-    const itemLines = items
+    const itemLines = pricing.items
       .slice(0, 30)
       .map((it) => {
-        const qty = Number(it?.quantity || 0);
-        const name = String(it?.vehicles?.name || it?.vehicle_id || 'Vehicle');
-        const category = it?.vehicles?.category ? ` (${String(it.vehicles.category)})` : '';
-        const price = it?.vehicles?.price_per_day ?? null;
-        const priceStr = price === null || price === undefined || price === '' ? '' : ` — $${Number(price)}/day`;
-        return `- x${qty} ${name}${category}${priceStr}`;
+        const base = it.baseWithQty !== null && it.baseWithQty !== undefined ? `$${Number(it.baseWithQty).toFixed(2)}` : '—';
+        const best = it.bestWithQty !== null && it.bestWithQty !== undefined ? `$${Number(it.bestWithQty).toFixed(2)}` : '—';
+        const bonus = it.discount > 0 ? ` (Lucky Day Bonus: -$${Number(it.discount).toFixed(2)})` : '';
+        return `- x${it.qty} ${it.name}: ${best}${bonus} (standard ${base}, ${it.applied} rate)`;
       });
 
     const contactChannels = Array.isArray(intake?.contact_channels) ? intake.contact_channels : [];
@@ -141,6 +187,14 @@ export default async (req, res) => {
         '',
         'Items:',
         itemLines.length ? itemLines.join('\n') : '- (none)',
+        '',
+        'Pricing:',
+        Number.isFinite(pricing.totals?.best)
+          ? `Estimated total: $${Number(pricing.totals.best).toFixed(2)} for ${Number.isFinite(dayCount) ? `${dayCount} day(s)` : 'selected dates'}`
+          : 'Estimated total: n/a',
+        pricing.totals?.discount > 0
+          ? `Lucky Day Bonus applied: -$${Number(pricing.totals.discount).toFixed(2)}`
+          : 'Lucky Day Bonus: none applied',
         '',
         'Customer:',
         `Name: ${String(intake?.full_name || '')}`,
@@ -187,6 +241,14 @@ export default async (req, res) => {
             '',
             'Items:',
             itemLines.length ? itemLines.join('\n') : '- (none)',
+            '',
+            'Pricing:',
+            Number.isFinite(pricing.totals?.best)
+              ? `Estimated total: $${Number(pricing.totals.best).toFixed(2)} for ${Number.isFinite(dayCount) ? `${dayCount} day(s)` : 'selected dates'}`
+              : 'Estimated total: n/a',
+            pricing.totals?.discount > 0
+              ? `Lucky Day Bonus applied: -$${Number(pricing.totals.discount).toFixed(2)}`
+              : 'Lucky Day Bonus: none applied',
             '',
             'We will contact you shortly to confirm details.',
             '',
