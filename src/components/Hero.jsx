@@ -132,7 +132,7 @@ const Hero = () => {
           >
             {[
               "Trusted by 2,000+ travelers since 2019",
-              "4.7★ Google rating (19 verified reviews)",
+              "4.8★ Google rating (20 verified reviews)",
               "Free hotel delivery & phone holder included",
               "Airport pickup, monthly and chauffeur options",
             ].map((item, index) => (

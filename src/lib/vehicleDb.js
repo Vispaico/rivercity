@@ -44,6 +44,14 @@ export const mapDbVehicleToCardFormat = (dbVehicle) => {
   // Map specific database vehicles to their catalog slugs
   if (nameLower.includes('vinfast') && nameLower.includes('feliz')) {
     slug = 'vinfast-feliz';
+  } else if (nameLower.includes('vinfast') && nameLower.includes('fadil')) {
+    slug = 'vinfast-fadil';
+  } else if (nameLower.includes('honda') && nameLower.includes('crv')) {
+    slug = 'honda-crv';
+  } else if (nameLower.includes('honda') && nameLower.includes('cr-v')) {
+    slug = 'honda-crv';
+  } else if (nameLower.includes('vinfast') && nameLower.includes('lux')) {
+    slug = 'vinfast-lux-sa';
   }
 
   return {
