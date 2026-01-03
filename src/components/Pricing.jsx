@@ -20,7 +20,7 @@ const motorbikePricing = [
       "Powerful 155cc engine & sport suspension",
       "ABS + traction control for confident riding",
       "Long-range comfort seat",
-      "Includes waterproof luggage bag",
+      "Free helmets, phone holder & rain poncho",
     ],
     popular: false,
     ctaText: "Check NVX Availability",
@@ -36,7 +36,7 @@ const motorbikePricing = [
     features: [
       "Perfect for city trips and short trips and eco-friendly travel.",
       "Automatic transmission",
-      "Free helmets, charger, phone holder & rain poncho",
+      "Free helmets, charger, phone holder etc.",
       "Optional damage waiver available",
     ],
     popular: false,
@@ -53,8 +53,8 @@ const motorbikePricing = [
     features: [
       "Spacious under-seat storage",
       "Lightweight and fuel-efficient",
-      "Free delivery within Haiphong",
-      "24/7 roadside assistance included",
+      "Free delivery within Haiphong (availability)",
+      "Free helmets, phone holder & rain poncho",
     ],
     popular: true,
     ctaText: "Book Airblade Now",

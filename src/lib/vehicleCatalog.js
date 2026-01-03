@@ -196,7 +196,7 @@ export const vehicleCatalog = {
       model: 'Feliz',
       price: '8',
       priceWeek: '40',
-      priceMonth: '100',
+      priceMonth: '90',
       image: '/vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp',
       imageSrcSet:
         '/vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 300w, /vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 600w, /vinfast-feliz-electric-scooter-rental-haiphong-black-side.webp 900w',
