@@ -26,21 +26,21 @@ const motorbikePricing = [
     ctaText: "Check NVX Availability",
   },
   {
-    name: "Vinfast Feliz Electric Scooter",
-    subtitle: "Eco-friendly city rider",
+    name: "Honda Vision 110cc",
+    subtitle: "A \"no-stress,\" and practical scooter",
     rates: [
       { label: "Daily", value: "$8" },
-      { label: "Weekly", value: "$40" },
-      { label: "Monthly", value: "$90" },
+      { label: "Weekly", value: "$35" },
+      { label: "Monthly", value: "$95" },
     ],
     features: [
-      "Perfect for city trips and short trips and eco-friendly travel.",
+      "Perfect for both beginners and experienced riders",
       "Automatic transmission",
-      "Free helmets, charger, phone holder etc.",
+      "Free helmets, phone holder etc.",
       "Optional damage waiver available",
     ],
     popular: false,
-    ctaText: "Reserve Vinfast Feliz",
+    ctaText: "Reserve Honda Vision",
   },
   {
     name: "Honda Airblade 125cc",
@@ -75,7 +75,25 @@ const motorbikePricing = [
     ],
     popular: false,
     ctaText: "Reserve Exciter 150",
-  },{
+  },
+  {
+    name: "Vinfast Feliz Electric Scooter",
+    subtitle: "Eco-friendly city rider",
+    rates: [
+      { label: "Daily", value: "$8" },
+      { label: "Weekly", value: "$40" },
+      { label: "Monthly", value: "$90" },
+    ],
+    features: [
+      "Perfect for city trips and short trips and eco-friendly travel.",
+      "Automatic transmission",
+      "Free helmets, charger, phone holder etc.",
+      "Optional damage waiver available",
+    ],
+    popular: false,
+    ctaText: "Reserve Vinfast Feliz",
+  },
+  {
     name: "Honda Wave 110cc",
     subtitle: "Budget-friendly city rider",
     rates: [

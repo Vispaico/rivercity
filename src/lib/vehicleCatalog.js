@@ -233,6 +233,51 @@ export const vehicleCatalog = {
         ],
       },
     },
+    {
+      category: 'motorbike',
+      slug: 'honda-vision',
+      name: 'Honda Vision',
+      bookingQuery: 'Vision',
+      brand: 'Honda',
+      model: 'Vision',
+      price: '8',
+      priceWeek: '35',
+      priceMonth: '95',
+      image: '/honda-vision-vietnam-motorbike-rentals-haiphong.webp',
+      imageSrcSet:
+        '/honda-vision-vietnam-motorbike-rentals-haiphong.webp 300w, /honda-vision-vietnam-motorbike-rentals-haiphong.webp 600w, /honda-vision-vietnam-motorbike-rentals-haiphong.webp 900w',
+      description: 'A "no-stress," dependable, and practical scooter, perfect for both beginners and experienced riders.',
+      specs: [
+        { type: 'engine', value: '110cc' },
+        { type: 'transmission', value: 'Automatic' },
+        { type: 'capacity', value: '2 Persons' },
+        { type: 'feature', value: 'Practical' },
+      ],
+      detailSpecs: [
+        { label: 'Type', value: 'Scooter' },
+        { label: 'Year', value: '2023' },
+        { label: 'Difficulty', value: 'Easy to ride' },
+        { label: 'Best use', value: 'City commuting + Longer trips + practical travel' },
+      ],
+      included: ['2 helmets', 'Phone holder', 'Raincoat included', '24/7 support'],
+      bestFor: ['Eco-conscious riders', 'City commuting', 'Quiet rides'],
+      seo: {
+        metaTitle: 'Honda Vision Rental Haiphong | Scooter | $8/Day | Book Now',
+        metaDescription:
+          'Rent a Honda Vision scooter in Haiphong for practical and comfortable rides. Perfect for city commuting, with helmets included and convenient pickup.',
+        longTailKeywords: [
+          'Honda Vision scooter rental in Haiphong',
+          'Practical scooter hire in Haiphong Vietnam',
+          'Honda motorbike rental Haiphong with helmets',
+          'Best scooter for Haiphong city commuting',
+        ],
+        aiSummaryBullets: [
+          'Honda Vision is a practical scooter for comfortable Haiphong city riding.',
+          'Daily price is $8 and it includes helmets plus phone holder for navigation.',
+          'Book online for convenient pickup and enjoy reliable rides.',
+        ],
+      },
+    },
   ],
   car: [
     {
