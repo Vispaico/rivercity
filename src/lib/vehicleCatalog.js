@@ -260,7 +260,7 @@ export const vehicleCatalog = {
         { label: 'Best use', value: 'City commuting + Longer trips + practical travel' },
       ],
       included: ['2 helmets', 'Phone holder', 'Raincoat included', '24/7 support'],
-      bestFor: ['Eco-conscious riders', 'City commuting', 'Quiet rides'],
+      bestFor: ['New riders', 'City commuting', 'Easy rides'],
       seo: {
         metaTitle: 'Honda Vision Rental Haiphong | Scooter | $8/Day | Book Now',
         metaDescription:
