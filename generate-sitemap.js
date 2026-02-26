@@ -32,6 +32,37 @@ const generateSitemap = async () => {
     '/guides/living-in-haiphong-expat-guide',
     '/guides/motorbike-rental-guide-vietnam',
     '/guides/northern-vietnam-road-trips',
+    '/vietnam-travel-faq',
+    '/vietnam-travel-faq/is-vietnam-safe-to-visit',
+    '/vietnam-travel-faq/is-1000-enough-for-2-weeks-in-vietnam',
+    '/vietnam-travel-faq/which-is-safer-vietnam-or-thailand',
+    '/vietnam-travel-faq/what-not-to-bring-to-vietnam',
+    '/vietnam-travel-faq/brush-teeth-tap-water-vietnam',
+    '/vietnam-travel-faq/what-to-be-careful-of-when-visiting-vietnam',
+    '/vietnam-travel-faq/bed-bugs-common-in-vietnam',
+    '/vietnam-travel-faq/when-not-to-go-to-vietnam',
+    '/vietnam-travel-faq/most-common-crime-in-vietnam',
+    '/vietnam-travel-faq/use-us-dollars-in-vietnam',
+    '/vietnam-travel-faq/vietnam-cheaper-than-thailand',
+    '/vietnam-travel-faq/what-can-you-get-for-1-dollar-in-vietnam',
+    '/vietnam-travel-faq/vietnam-cheap-for-americans',
+    '/vietnam-travel-faq/tipping-customary-in-vietnam',
+    '/vietnam-travel-faq/is-50000-enough-for-vietnam-trip',
+    '/vietnam-travel-faq/how-much-is-cup-of-coffee-in-vietnam',
+    '/vietnam-travel-faq/wear-red-in-vietnam',
+    '/vietnam-travel-faq/444-meaning-in-vietnam',
+    '/vietnam-travel-faq/what-not-to-do-in-vietnam',
+    '/vietnam-travel-faq/rude-to-cross-fingers-in-vietnam',
+    '/vietnam-travel-faq/foods-to-avoid-in-vietnam',
+    '/vietnam-travel-faq/offensive-hand-gesture-in-vietnam',
+    '/vietnam-travel-faq/anything-cant-wear-in-vietnam',
+    '/vietnam-travel-faq/cash-or-card-in-vietnam',
+    '/vietnam-travel-faq/how-much-7-day-trip-to-vietnam-cost',
+    '/vietnam-travel-faq/what-can-1-dollar-buy-in-vietnam',
+    '/vietnam-travel-faq/what-can-1-us-dollar-get-you-in-vietnam',
+    '/vietnam-travel-faq/carry-usd-or-dong-in-vietnam',
+    '/vietnam-travel-faq/anything-worth-buying-in-vietnam',
+    '/vietnam-travel-faq/credit-cards-widely-accepted-in-vietnam',
   ];
 
   const vehiclePages = [
@@ -49,7 +80,7 @@ const generateSitemap = async () => {
 
   if (error) {
     console.error('Error fetching posts for sitemap:', error);
-    return;
+    console.log('Continuing without blog posts...');
   }
 
   const sitemap = `
@@ -67,8 +98,9 @@ const generateSitemap = async () => {
         })
         .join('')}
       ${posts
-        .map(({ slug, created_at }) => {
-          return `
+        ? posts
+            .map(({ slug, created_at }) => {
+              return `
             <url>
               <loc>${baseUrl}/blog/${slug}</loc>
               <lastmod>${new Date(created_at).toISOString()}</lastmod>
@@ -76,8 +108,9 @@ const generateSitemap = async () => {
               <priority>1.0</priority>
             </url>
           `;
-        })
-        .join('')}
+            })
+            .join('')
+        : ''}
     </urlset>
   `;
 

@@ -83,10 +83,10 @@ const Footer = () => {
   };
 
   const quickLinks = [
-    { name: "Home", path: "/" },
     { name: "Motorbikes", path: "/motorbikes" },
     { name: "Cars", path: "/cars" },
     { name: "EARN MONEY - Rent out your vehicle", path: "/rent-out" },
+    { name: "Vietnam Travel FAQ", path: "/vietnam-travel-faq" },
     { name: "About Us", path: "/about" },
   ];
 

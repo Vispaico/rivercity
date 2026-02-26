@@ -15,6 +15,37 @@ const MotorbikeRentalPage = lazy(() => import("@/pages/MotorbikeRentalPage"));
 const PrivacyPolicyPage = lazy(() => import("@/pages/PrivacyPolicyPage"));
 const CookiesPage = lazy(() => import("@/pages/CookiesPage"));
 const TermsOfUsePage = lazy(() => import("@/pages/TermsOfUsePage"));
+const VietnamTravelFaqPage = lazy(() => import("@/pages/vietnam-travel-faq"));
+const VietnamFaq1 = lazy(() => import("@/pages/vietnam-travel-faq/is-vietnam-safe-to-visit"));
+const VietnamFaq2 = lazy(() => import("@/pages/vietnam-travel-faq/is-1000-enough-for-2-weeks-in-vietnam"));
+const VietnamFaq3 = lazy(() => import("@/pages/vietnam-travel-faq/which-is-safer-vietnam-or-thailand"));
+const VietnamFaq4 = lazy(() => import("@/pages/vietnam-travel-faq/what-not-to-bring-to-vietnam"));
+const VietnamFaq5 = lazy(() => import("@/pages/vietnam-travel-faq/brush-teeth-tap-water-vietnam"));
+const VietnamFaq6 = lazy(() => import("@/pages/vietnam-travel-faq/what-to-be-careful-of-when-visiting-vietnam"));
+const VietnamFaq7 = lazy(() => import("@/pages/vietnam-travel-faq/bed-bugs-common-in-vietnam"));
+const VietnamFaq8 = lazy(() => import("@/pages/vietnam-travel-faq/when-not-to-go-to-vietnam"));
+const VietnamFaq9 = lazy(() => import("@/pages/vietnam-travel-faq/most-common-crime-in-vietnam"));
+const VietnamFaq10 = lazy(() => import("@/pages/vietnam-travel-faq/use-us-dollars-in-vietnam"));
+const VietnamFaq11 = lazy(() => import("@/pages/vietnam-travel-faq/vietnam-cheaper-than-thailand"));
+const VietnamFaq12 = lazy(() => import("@/pages/vietnam-travel-faq/what-can-you-get-for-1-dollar-in-vietnam"));
+const VietnamFaq13 = lazy(() => import("@/pages/vietnam-travel-faq/vietnam-cheap-for-americans"));
+const VietnamFaq14 = lazy(() => import("@/pages/vietnam-travel-faq/tipping-customary-in-vietnam"));
+const VietnamFaq15 = lazy(() => import("@/pages/vietnam-travel-faq/is-50000-enough-for-vietnam-trip"));
+const VietnamFaq16 = lazy(() => import("@/pages/vietnam-travel-faq/how-much-is-cup-of-coffee-in-vietnam"));
+const VietnamFaq17 = lazy(() => import("@/pages/vietnam-travel-faq/wear-red-in-vietnam"));
+const VietnamFaq18 = lazy(() => import("@/pages/vietnam-travel-faq/444-meaning-in-vietnam"));
+const VietnamFaq19 = lazy(() => import("@/pages/vietnam-travel-faq/what-not-to-do-in-vietnam"));
+const VietnamFaq20 = lazy(() => import("@/pages/vietnam-travel-faq/rude-to-cross-fingers-in-vietnam"));
+const VietnamFaq21 = lazy(() => import("@/pages/vietnam-travel-faq/foods-to-avoid-in-vietnam"));
+const VietnamFaq22 = lazy(() => import("@/pages/vietnam-travel-faq/offensive-hand-gesture-in-vietnam"));
+const VietnamFaq23 = lazy(() => import("@/pages/vietnam-travel-faq/anything-cant-wear-in-vietnam"));
+const VietnamFaq24 = lazy(() => import("@/pages/vietnam-travel-faq/cash-or-card-in-vietnam"));
+const VietnamFaq25 = lazy(() => import("@/pages/vietnam-travel-faq/how-much-7-day-trip-to-vietnam-cost"));
+const VietnamFaq26 = lazy(() => import("@/pages/vietnam-travel-faq/what-can-1-dollar-buy-in-vietnam"));
+const VietnamFaq27 = lazy(() => import("@/pages/vietnam-travel-faq/what-can-1-us-dollar-get-you-in-vietnam"));
+const VietnamFaq28 = lazy(() => import("@/pages/vietnam-travel-faq/carry-usd-or-dong-in-vietnam"));
+const VietnamFaq29 = lazy(() => import("@/pages/vietnam-travel-faq/anything-worth-buying-in-vietnam"));
+const VietnamFaq30 = lazy(() => import("@/pages/vietnam-travel-faq/credit-cards-widely-accepted-in-vietnam"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
@@ -111,6 +142,37 @@ function App() {
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/cookies" element={<CookiesPage />} />
               <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+              <Route path="/vietnam-travel-faq" element={<VietnamTravelFaqPage />} />
+              <Route path="/vietnam-travel-faq/is-vietnam-safe-to-visit" element={<VietnamFaq1 />} />
+              <Route path="/vietnam-travel-faq/is-1000-enough-for-2-weeks-in-vietnam" element={<VietnamFaq2 />} />
+              <Route path="/vietnam-travel-faq/which-is-safer-vietnam-or-thailand" element={<VietnamFaq3 />} />
+              <Route path="/vietnam-travel-faq/what-not-to-bring-to-vietnam" element={<VietnamFaq4 />} />
+              <Route path="/vietnam-travel-faq/brush-teeth-tap-water-vietnam" element={<VietnamFaq5 />} />
+              <Route path="/vietnam-travel-faq/what-to-be-careful-of-when-visiting-vietnam" element={<VietnamFaq6 />} />
+              <Route path="/vietnam-travel-faq/bed-bugs-common-in-vietnam" element={<VietnamFaq7 />} />
+              <Route path="/vietnam-travel-faq/when-not-to-go-to-vietnam" element={<VietnamFaq8 />} />
+              <Route path="/vietnam-travel-faq/most-common-crime-in-vietnam" element={<VietnamFaq9 />} />
+              <Route path="/vietnam-travel-faq/use-us-dollars-in-vietnam" element={<VietnamFaq10 />} />
+              <Route path="/vietnam-travel-faq/vietnam-cheaper-than-thailand" element={<VietnamFaq11 />} />
+              <Route path="/vietnam-travel-faq/what-can-you-get-for-1-dollar-in-vietnam" element={<VietnamFaq12 />} />
+              <Route path="/vietnam-travel-faq/vietnam-cheap-for-americans" element={<VietnamFaq13 />} />
+              <Route path="/vietnam-travel-faq/tipping-customary-in-vietnam" element={<VietnamFaq14 />} />
+              <Route path="/vietnam-travel-faq/is-50000-enough-for-vietnam-trip" element={<VietnamFaq15 />} />
+              <Route path="/vietnam-travel-faq/how-much-is-cup-of-coffee-in-vietnam" element={<VietnamFaq16 />} />
+              <Route path="/vietnam-travel-faq/wear-red-in-vietnam" element={<VietnamFaq17 />} />
+              <Route path="/vietnam-travel-faq/444-meaning-in-vietnam" element={<VietnamFaq18 />} />
+              <Route path="/vietnam-travel-faq/what-not-to-do-in-vietnam" element={<VietnamFaq19 />} />
+              <Route path="/vietnam-travel-faq/rude-to-cross-fingers-in-vietnam" element={<VietnamFaq20 />} />
+              <Route path="/vietnam-travel-faq/foods-to-avoid-in-vietnam" element={<VietnamFaq21 />} />
+              <Route path="/vietnam-travel-faq/offensive-hand-gesture-in-vietnam" element={<VietnamFaq22 />} />
+              <Route path="/vietnam-travel-faq/anything-cant-wear-in-vietnam" element={<VietnamFaq23 />} />
+              <Route path="/vietnam-travel-faq/cash-or-card-in-vietnam" element={<VietnamFaq24 />} />
+              <Route path="/vietnam-travel-faq/how-much-7-day-trip-to-vietnam-cost" element={<VietnamFaq25 />} />
+              <Route path="/vietnam-travel-faq/what-can-1-dollar-buy-in-vietnam" element={<VietnamFaq26 />} />
+              <Route path="/vietnam-travel-faq/what-can-1-us-dollar-get-you-in-vietnam" element={<VietnamFaq27 />} />
+              <Route path="/vietnam-travel-faq/carry-usd-or-dong-in-vietnam" element={<VietnamFaq28 />} />
+              <Route path="/vietnam-travel-faq/anything-worth-buying-in-vietnam" element={<VietnamFaq29 />} />
+              <Route path="/vietnam-travel-faq/credit-cards-widely-accepted-in-vietnam" element={<VietnamFaq30 />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
 
