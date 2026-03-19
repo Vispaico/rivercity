@@ -129,3 +129,21 @@
   min-height: 320px;
   margin: 2rem 0;
 }
+
+/* TripAdvisor Badge Customization */
+#TA_rated160 .TA_rated {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+#TA_rated160 img {
+  max-height: 50px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+#TA_rated160 img:hover {
+  opacity: 1;
+}

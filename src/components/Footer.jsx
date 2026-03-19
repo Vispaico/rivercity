@@ -39,6 +39,20 @@ const XIcon = (props) => (
   </svg>
 );
 
+const TripadvisorIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    stroke="currentColor"
+    strokeWidth="0"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M12 5a3.5 3.5 0 00-3.5 3.5 3.5 3.5 0 00.2 1.1H4.2C3.5 7.4 3 6.4 3 5a4 4 0 018 0zm0 2a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-.2 1.1h4.5c.7-2.2 2.2-4.6 4.2-5.6A4 4 0 0012 7zm-2 6.5c0-2 1-4 3-5.5a3.5 3.5 0 00-.5-1.5A8 8 0 008 8.5c0 4 3 7 6 7s6-3 6-7a8 8 0 00-4.5-2.5 3.5 3.5 0 00-.5 1.5c2 1.5 3 3.5 3 5.5a4 4 0 01-4.5 4 4 4 0 01-4.5-4z" />
+  </svg>
+);
+
 
 const Footer = () => {
   const { toast } = useToast();
@@ -113,6 +127,7 @@ const Footer = () => {
               Premium vehicle rental service in Haiphong, Vietnam. Explore the
               city and countryside with our high-quality bikes and cars.
             </p>
+            
             <div className="flex space-x-4">
               <a
                 href="https://www.facebook.com/rivercitybikerentals/"
@@ -159,7 +174,16 @@ const Footer = () => {
               >
                 <Youtube className="h-5 w-5" />
               </a>
-            </div>
+              <a
+                href="https://www.tripadvisor.com/Attraction_Review-g303944-d34000500-Reviews-RiverCity_Bike_Rentals-Hai_Phong.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit our Tripadvisor page"
+                className="bg-gray-800 hover:bg-blue-600 transition-colors p-2 rounded-full"
+              >
+                <TripadvisorIcon className="h-5 w-5" />
+              </a>
+              </div>
           </div>
 
           <div>
@@ -235,6 +259,7 @@ const Footer = () => {
               ))}
             </ul>
           </div>
+          
         </div>
       </div>
     </footer>

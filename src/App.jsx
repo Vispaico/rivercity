@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import VispaicoWheel from "@/components/VispaicoWheel";
 import AdBanner from "@/components/AdBanner";
+// import AffiliateAgent from "@/components/agents/AffiliateAgent";
+// import ChatAgent from "@/components/agents/ChatAgent";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -265,6 +267,8 @@ function App() {
         )}
 
         <VispaicoWheel />
+        {/* <AffiliateAgent />
+        <ChatAgent /> */}
         <Footer />
         <Toaster />
       </div>

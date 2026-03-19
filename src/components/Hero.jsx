@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, MapPin } from "lucide-react";
@@ -132,7 +132,7 @@ const Hero = () => {
           >
             {[
               "Trusted by 2,000+ travelers since 2019",
-              "4.8★ Google rating (22 verified reviews)",
+              "4.8★ Google rating (23 verified reviews)",
               "Free hotel delivery & phone holder included",
               "Airport pickup, monthly and chauffeur options",
             ].map((item, index) => (
@@ -142,6 +142,21 @@ const Hero = () => {
               </li>
             ))}
           </motion.ul>
+
+          <motion.a
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+            href="https://www.tripadvisor.com/Attraction_Review-g303944-d34000500-Reviews-RiverCity_Bike_Rentals-Hai_Phong.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-emerald-300 hover:text-emerald-200 transition-colors"
+            aria-label="View our TripAdvisor reviews"
+          >
+            <span className="text-sm font-semibold">★★★★★</span>
+            <span className="text-sm">Excellent</span>
+            <span className="text-xs text-white/70">on TripAdvisor</span>
+          </motion.a>
         </div>
       </div>
 
