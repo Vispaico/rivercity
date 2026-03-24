@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Minus, Plus } from "lucide-react";
 
-const defaultWidget = {
-  title: "Trusted partners",
-  body: "Book vetted motorbike rentals, eSIMs, and airport transfers through our partners.",
-  url: "https://www.rivercitybikerentals.com/store",
+export const AffiliateWidget = {
+  title: "Trusted partner",
+  body: "breeze - Book your data eSIM in 3 simple steps | No stress. No contract. Easy, breezy data roaming.",
+  url: "https://breezesim.com?sca_ref=10888013.jwCXVNxunZ",
   ctaLabel: "View offers",
   disclosure: "Affiliate links may earn us a commission at no extra cost to you.",
 };
@@ -31,7 +31,7 @@ const loadScript = (id, src) => {
   });
 };
 
-const AffiliateWidgetBox = ({ widget }) => {
+export const AffiliateWidgetBox = ({ widget }) => {
   if (!widget) return null;
 
   return (
@@ -83,7 +83,7 @@ const AffiliateAgent = () => {
 
     const loadExternal = async () => {
       if (!agentUrl) {
-        applyWidget(defaultWidget);
+        applyWidget(AffiliateWidget);
         return;
       }
 
@@ -99,7 +99,7 @@ const AffiliateAgent = () => {
         applyWidget(externalWidget);
       } catch (error) {
         console.error("Affiliate agent failed to load", error);
-        applyWidget(defaultWidget);
+        applyWidget(AffiliateWidget);
       }
     };
 
@@ -132,7 +132,7 @@ const AffiliateAgent = () => {
 
       {isOpen && (
         <div className="pointer-events-auto">
-          <AffiliateWidgetBox widget={widget || defaultWidget} />
+          <AffiliateWidgetBox widget={widget || AffiliateWidget} />
         </div>
       )}
     </div>

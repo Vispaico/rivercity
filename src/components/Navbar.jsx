@@ -157,6 +157,15 @@ const Navbar = () => {
                           View All Guides →
                         </Link>
                       </DropdownMenu.Item>
+
+                      <DropdownMenu.Item asChild>
+                        <Link
+                          to="/vietnam-travel-faq"
+                          className="block rounded-xl px-3 py-2 text-sm font-semibold text-green-700 outline-none hover:bg-green-50 focus:bg-green-50"
+                        >
+                          Vietnam Travel FAQ
+                        </Link>
+                      </DropdownMenu.Item>
                     </div>
                   </DropdownMenu.Content>
                 </DropdownMenu.Portal>
@@ -261,6 +270,9 @@ const Navbar = () => {
                           ))}
                           <Link to="/guides" className="block text-blue-700 font-semibold hover:underline py-1.5 text-sm">
                             View All Guides →
+                          </Link>
+                          <Link to="/vietnam-travel-faq" className="block text-green-700 font-semibold hover:underline py-1.5 text-sm">
+                            Vietnam Travel FAQ
                           </Link>
                         </div>
                       )}

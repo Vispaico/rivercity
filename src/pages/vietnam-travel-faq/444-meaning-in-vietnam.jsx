@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ChevronLeft, ArrowRight, MapPin, Calendar, DollarSign, Shield, Coffee, Heart, CreditCard, ShoppingBag } from "lucide-react";
 import { faqData } from "./data";
+import { AffiliateWidgetBox, AffiliateWidget } from "@/components/agents/AffiliateAgent";
 
 const relatedArticles = faqData.filter(f => f.id !== 18).slice(0, 4);
 const categoryIcons = { safety: Shield, budget: DollarSign, travel: Calendar, food: Coffee, culture: Heart, shopping: ShoppingBag, money: CreditCard, general: MapPin };

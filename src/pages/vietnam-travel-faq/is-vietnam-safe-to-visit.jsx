@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ChevronLeft, ArrowRight, MapPin, Calendar, DollarSign, Shield, Coffee, Heart, CreditCard, ShoppingBag } from "lucide-react";
 import { faqData } from "./data";
+import { AffiliateWidgetBox, AffiliateWidget } from "@/components/agents/AffiliateAgent";
 
 const relatedArticles = faqData.filter(f => f.id !== 1).slice(0, 4);
 
@@ -70,14 +71,9 @@ const Page = () => {
         {/* Content */}
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
-            {/* Ad Display */}
-            <div className="mb-10 p-6 bg-white rounded-2xl border border-dashed border-slate-300 text-center">
-              <div className="flex flex-col items-center justify-center py-4">
-                <p className="text-xs uppercase tracking-widest text-slate-400 mb-2">Advertisement</p>
-                <div className="w-full max-w-[728px] h-[90px] bg-gradient-to-r from-slate-100 to-slate-200 rounded-lg flex items-center justify-center">
-                  <span className="text-slate-400 text-sm">Your Ad Here</span>
-                </div>
-              </div>
+            {/* Affiliate Widget */}
+            <div className="mb-10 flex justify-center">
+              <AffiliateWidgetBox widget={AffiliateWidget} />
             </div>
 
             {/* Full Answer */}

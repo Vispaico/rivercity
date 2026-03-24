@@ -48,6 +48,10 @@ const VietnamFaq27 = lazy(() => import("@/pages/vietnam-travel-faq/what-can-1-us
 const VietnamFaq28 = lazy(() => import("@/pages/vietnam-travel-faq/carry-usd-or-dong-in-vietnam"));
 const VietnamFaq29 = lazy(() => import("@/pages/vietnam-travel-faq/anything-worth-buying-in-vietnam"));
 const VietnamFaq30 = lazy(() => import("@/pages/vietnam-travel-faq/credit-cards-widely-accepted-in-vietnam"));
+const VietnamFaq31 = lazy(() => import("@/pages/vietnam-travel-faq/is-it-better-to-buy-local-sim-or-esim"));
+const VietnamFaq32 = lazy(() => import("@/pages/vietnam-travel-faq/what-to-turn-off-on-phone-when-traveling"));
+const VietnamFaq33 = lazy(() => import("@/pages/vietnam-travel-faq/are-travel-sim-cards-cheaper-than-roaming"));
+const VietnamFaq34 = lazy(() => import("@/pages/vietnam-travel-faq/can-i-buy-sim-card-before-travel"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
@@ -175,6 +179,10 @@ function App() {
               <Route path="/vietnam-travel-faq/carry-usd-or-dong-in-vietnam" element={<VietnamFaq28 />} />
               <Route path="/vietnam-travel-faq/anything-worth-buying-in-vietnam" element={<VietnamFaq29 />} />
               <Route path="/vietnam-travel-faq/credit-cards-widely-accepted-in-vietnam" element={<VietnamFaq30 />} />
+              <Route path="/vietnam-travel-faq/is-it-better-to-buy-local-sim-or-esim" element={<VietnamFaq31 />} />
+              <Route path="/vietnam-travel-faq/what-to-turn-off-on-phone-when-traveling" element={<VietnamFaq32 />} />
+              <Route path="/vietnam-travel-faq/are-travel-sim-cards-cheaper-than-roaming" element={<VietnamFaq33 />} />
+              <Route path="/vietnam-travel-faq/can-i-buy-sim-card-before-travel" element={<VietnamFaq34 />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
 
