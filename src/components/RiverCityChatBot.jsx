@@ -33,7 +33,7 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(supported.includes(browserLang) ? browserLang : 'en');
   }, []);
 
-  // Speech Recognition Setup
+  // Speech Recognition (Audio Input)
   useEffect(() => {
     if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
 
@@ -51,17 +51,20 @@ export default function RiverCityChatBot() {
       setIsListening(false);
     };
 
-    recognitionRef.current.onerror = () => setIsListening(false);
+    recognitionRef.current.onerror = (event) => {
+      console.error('Speech recognition error:', event);
+      setIsListening(false);
+    };
   }, [currentLanguage]);
 
   const speak = (text) => {
-    if ('speechSynthesis' in window && isVoiceEnabled) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
-      window.speechSynthesis.speak(utterance);
-    }
+    if (!('speechSynthesis' in window) || !isVoiceEnabled) return;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
+    utterance.rate = 0.92;
+    utterance.pitch = 1.05;
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleVoiceMessage = async (transcript) => {
@@ -80,10 +83,10 @@ export default function RiverCityChatBot() {
       });
 
       const data = await res.json();
-      const botReply = data.content;
+      const botReply = data.content || "Sorry, I didn't catch that.";
 
       setMessages(prev => [...prev, { role: 'assistant', content: botReply }]);
-      speak(botReply);                    // ← Speak the response
+      speak(botReply);                    // ← Speak the reply
     } catch (err) {
       console.error(err);
       const errorMsg = "Sorry, I'm having trouble right now.";
@@ -114,10 +117,10 @@ export default function RiverCityChatBot() {
       });
 
       const data = await res.json();
-      const botReply = data.content;
+      const botReply = data.content || "Sorry, I didn't understand.";
 
       setMessages(prev => [...prev, { role: 'assistant', content: botReply }]);
-      speak(botReply);                    // ← Speak the response
+      speak(botReply);
     } catch (err) {
       console.error(err);
       const errorMsg = "Sorry, I'm having trouble right now.";
@@ -199,7 +202,7 @@ export default function RiverCityChatBot() {
             </div>
           </div>
 
-          {/* Messages */}
+          {/* Messages Area */}
           <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 mt-8">
