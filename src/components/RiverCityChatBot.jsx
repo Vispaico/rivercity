@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './RiverCityChatBot.css';
 
 const SUPPORTED_LANGUAGES = [
@@ -21,6 +21,10 @@ export default function RiverCityChatBot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+
+  const recognitionRef = useRef(null);
 
   // Auto-detect language
   useEffect(() => {
@@ -29,11 +33,73 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(supported.includes(browserLang) ? browserLang : 'en');
   }, []);
 
+  // Speech Recognition Setup
+  useEffect(() => {
+    if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
+
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognitionRef.current = new SpeechRecognitionAPI();
+    recognitionRef.current.continuous = false;
+    recognitionRef.current.interimResults = false;
+    recognitionRef.current.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
+
+    recognitionRef.current.onresult = (event) => {
+      const transcript = event.results[0][0].transcript.trim();
+      if (transcript) {
+        handleVoiceMessage(transcript);
+      }
+      setIsListening(false);
+    };
+
+    recognitionRef.current.onerror = () => setIsListening(false);
+  }, [currentLanguage]);
+
+  const speak = (text) => {
+    if ('speechSynthesis' in window && isVoiceEnabled) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleVoiceMessage = async (transcript) => {
+    const userMessage = { role: 'user', content: transcript };
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          messages: [...messages, userMessage], 
+          userLanguage: currentLanguage 
+        }),
+      });
+
+      const data = await res.json();
+      const botReply = data.content;
+
+      setMessages(prev => [...prev, { role: 'assistant', content: botReply }]);
+      speak(botReply);                    // ← Speak the response
+    } catch (err) {
+      console.error(err);
+      const errorMsg = "Sorry, I'm having trouble right now.";
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
+      speak(errorMsg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = { role: 'user', content: input.trim() };
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input.trim();
     setInput('');
     setIsLoading(true);
 
@@ -48,13 +114,15 @@ export default function RiverCityChatBot() {
       });
 
       const data = await res.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.content }]);
+      const botReply = data.content;
+
+      setMessages(prev => [...prev, { role: 'assistant', content: botReply }]);
+      speak(botReply);                    // ← Speak the response
     } catch (err) {
       console.error(err);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "Sorry, I'm having trouble right now. Please try again." 
-      }]);
+      const errorMsg = "Sorry, I'm having trouble right now.";
+      setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
+      speak(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +132,13 @@ export default function RiverCityChatBot() {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
+    }
+  };
+
+  const startVoiceInput = () => {
+    if (recognitionRef.current) {
+      setIsListening(true);
+      recognitionRef.current.start();
     }
   };
 
@@ -107,6 +182,15 @@ export default function RiverCityChatBot() {
               </select>
 
               <button
+                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+                className={`px-4 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
+                  isVoiceEnabled ? 'bg-white text-blue-600' : 'bg-white/20 hover:bg-white/30'
+                }`}
+              >
+                {isVoiceEnabled ? '🔊 On' : '🔇 Off'}
+              </button>
+
+              <button 
                 onClick={() => setIsOpen(false)}
                 className="text-2xl leading-none opacity-80 hover:opacity-100"
               >
@@ -115,7 +199,7 @@ export default function RiverCityChatBot() {
             </div>
           </div>
 
-          {/* Messages Area */}
+          {/* Messages */}
           <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 mt-8">
@@ -123,17 +207,12 @@ export default function RiverCityChatBot() {
               </div>
             )}
             {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] px-4 py-3 rounded-2xl ${
-                    msg.role === 'user' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-white border border-gray-200 text-gray-800'
-                  }`}
-                >
+              <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                  msg.role === 'user' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-white border border-gray-200 text-gray-800'
+                }`}>
                   {msg.content}
                 </div>
               </div>
@@ -155,7 +234,7 @@ export default function RiverCityChatBot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask about rentals, transport, Cat Ba..."
+                placeholder="Ask about rentals, Cat Ba ferry, transport..."
                 className="flex-1 border border-gray-300 rounded-full px-5 py-3 focus:outline-none focus:border-blue-500"
               />
               <button
@@ -168,8 +247,21 @@ export default function RiverCityChatBot() {
             </div>
           </div>
 
+          {/* Voice Input Button */}
+          {isVoiceEnabled && (
+            <button
+              onClick={startVoiceInput}
+              disabled={isListening}
+              className={`absolute bottom-20 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl z-10 transition-all ${
+                isListening ? 'bg-red-500 voice-listening' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              {isListening ? '🎤' : '🎙️'}
+            </button>
+          )}
+
           {/* Footer */}
-          <div className="text-center text-xs text-gray-400 py-2 bg-gray-50 border-t">
+          <div className="text-center text-xs text-gray-400 py-2 bg-gray-50 border-t flex-shrink-0">
             RiverCity Bike Rentals • Haiphong, Vietnam
           </div>
         </div>
