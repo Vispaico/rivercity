@@ -33,7 +33,7 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(supported.includes(browserLang) ? browserLang : 'en');
   }, []);
 
-  // Speech Recognition (Audio Input)
+  // Speech Recognition Setup
   useEffect(() => {
     if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
 
@@ -44,17 +44,18 @@ export default function RiverCityChatBot() {
     recognitionRef.current.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
 
     recognitionRef.current.onresult = (event) => {
-      const transcript = event.results[0][0].transcript.trim();
+      let transcript = event.results[0][0].transcript.trim();
+      
+      // Simple correction for common mishearing
+      transcript = transcript.replace(/iPhone|iphone|I phone/gi, 'Haiphong');
+
       if (transcript) {
         handleVoiceMessage(transcript);
       }
       setIsListening(false);
     };
 
-    recognitionRef.current.onerror = (event) => {
-      console.error('Speech recognition error:', event);
-      setIsListening(false);
-    };
+    recognitionRef.current.onerror = () => setIsListening(false);
   }, [currentLanguage]);
 
   const speak = (text) => {
@@ -63,7 +64,7 @@ export default function RiverCityChatBot() {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
     utterance.rate = 0.92;
-    utterance.pitch = 1.05;
+    utterance.pitch = 1.05;        // Slightly higher pitch → sounds more female on many devices
     window.speechSynthesis.speak(utterance);
   };
 
@@ -86,7 +87,7 @@ export default function RiverCityChatBot() {
       const botReply = data.content || "Sorry, I didn't catch that.";
 
       setMessages(prev => [...prev, { role: 'assistant', content: botReply }]);
-      speak(botReply);                    // ← Speak the reply
+      speak(botReply);                    // Speak on audio input too
     } catch (err) {
       console.error(err);
       const errorMsg = "Sorry, I'm having trouble right now.";
