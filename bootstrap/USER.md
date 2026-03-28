@@ -1,0 +1,4 @@
+- Business: RiverCity Bike Rentals, Haiphong, Vietnam
+- Services: Motorbike rental, car rental, chauffeur service, eSIM cards
+- Knowledge focus: Haiphong travel info, local buses, ferries, trains, Vietnam travel tips, culture, practical guides
+- Goal: Help travelers get accurate information quickly and feel welcome
