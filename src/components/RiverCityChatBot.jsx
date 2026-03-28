@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PiChat } from '@mariozechner/pi-web-ui';
+import { ChatPanel } from '@mariozechner/pi-web-ui';
 import './RiverCityChatBot.css';
 
 const SUPPORTED_LANGUAGES = [
