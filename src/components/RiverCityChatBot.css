@@ -43,3 +43,14 @@
     transform: scale(1.18);
   }
 }
+
+/* Mobile positioning fix */
+@media (max-width: 480px) {
+  .rivercity-chat-window {
+    width: 92vw !important;
+    height: 78vh !important;
+    bottom: 80px !important;
+    right: 4vw !important;
+    border-radius: 20px !important;
+  }
+}

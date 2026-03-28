@@ -124,7 +124,7 @@ export default function RiverCityChatBot() {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
+        className="fixed top-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
       >
         🏍️
       </button>
@@ -230,7 +230,7 @@ export default function RiverCityChatBot() {
             <button
               onClick={startVoiceInput}
               disabled={isListening}
-              className={`absolute bottom-20 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl z-10 transition-all ${
+              className={`absolute bottom-28 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl z-10 transition-all ${
                 isListening ? 'bg-red-500 voice-listening' : 'bg-blue-600 hover:bg-blue-700'
               }`}
             >
