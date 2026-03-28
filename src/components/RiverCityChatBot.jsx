@@ -21,10 +21,10 @@ export default function RiverCityChatBot() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [isListening, setIsListening] = useState(false);
 
-  const chatContainerRef = useRef(null);
+  const chatRef = useRef(null);
   const recognitionRef = useRef(null);
 
-  // Auto detect language
+  // Auto-detect language
   useEffect(() => {
     const browserLang = navigator.language.split('-')[0];
     const supported = SUPPORTED_LANGUAGES.map(l => l.code);
@@ -42,10 +42,15 @@ export default function RiverCityChatBot() {
     recognitionRef.current.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
 
     recognitionRef.current.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      console.log('Voice input:', transcript);
+      const transcript = event.results[0][0].transcript.trim();
+      if (transcript && chatRef.current) {
+        // Simulate sending the voice message
+        const sendEvent = new CustomEvent('send', {
+          detail: { messages: [{ role: 'user', content: transcript }] }
+        });
+        chatRef.current.dispatchEvent(sendEvent);
+      }
       setIsListening(false);
-      // You can later auto-send this transcript if desired
     };
 
     recognitionRef.current.onerror = () => setIsListening(false);
@@ -64,25 +69,23 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(e.target.value);
   };
 
-  // This is the key fix: Use ref + web component mounting
+  // Mount the ChatPanel web component
   useEffect(() => {
-    if (!isOpen || !chatContainerRef.current) return;
+    if (!isOpen || !chatRef.current) return;
 
-    // Clear previous content
-    chatContainerRef.current.innerHTML = '';
+    chatRef.current.innerHTML = '';
 
-    // Create the web component
     const chatPanel = document.createElement('chat-panel');
-    
+
     chatPanel.setAttribute('placeholder', 'Ask about rentals, Cat Ba ferry, transport...');
     chatPanel.setAttribute('show-thinking', 'true');
     if (isVoiceEnabled) chatPanel.setAttribute('enable-voice', 'true');
 
-    // Attach the send handler
+    // Forward send event to our backend
     chatPanel.addEventListener('send', async (e) => {
-      const messages = e.detail.messages || [];
+      const messages = e.detail?.messages || [];
       try {
-        const response = await fetch('/api/chat', {
+        const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
@@ -91,25 +94,27 @@ export default function RiverCityChatBot() {
           }),
         });
 
-        if (!response.ok) throw new Error('Failed');
-        const data = await response.json();
-        
-        // Send response back to the web component
-        chatPanel.dispatchEvent(new CustomEvent('response', { 
-          detail: { content: data.content } 
-        }));
+        if (!res.ok) throw new Error('Failed');
+        const data = await res.json();
+
+        // Send response back to the chat panel
+        const responseEvent = new CustomEvent('response', {
+          detail: { content: data.content }
+        });
+        chatPanel.dispatchEvent(responseEvent);
       } catch (err) {
         console.error(err);
-        chatPanel.dispatchEvent(new CustomEvent('response', { 
-          detail: { content: "Sorry, I'm having trouble right now." } 
-        }));
+        const errorEvent = new CustomEvent('response', {
+          detail: { content: "Sorry, I'm having trouble right now. Please try again." }
+        });
+        chatPanel.dispatchEvent(errorEvent);
       }
     });
 
-    chatContainerRef.current.appendChild(chatPanel);
+    chatRef.current.appendChild(chatPanel);
 
     return () => {
-      if (chatContainerRef.current) chatContainerRef.current.innerHTML = '';
+      if (chatRef.current) chatRef.current.innerHTML = '';
     };
   }, [isOpen, isVoiceEnabled, currentLanguage]);
 
@@ -172,7 +177,7 @@ export default function RiverCityChatBot() {
 
           {/* Chat Area */}
           <div 
-            ref={chatContainerRef}
+            ref={chatRef}
             className="flex-1 overflow-hidden bg-gray-50 rivercity-chat-messages"
           />
 
