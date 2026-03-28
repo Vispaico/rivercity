@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ChatPanel } from '@mariozechner/pi-web-ui';
 import './RiverCityChatBot.css';
 
 const SUPPORTED_LANGUAGES = [
@@ -17,12 +18,8 @@ const SUPPORTED_LANGUAGES = [
 
 export default function RiverCityChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [isListening, setIsListening] = useState(false);
-
-  const chatRef = useRef(null);
-  const recognitionRef = useRef(null);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
 
   // Auto-detect language
   useEffect(() => {
@@ -31,92 +28,25 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(supported.includes(browserLang) ? browserLang : 'en');
   }, []);
 
-  // Voice Recognition
-  useEffect(() => {
-    if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
+  const handleSend = async (messages) => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          messages, 
+          userLanguage: currentLanguage 
+        }),
+      });
 
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognitionAPI();
-    recognitionRef.current.continuous = false;
-    recognitionRef.current.interimResults = false;
-    recognitionRef.current.lang = currentLanguage === 'zh' ? 'zh-CN' : currentLanguage;
-
-    recognitionRef.current.onresult = (event) => {
-      const transcript = event.results[0][0].transcript.trim();
-      if (transcript && chatRef.current) {
-        // Simulate sending the voice message
-        const sendEvent = new CustomEvent('send', {
-          detail: { messages: [{ role: 'user', content: transcript }] }
-        });
-        chatRef.current.dispatchEvent(sendEvent);
-      }
-      setIsListening(false);
-    };
-
-    recognitionRef.current.onerror = () => setIsListening(false);
-  }, [currentLanguage]);
-
-  const toggleVoice = () => setIsVoiceEnabled(!isVoiceEnabled);
-
-  const startVoiceInput = () => {
-    if (recognitionRef.current) {
-      setIsListening(true);
-      recognitionRef.current.start();
+      if (!response.ok) throw new Error('Failed');
+      const data = await response.json();
+      return data.content;
+    } catch (err) {
+      console.error(err);
+      return "Sorry, I'm having trouble right now. Please try again.";
     }
   };
-
-  const handleLanguageChange = (e) => {
-    setCurrentLanguage(e.target.value);
-  };
-
-  // Mount the ChatPanel web component
-  useEffect(() => {
-    if (!isOpen || !chatRef.current) return;
-
-    chatRef.current.innerHTML = '';
-
-    const chatPanel = document.createElement('chat-panel');
-
-    chatPanel.setAttribute('placeholder', 'Ask about rentals, Cat Ba ferry, transport...');
-    chatPanel.setAttribute('show-thinking', 'true');
-    if (isVoiceEnabled) chatPanel.setAttribute('enable-voice', 'true');
-
-    // Forward send event to our backend
-    chatPanel.addEventListener('send', async (e) => {
-      const messages = e.detail?.messages || [];
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            messages, 
-            userLanguage: currentLanguage 
-          }),
-        });
-
-        if (!res.ok) throw new Error('Failed');
-        const data = await res.json();
-
-        // Send response back to the chat panel
-        const responseEvent = new CustomEvent('response', {
-          detail: { content: data.content }
-        });
-        chatPanel.dispatchEvent(responseEvent);
-      } catch (err) {
-        console.error(err);
-        const errorEvent = new CustomEvent('response', {
-          detail: { content: "Sorry, I'm having trouble right now. Please try again." }
-        });
-        chatPanel.dispatchEvent(errorEvent);
-      }
-    });
-
-    chatRef.current.appendChild(chatPanel);
-
-    return () => {
-      if (chatRef.current) chatRef.current.innerHTML = '';
-    };
-  }, [isOpen, isVoiceEnabled, currentLanguage]);
 
   return (
     <>
@@ -147,7 +77,7 @@ export default function RiverCityChatBot() {
             <div className="flex items-center gap-3">
               <select
                 value={currentLanguage}
-                onChange={handleLanguageChange}
+                onChange={(e) => setCurrentLanguage(e.target.value)}
                 className="bg-white/20 text-white text-sm rounded-lg px-3 py-1 border border-white/30 focus:outline-none"
               >
                 {SUPPORTED_LANGUAGES.map(lang => (
@@ -158,7 +88,7 @@ export default function RiverCityChatBot() {
               </select>
 
               <button
-                onClick={toggleVoice}
+                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
                 className={`px-4 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
                   isVoiceEnabled ? 'bg-white text-blue-600' : 'bg-white/20 hover:bg-white/30'
                 }`}
@@ -176,23 +106,17 @@ export default function RiverCityChatBot() {
           </div>
 
           {/* Chat Area */}
-          <div 
-            ref={chatRef}
-            className="flex-1 overflow-hidden bg-gray-50 rivercity-chat-messages"
-          />
-
-          {/* Voice Button */}
-          {isVoiceEnabled && (
-            <button
-              onClick={startVoiceInput}
-              disabled={isListening}
-              className={`absolute bottom-20 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl z-10 transition-all ${
-                isListening ? 'bg-red-500 voice-listening' : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
-              {isListening ? '🎤' : '🎙️'}
-            </button>
-          )}
+          <div className="flex-1 overflow-hidden bg-gray-50">
+            <ChatPanel
+              onSend={handleSend}
+              placeholder="Ask about rentals, Cat Ba ferry, transport..."
+              showThinking={true}
+              enableVoice={isVoiceEnabled}
+              avatar="/bot/avatar.webp"
+              avatarSize={52}
+              className="h-full"
+            />
+          </div>
 
           {/* Footer */}
           <div className="text-center text-xs text-gray-400 py-3 bg-gray-50 border-t flex-shrink-0">
