@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ChatPanel } from '@mariozechner/pi-web-ui';
 import './RiverCityChatBot.css';
 
 const SUPPORTED_LANGUAGES = [
@@ -19,7 +18,9 @@ const SUPPORTED_LANGUAGES = [
 export default function RiverCityChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Auto-detect language
   useEffect(() => {
@@ -28,23 +29,41 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(supported.includes(browserLang) ? browserLang : 'en');
   }, []);
 
-  const handleSend = async (messages) => {
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = { role: 'user', content: input.trim() };
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
+
     try {
-      const response = await fetch('/api/chat', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          messages, 
+          messages: [...messages, userMessage], 
           userLanguage: currentLanguage 
         }),
       });
 
-      if (!response.ok) throw new Error('Failed');
-      const data = await response.json();
-      return data.content;
+      const data = await res.json();
+      setMessages(prev => [...prev, { role: 'assistant', content: data.content }]);
     } catch (err) {
       console.error(err);
-      return "Sorry, I'm having trouble right now. Please try again.";
+      setMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: "Sorry, I'm having trouble right now. Please try again." 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
@@ -52,16 +71,16 @@ export default function RiverCityChatBot() {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
       >
         🏍️
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[420px] h-[640px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 rivercity-chat-window">
+        <div className="fixed bottom-24 right-6 z-50 w-[420px] h-[640px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
 
           {/* Header */}
-          <div className="rivercity-chat-header text-white p-4 flex items-center justify-between flex-shrink-0">
+          <div className="bg-blue-600 text-white p-4 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
               <img 
                 src="/bot/avatar.webp"
@@ -88,15 +107,6 @@ export default function RiverCityChatBot() {
               </select>
 
               <button
-                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-                className={`px-4 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
-                  isVoiceEnabled ? 'bg-white text-blue-600' : 'bg-white/20 hover:bg-white/30'
-                }`}
-              >
-                {isVoiceEnabled ? '🔊 On' : '🔇 Off'}
-              </button>
-
-              <button 
                 onClick={() => setIsOpen(false)}
                 className="text-2xl leading-none opacity-80 hover:opacity-100"
               >
@@ -105,21 +115,61 @@ export default function RiverCityChatBot() {
             </div>
           </div>
 
-          {/* Chat Area */}
-          <div className="flex-1 overflow-hidden bg-gray-50">
-            <ChatPanel
-              onSend={handleSend}
-              placeholder="Ask about rentals, Cat Ba ferry, transport..."
-              showThinking={true}
-              enableVoice={isVoiceEnabled}
-              avatar="/bot/avatar.webp"
-              avatarSize={52}
-              className="h-full"
-            />
+          {/* Messages Area */}
+          <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
+            {messages.length === 0 && (
+              <div className="text-center text-gray-500 mt-8">
+                Hello! How can I help you with your trip in Haiphong?
+              </div>
+            )}
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                    msg.role === 'user' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-white border border-gray-200 text-gray-800'
+                  }`}
+                >
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white border border-gray-200 px-4 py-3 rounded-2xl">
+                  Thinking...
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input Area */}
+          <div className="p-4 border-t bg-white">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about rentals, transport, Cat Ba..."
+                className="flex-1 border border-gray-300 rounded-full px-5 py-3 focus:outline-none focus:border-blue-500"
+              />
+              <button
+                onClick={sendMessage}
+                disabled={!input.trim() || isLoading}
+                className="bg-blue-600 text-white px-6 rounded-full disabled:opacity-50"
+              >
+                Send
+              </button>
+            </div>
           </div>
 
           {/* Footer */}
-          <div className="text-center text-xs text-gray-400 py-3 bg-gray-50 border-t flex-shrink-0">
+          <div className="text-center text-xs text-gray-400 py-2 bg-gray-50 border-t">
             RiverCity Bike Rentals • Haiphong, Vietnam
           </div>
         </div>
