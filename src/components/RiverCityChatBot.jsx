@@ -4,16 +4,16 @@ import './RiverCityChatBot.css';
 
 const SUPPORTED_LANGUAGES = [
   { code: 'en', name: 'English' },
-  { code: 'vi', name: 'Vietnamese' },
-  { code: 'de', name: 'German' },
-  { code: 'es', name: 'Spanish' },
-  { code: 'it', name: 'Italian' },
-  { code: 'fr', name: 'French' },
-  { code: 'pl', name: 'Polish' },
-  { code: 'ja', name: 'Japanese' },
-  { code: 'ko', name: 'Korean' },
-  { code: 'zh', name: 'Chinese (Simplified)' },
-  { code: 'ru', name: 'Russian' },
+  { code: 'vi', name: 'Tiếng Việt' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'es', name: 'Español' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'fr', name: 'Français' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'ja', name: '日本語' },
+  { code: 'ko', name: '한국인' },
+  { code: 'zh', name: '中国人' },
+  { code: 'ru', name: 'Русский' },
 ];
 
 export default function RiverCityChatBot() {
@@ -24,6 +24,7 @@ export default function RiverCityChatBot() {
 
   const recognitionRef = useRef(null);
 
+  // Auto-detect browser language
   useEffect(() => {
     const browserLang = navigator.language.split('-')[0];
     const supported = SUPPORTED_LANGUAGES.map(l => l.code);
@@ -31,7 +32,7 @@ export default function RiverCityChatBot() {
     setCurrentLanguage(detected);
   }, []);
 
-  // Voice setup (same as before)
+  // Voice Recognition Setup
   useEffect(() => {
     if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
 
@@ -43,20 +44,22 @@ export default function RiverCityChatBot() {
 
     recognitionRef.current.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
-      console.log('Voice:', transcript);
+      console.log('Voice input received:', transcript);
       setIsListening(false);
+      // TODO: You can extend PiChat to auto-send this transcript if needed
     };
 
     recognitionRef.current.onerror = () => setIsListening(false);
+
+    return () => recognitionRef.current?.abort();
   }, [currentLanguage]);
 
   const toggleVoice = () => setIsVoiceEnabled(!isVoiceEnabled);
 
   const startVoiceInput = () => {
-    if (recognitionRef.current) {
-      setIsListening(true);
-      recognitionRef.current.start();
-    }
+    if (!recognitionRef.current) return;
+    setIsListening(true);
+    recognitionRef.current.start();
   };
 
   const handleLanguageChange = (e) => {
@@ -77,9 +80,10 @@ export default function RiverCityChatBot() {
 
   return (
     <>
+      {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
+        className="fixed top-6 right-6 z-50 w-16 h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center text-3xl transition-all active:scale-95"
       >
         🏍️
       </button>
@@ -88,20 +92,21 @@ export default function RiverCityChatBot() {
         <div className="fixed bottom-24 right-6 z-50 w-[420px] h-[640px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 rivercity-chat-window">
 
           {/* Header */}
-          <div className="rivercity-chat-header text-white p-4 flex items-center justify-between flex-shrink-0">
+          <div className="rivercity-chat-header text-white p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img 
-                src="https://www.rivercitybikerentals.com/images/bot-avatar.png" 
+                src="/bot/avatar.webp" 
                 alt="RiverBot"
                 className="w-11 h-11 rounded-2xl object-cover border-2 border-white/50"
               />
               <div>
-                <p className="font-semibold text-lg">RiverBot</p>
+                <p className="font-semibold text-lg">Huyen</p>
                 <p className="text-xs opacity-90">Haiphong, Vietnam</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Language Selector */}
               <select
                 value={currentLanguage}
                 onChange={handleLanguageChange}
@@ -114,13 +119,14 @@ export default function RiverCityChatBot() {
                 ))}
               </select>
 
+              {/* Voice Toggle */}
               <button
                 onClick={toggleVoice}
                 className={`px-4 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
                   isVoiceEnabled ? 'bg-white text-blue-600' : 'bg-white/20 hover:bg-white/30'
                 }`}
               >
-                {isVoiceEnabled ? '🔊 On' : '🔇 Off'}
+                {isVoiceEnabled ? '🔊 Voice On' : '🔇 Voice'}
               </button>
 
               <button 
@@ -132,34 +138,36 @@ export default function RiverCityChatBot() {
             </div>
           </div>
 
-          {/* Chat Messages Area - Fixed height + scroll */}
-          <div className="flex-1 overflow-y-auto p-4 bg-gray-50 rivercity-chat-messages">
+          {/* Chat Area */}
+          <div className="flex-1 relative overflow-hidden rivercity-chat-container">
             <PiChat
               onSend={handleSend}
-              placeholder="Ask about rentals, Cat Ba, transport..."
+              placeholder="Ask about rentals, Cat Ba ferry, transport, or anything in Haiphong..."
               showThinking={true}
               enableVoice={isVoiceEnabled}
               avatar="https://www.rivercitybikerentals.com/images/bot-avatar.png"
-              avatarSize={52}
+              avatarSize={52}           // Bigger avatar as requested
               className="h-full"
             />
+
+            {/* Voice Input Button */}
+            {isVoiceEnabled && (
+              <button
+                onClick={startVoiceInput}
+                disabled={isListening}
+                className={`absolute bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl transition-all ${
+                  isListening 
+                    ? 'bg-red-500 voice-listening' 
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {isListening ? '🎤' : '🎙️'}
+              </button>
+            )}
           </div>
 
-          {/* Voice Input Button */}
-          {isVoiceEnabled && (
-            <button
-              onClick={startVoiceInput}
-              disabled={isListening}
-              className={`absolute bottom-20 right-6 w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl z-10 transition-all ${
-                isListening ? 'bg-red-500 voice-listening' : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
-              {isListening ? '🎤' : '🎙️'}
-            </button>
-          )}
-
           {/* Footer */}
-          <div className="text-center text-xs text-gray-400 py-3 bg-gray-50 border-t flex-shrink-0">
+          <div className="text-center text-xs text-gray-400 py-3 bg-gray-50 border-t">
             RiverCity Bike Rentals • Haiphong, Vietnam
           </div>
         </div>
