@@ -1,13 +1,11 @@
 ---
-title: Haiphong Airport Transfer
-summary: How to get from Haiphong Airport to the city or rental shop
-tags: transport, airport, transfer
-prerequisites: []
+title: Airport Transfer
+summary: Getting from Haiphong Airport to the city or our shop
+tags: transport, airport
 ---
 
-From Haiphong Airport (HPH):
+**Options:**
+- Grab / Taxi: 15–25 minutes
+- Private car pickup: We can arrange
 
-- **Grab / Taxi**: 15–20 minutes to the city center or our shop
-- **Private transfer**: We can arrange a car to pick you up
-
-Tell us your flight number and arrival time if you want us to arrange pickup.
+Please tell us your flight number if you want assistance.

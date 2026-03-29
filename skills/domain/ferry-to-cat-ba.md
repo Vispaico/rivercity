@@ -1,16 +1,13 @@
 ---
-title: Ferry to Cat Ba Island
-summary: How to go from Haiphong to Cat Ba by ferry
+title: Ferry to Cat Ba
+summary: How to travel from Haiphong to Cat Ba Island
 tags: transport, cat-ba, ferry
-prerequisites: [[haiphong-airport-transfer]]
 ---
 
-**Fastest way:**
+**Route:**
+1. Grab/taxi to Tuan Chau Ferry Pier (~30-40 min)
+2. High-speed ferry to Cat Ba (~45-60 min)
 
-1. Take a taxi or Grab from Haiphong to **Tuan Chau Ferry Pier** (about 30–40 minutes)
-2. Buy ticket for the high-speed ferry to Cat Ba Island
-3. Ferry takes around 45–60 minutes
+We can help arrange combined transfer + ferry ticket.
 
-We can help arrange private transfer + ferry ticket if you want.
-
-Best to go early in the morning to avoid crowds.
+Would you like me to open the detailed Cat Ba guide?

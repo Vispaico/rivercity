@@ -1,20 +1,15 @@
 ---
 title: Motorbike Rental
-summary: How to rent a motorbike at RiverCity Bike Rentals
-tags: rental, motorbike, haiphong
-prerequisites: []
+summary: Information about renting motorbikes at RiverCity
+tags: rental, motorbike, scooter
 ---
 
-### How it works
-We rent scooters and motorbikes for daily, weekly, or monthly use.
+We rent automatic scooters and manual motorbikes.
 
-**Requirements:**
-- Valid international driving permit or Vietnamese license
-- Passport copy
-- Cash or bank transfer for deposit
+**Popular models:**
+- Honda Air Blade, Honda Vision (automatic)
+- Yamaha Exciter (manual)
 
-**Popular models:** Honda Air Blade, Honda Vision, Yamaha Exciter.
+**Price range:** 150,000 – 250,000 VND per day.
 
-**Tip:** Always test the bike before taking it.
-
-See also: [[rental-prices]], [[rental-requirements]], [[insurance-options]]
+Would you like me to open the full rental page for more details?

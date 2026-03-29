@@ -4,4 +4,4 @@
 - [[staff-handover]]
 - [[send-telegram-staff]]
 - [[retrieve-knowledge]]
-
+- [[open-page]]

@@ -11,4 +11,4 @@ Use it to answer questions quickly and accurately.
 - [[faq-moc]] — Common questions
 - [[ops-moc]] — How to use tools and staff handover
 
-Start here, then follow the links you need.
+Start from a MOC, then follow the links you need.
