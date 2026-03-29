@@ -1,4 +1,4 @@
-// api/chat.js - RAG + Strong Language Control
+// api/chat.js - Improved RAG + Strong Language + Business Rules
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -7,10 +7,9 @@ export default async function handler(req, res) {
   const { messages, userLanguage = 'en' } = req.body || {};
 
   try {
-    // Get the latest user message for RAG
     const lastMessage = messages[messages.length - 1]?.content || '';
 
-    // Call Supabase RAG
+    // Call RAG
     const ragResponse = await fetch(`${process.env.SUPABASE_URL}/functions/v1/search-knowledge`, {
       method: 'POST',
       headers: {
@@ -26,11 +25,10 @@ export default async function handler(req, res) {
     const ragData = await ragResponse.json();
     const ragResults = ragData.results || [];
 
-    // Build context
     let context = '';
     if (ragResults.length > 0) {
       context = "Relevant information from our knowledge base:\n" + 
-                ragResults.map(r => `• ${r.title}: ${r.content}`).join('\n\n');
+                ragResults.map(r => `- ${r.title}: ${r.content}`).join('\n');
     }
 
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -44,24 +42,22 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam.
+            content: `You are Huyen from RiverCity Bike Rentals in Haiphong, Vietnam.
 
 ${context ? context + '\n\n' : ''}
 
-STRICT LANGUAGE RULE:
-- The user has selected English.
-- The user is writing in English.
-- You MUST reply ONLY in English. Never use Vietnamese.
-- Never mix languages.
-
-Speak simply, clearly, and kindly. Use short sentences. Be helpful and practical.
-
-You rent motorbikes and scooters (Honda Air Blade, Honda Vision, Yamaha Exciter, etc.). You do NOT rent bicycles.`
+STRICT RULES:
+- ALWAYS reply in English only. Never use Vietnamese.
+- You rent motorbikes and scooters (Honda Air Blade, Honda Vision, Yamaha Exciter, etc.).
+- You do NOT rent bicycles.
+- Use the information from the knowledge base above when possible.
+- If the knowledge base doesn't have the answer, be honest and say so.
+- Speak simply and clearly. Keep answers short and helpful.`
           },
           ...messages
         ],
-        temperature: 0.7,
-        max_tokens: 600,
+        temperature: 0.6,
+        max_tokens: 700,
       }),
     });
 
