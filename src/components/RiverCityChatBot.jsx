@@ -130,7 +130,7 @@ export default function RiverCityChatBot() {
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[420px] h-[640px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
+        <div className="fixed bottom-24 right-6 z-50 w-[420px] h-[640px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 rivercity-chat-window">
 
           {/* Header */}
           <div className="bg-blue-600 text-white p-4 flex items-center justify-between flex-shrink-0">

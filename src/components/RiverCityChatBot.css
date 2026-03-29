@@ -44,13 +44,31 @@
   }
 }
 
-/* Mobile positioning fix */
+/* ==================== MOBILE FIXES ==================== */
 @media (max-width: 480px) {
   .rivercity-chat-window {
     width: 92vw !important;
-    height: 78vh !important;
-    bottom: 80px !important;
+    height: 75vh !important; /* Reduced height to avoid top overlap */
+    bottom: 90px !important; /* More space from bottom */
     right: 4vw !important;
     border-radius: 20px !important;
+    top: auto !important; /* Force bottom positioning */
+    z-index: 9999 !important;
+  }
+
+  /* Push chat higher if needed */
+  .rivercity-chat-window {
+    max-height: calc(100vh - 110px) !important;
+  }
+
+  /* Make sure header doesn't get cut */
+  .rivercity-chat-header {
+    padding: 14px 16px !important;
+    flex-shrink: 0;
+  }
+
+  /* Better scroll area */
+  .rivercity-chat-messages {
+    padding-bottom: 80px !important; /* Extra space for input */
   }
 }
