@@ -1,10 +1,4 @@
-// api/chat.js
-import { PiAgent } from '@mariozechner/pi-agent-core';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+// api/chat.js - Stable Minimal Version
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -13,35 +7,42 @@ export default async function handler(req, res) {
   const { messages, userLanguage = 'en' } = req.body || {};
 
   try {
-    const agent = new PiAgent({
-      model: {
-        provider: 'groq',
-        model: 'llama-3.1-8b-instant',
-        baseUrl: 'https://api.groq.com/openai/v1',
-        apiKey: process.env.GROQ_API_KEY,
+    const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
       },
-
-      extensionsPath: path.join(__dirname, '../pi-extensions'),
-
-      systemPrompt: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam.
-
-Always reply in the same language the user is using.
-Speak simply, clearly, and kindly. Keep answers short.`,
-
-      enabledExtensions: [
-        'pi-boomerang',
-        'pi-prompt-template-model',
-        'pi-subagents',
-        'pi-model-switch'
-      ]
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          {
+            role: 'system',
+            content: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam. 
+Speak simply, clearly, and kindly. Keep answers short and easy to understand.
+Always reply in the same language the user is using.`
+          },
+          ...messages
+        ],
+        temperature: 0.7,
+        max_tokens: 600,
+      }),
     });
 
-    const response = await agent.chat(messages);
+    if (!groqResponse.ok) {
+      console.error('Groq status:', groqResponse.status);
+      return res.status(200).json({ 
+        content: "Sorry, I'm having trouble connecting right now. Please try again." 
+      });
+    }
 
-    return res.status(200).json({ content: response.content });
+    const data = await groqResponse.json();
+    const content = data.choices?.[0]?.message?.content || "Can you ask again?";
+
+    return res.status(200).json({ content });
 
   } catch (error) {
-    console.error('Chat error:', error);
+    console.error('Chat handler error:', error);
     return res.status(200).json({ 
       content: "Sorry, I'm having trouble right now. Please try again." 
     });
