@@ -1,4 +1,4 @@
-// api/chat.js - Improved RAG + Strong Language + Business Rules
+// api/chat.js - Strong RAG Enforcement
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -27,8 +27,10 @@ export default async function handler(req, res) {
 
     let context = '';
     if (ragResults.length > 0) {
-      context = "Relevant information from our knowledge base:\n" + 
-                ragResults.map(r => `- ${r.title}: ${r.content}`).join('\n');
+      context = "USE THIS INFORMATION ONLY. Do not make up prices or facts:\n" + 
+                ragResults.map(r => `• ${r.title}: ${r.content}`).join('\n');
+    } else {
+      context = "No specific information found in knowledge base for this question.";
     }
 
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -44,20 +46,20 @@ export default async function handler(req, res) {
             role: 'system',
             content: `You are Huyen from RiverCity Bike Rentals in Haiphong, Vietnam.
 
-${context ? context + '\n\n' : ''}
+${context}
 
 STRICT RULES:
-- ALWAYS reply in English only. Never use Vietnamese.
-- You rent motorbikes and scooters (Honda Air Blade, Honda Vision, Yamaha Exciter, etc.).
-- You do NOT rent bicycles.
-- Use the information from the knowledge base above when possible.
-- If the knowledge base doesn't have the answer, be honest and say so.
-- Speak simply and clearly. Keep answers short and helpful.`
+- ONLY use the information provided above. Do not invent prices, models, or facts.
+- If the knowledge base doesn't have the answer, say "I don't have the exact information, but I can help with..." or offer to check with the team.
+- Always reply in English only.
+- Speak simply and clearly. Keep answers short and helpful.
+
+You rent motorbikes and scooters. You do NOT rent bicycles.`
           },
           ...messages
         ],
-        temperature: 0.6,
-        max_tokens: 700,
+        temperature: 0.5,   // Lower = less hallucination
+        max_tokens: 600,
       }),
     });
 
