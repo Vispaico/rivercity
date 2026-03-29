@@ -1,4 +1,4 @@
-// api/chat.js - Stable Minimal Version
+// api/chat.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -18,9 +18,17 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam. 
-Speak simply, clearly, and kindly. Keep answers short and easy to understand.
-Always reply in the same language the user is using.`
+            content: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam.
+
+CRITICAL LANGUAGE RULE:
+- ALWAYS reply in the EXACT language the user is using.
+- If the user writes in English, ALWAYS reply in English only. Never mix in Vietnamese.
+- If the user writes in Vietnamese, reply in Vietnamese.
+- Never switch languages unless the user does.
+
+You rent motorbikes (Honda scooters, Air Blade, Vision, Exciter, etc.). You do NOT rent bicycles.
+
+Speak simply, clearly, and kindly. Use short sentences. No jargon.`
           },
           ...messages
         ],
@@ -30,10 +38,7 @@ Always reply in the same language the user is using.`
     });
 
     if (!groqResponse.ok) {
-      console.error('Groq status:', groqResponse.status);
-      return res.status(200).json({ 
-        content: "Sorry, I'm having trouble connecting right now. Please try again." 
-      });
+      return res.status(200).json({ content: "Sorry, I'm having trouble right now." });
     }
 
     const data = await groqResponse.json();
@@ -42,7 +47,7 @@ Always reply in the same language the user is using.`
     return res.status(200).json({ content });
 
   } catch (error) {
-    console.error('Chat handler error:', error);
+    console.error('Chat error:', error);
     return res.status(200).json({ 
       content: "Sorry, I'm having trouble right now. Please try again." 
     });
