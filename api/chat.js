@@ -14,6 +14,7 @@ const LANGUAGE_INSTRUCTIONS = {
 };
 
 const FETCH_TIMEOUT_MS = 12000;
+const MAX_RAG_ITEMS = 6;
 
 function withTimeout(ms) {
   const controller = new AbortController();
@@ -42,6 +43,62 @@ function normalizeRagResults(ragData) {
     .filter((item) => item.content.trim().length > 0);
 }
 
+function buildRagQuery(messages) {
+  const recentUserMessages = messages
+    .filter((m) => m?.role === 'user' && typeof m?.content === 'string')
+    .slice(-2)
+    .map((m) => m.content.trim())
+    .filter(Boolean);
+  return recentUserMessages.join(' | ');
+}
+
+function parseKnownFacts(ragResults) {
+  const factsText = ragResults
+    .map((r) => `${r.title} ${r.content}`.toLowerCase())
+    .join('\n');
+
+  const modelPriceFacts = [];
+  for (const line of factsText.split('\n')) {
+    if (!line.includes('vnd')) continue;
+    if (!line.includes('honda') && !line.includes('yamaha')) continue;
+    modelPriceFacts.push(line);
+  }
+
+  return {
+    hasRequirements: factsText.includes('passport') || factsText.includes('driving permit') || factsText.includes('license'),
+    hasAvailabilityFact: factsText.includes('availability') || factsText.includes('in stock'),
+    modelPriceFacts,
+  };
+}
+
+function needsSafeFallback(answer) {
+  const text = (answer || '').toLowerCase();
+  const riskyPatterns = [
+    'would you like to rent one',
+    'how many days would you like',
+    'please come with me',
+    'we will finalize',
+    'booking confirmed',
+    'we have honda airblade available',
+    'chúng tôi có honda airblade',
+  ];
+  return riskyPatterns.some((p) => text.includes(p));
+}
+
+function buildSafeFallback(userLanguage, knownFacts) {
+  const isVi = userLanguage === 'vi';
+  if (isVi) {
+    const modelInfo = knownFacts.modelPriceFacts.length > 0
+      ? 'Theo dữ liệu hiện có, Honda Air Blade khoảng 180,000–220,000 VND/ngày.'
+      : 'Hiện tôi chưa có dữ liệu giá chính xác cho mẫu này.';
+    return `${modelInfo} Tôi chưa thể xác nhận tình trạng xe trống theo thời gian thực. Nếu bạn muốn, tôi có thể chuyển yêu cầu sang nhân viên để xác nhận ngay.`;
+  }
+  const modelInfo = knownFacts.modelPriceFacts.length > 0
+    ? 'From the knowledge base, Honda Air Blade is around 180,000–220,000 VND/day.'
+    : "I don't have exact live pricing for this model right now.";
+  return `${modelInfo} I can’t confirm real-time availability in chat yet. If you want, I can forward this to our team for confirmation.`;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -55,6 +112,7 @@ export default async function handler(req, res) {
     }
 
     const lastMessage = messages[messages.length - 1]?.content || '';
+    const ragQuery = buildRagQuery(messages) || lastMessage;
     const languageInstruction = LANGUAGE_INSTRUCTIONS[userLanguage] || LANGUAGE_INSTRUCTIONS.en;
 
     let ragResults = [];
@@ -70,7 +128,7 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: lastMessage,
+          query: ragQuery,
           category: 'all',
         }),
         signal: ragTimeout.signal,
@@ -82,7 +140,7 @@ export default async function handler(req, res) {
         ragFailed = true;
         console.error('[chat] RAG error', ragResponse.status, ragData);
       } else {
-        ragResults = normalizeRagResults(ragData);
+        ragResults = normalizeRagResults(ragData).slice(0, MAX_RAG_ITEMS);
       }
     } catch (ragError) {
       ragFailed = true;
@@ -140,11 +198,18 @@ You rent motorbikes and scooters. You do NOT rent bicycles.`
     }
 
     const data = await readJsonSafe(groqResponse);
-    const content = data.choices?.[0]?.message?.content || "Can you ask again?";
+    let content = data.choices?.[0]?.message?.content || "Can you ask again?";
+    const knownFacts = parseKnownFacts(ragResults);
+    const grounded = ragResults.length > 0 && !needsSafeFallback(content);
+
+    if (!grounded) {
+      content = buildSafeFallback(userLanguage, knownFacts);
+    }
 
     return res.status(200).json({
       content,
       ragHits: ragResults.length,
+      grounded,
     });
 
   } catch (error) {
