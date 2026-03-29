@@ -1,4 +1,4 @@
-// api/chat.js - RAG First Version
+// api/chat.js - RAG + Strong Language Control
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -7,10 +7,10 @@ export default async function handler(req, res) {
   const { messages, userLanguage = 'en' } = req.body || {};
 
   try {
-    // Get the latest user message
-    const lastMessage = messages[messages.length - 1].content;
+    // Get the latest user message for RAG
+    const lastMessage = messages[messages.length - 1]?.content || '';
 
-    // First, try RAG
+    // Call Supabase RAG
     const ragResponse = await fetch(`${process.env.SUPABASE_URL}/functions/v1/search-knowledge`, {
       method: 'POST',
       headers: {
@@ -26,11 +26,11 @@ export default async function handler(req, res) {
     const ragData = await ragResponse.json();
     const ragResults = ragData.results || [];
 
-    // Build context from RAG
+    // Build context
     let context = '';
     if (ragResults.length > 0) {
       context = "Relevant information from our knowledge base:\n" + 
-                ragResults.map(r => `• ${r.title}: ${r.content}`).join('\n');
+                ragResults.map(r => `• ${r.title}: ${r.content}`).join('\n\n');
     }
 
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -48,10 +48,15 @@ export default async function handler(req, res) {
 
 ${context ? context + '\n\n' : ''}
 
-Speak simply, clearly, and kindly. Keep answers short and practical.
-Always reply in the same language the user is using.
+STRICT LANGUAGE RULE:
+- The user has selected English.
+- The user is writing in English.
+- You MUST reply ONLY in English. Never use Vietnamese.
+- Never mix languages.
 
-You rent motorbikes and scooters (Honda models). You do NOT rent bicycles.`
+Speak simply, clearly, and kindly. Use short sentences. Be helpful and practical.
+
+You rent motorbikes and scooters (Honda Air Blade, Honda Vision, Yamaha Exciter, etc.). You do NOT rent bicycles.`
           },
           ...messages
         ],
