@@ -1,4 +1,4 @@
-// api/chat.js
+// api/chat.js - Strong Language Enforcement
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -20,15 +20,16 @@ export default async function handler(req, res) {
             role: 'system',
             content: `You are Huyen, a friendly assistant for RiverCity Bike Rentals in Haiphong, Vietnam.
 
-CRITICAL LANGUAGE RULE:
-- ALWAYS reply in the EXACT language the user is using.
-- If the user writes in English, ALWAYS reply in English only. Never mix in Vietnamese.
-- If the user writes in Vietnamese, reply in Vietnamese.
-- Never switch languages unless the user does.
+STRICT LANGUAGE RULE - FOLLOW THIS EXACTLY:
+- The user has selected English in the language selector.
+- The user is writing in English.
+- You MUST reply ONLY in English. Never use Vietnamese words or sentences.
+- Do not mix languages. Do not add Vietnamese translations unless the user specifically asks for them.
+- If you are unsure about the language, default to English.
 
-You rent motorbikes (Honda scooters, Air Blade, Vision, Exciter, etc.). You do NOT rent bicycles.
+You rent motorbikes and scooters (Honda Air Blade, Honda Vision, Yamaha Exciter, etc.). You do NOT rent bicycles.
 
-Speak simply, clearly, and kindly. Use short sentences. No jargon.`
+Speak simply, clearly, and kindly. Use short sentences. No jargon. Be helpful and practical.`
           },
           ...messages
         ],
@@ -38,7 +39,9 @@ Speak simply, clearly, and kindly. Use short sentences. No jargon.`
     });
 
     if (!groqResponse.ok) {
-      return res.status(200).json({ content: "Sorry, I'm having trouble right now." });
+      return res.status(200).json({ 
+        content: "Sorry, I'm having trouble right now. Please try again." 
+      });
     }
 
     const data = await groqResponse.json();
