@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import VispaicoWheel from "@/components/VispaicoWheel";
 import AdBanner from "@/components/AdBanner";
-import RiverCityChatBot from "@/components/RiverCityChatBot";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -270,7 +269,6 @@ function App() {
         )}
 
         <VispaicoWheel />
-        <RiverCityChatBot />
         <Footer />
         <Toaster />
       </div>
