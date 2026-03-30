@@ -210,7 +210,15 @@ export default defineConfig({
 server: {
     cors: true,
     allowedHosts: true,
-},
+    proxy: {
+      '/api/rivercity': {
+        target: 'https://rivercity-agent.vercel.app',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace('/api/rivercity', '/api/rivercity'),
+      }
+    }
+  },
 	resolve: {
 		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
 		alias: {

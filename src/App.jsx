@@ -5,8 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import VispaicoWheel from "@/components/VispaicoWheel";
+// import VispaicoWheel from "@/components/VispaicoWheel";
 import AdBanner from "@/components/AdBanner";
+import ChatWidget from "@/components/ChatWidget";
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -268,7 +269,8 @@ function App() {
           </div>
         )}
 
-        <VispaicoWheel />
+        {/* <VispaicoWheel /> */}
+        <ChatWidget />
         <Footer />
         <Toaster />
       </div>
