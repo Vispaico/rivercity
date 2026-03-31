@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import ProtectedRoute from "@/components/ProtectedRoute";
 // import VispaicoWheel from "@/components/VispaicoWheel";
 import AdBanner from "@/components/AdBanner";
-import ChatWidget from "@/components/ChatWidget";
+const ChatWidget = React.lazy(() => import("@/components/ChatWidget"));
 
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
@@ -270,7 +270,9 @@ function App() {
         )}
 
         {/* <VispaicoWheel /> */}
-        <ChatWidget />
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
         <Footer />
         <Toaster />
       </div>
