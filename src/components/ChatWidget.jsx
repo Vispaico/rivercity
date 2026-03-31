@@ -56,13 +56,13 @@ export default function ChatWidget() {
           <img
             src="/bot/avatar.webp"
             alt="Chat"
-            className="fixed bottom-24 right-4 sm:right-14 w-24 h-24 sm:w-44 sm:h-44 rounded-full shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+            className="fixed bottom-24 right-4 sm:right-14 w-24 h-24 sm:w-44 sm:h-44 rounded-full shadow-lg hover:shadow-xl transition-shadow cursor-pointer z-[9999]"
             onClick={() => setOpen(true)}
           />
 
           {/* Chat band */}
-          <div className="fixed bottom-10 right-4 sm:right-14 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 sm:px-6 py-2 rounded-full shadow-lg animate-pulse cursor-pointer hover:from-blue-600 hover:to-blue-800 transition-all max-w-[calc(100vw-2rem)] sm:max-w-xs"
-               onClick={() => setOpen(true)}>
+          <div className="fixed bottom-10 right-4 sm:right-14 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 sm:px-6 py-2 rounded-full shadow-lg animate-pulse cursor-pointer hover:from-blue-600 hover:to-blue-800 transition-all max-w-[calc(100vw-2rem)] sm:max-w-xs z-[9999]"
+               onClick={() => setOpen(true)}> 
             <div className="flex items-center gap-2 justify-center">
               <span className="text-sm font-medium">{languages[currentLanguage].text}</span>
               <span className="text-lg">💬</span>
@@ -73,7 +73,7 @@ export default function ChatWidget() {
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-20 right-0 sm:right-4 w-full sm:w-80 max-h-[60vh] sm:max-h-[500px] bg-white shadow-2xl rounded-lg sm:rounded-l-lg flex flex-col border border-gray-200 border-l-0 sm:border-l">
+        <div className="fixed bottom-0 sm:bottom-20 right-0 sm:right-4 w-full max-w-[100vw] sm:w-80 sm:max-w-xs left-0 sm:left-auto box-border z-[9999] max-h-[60vh] sm:max-h-[500px] bg-white shadow-2xl rounded-lg sm:rounded-l-lg flex flex-col border border-gray-200 border-l-0 sm:border-l">
 
           {/* Header */}
           <div className="bg-blue-600 text-white p-3 rounded-t-lg flex justify-between items-center">
@@ -117,7 +117,7 @@ export default function ChatWidget() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 text-sm"
+              className="flex-1 min-w-0 border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 text-sm"
               onKeyDown={(e) => e.key === 'Enter' && send()}
               placeholder="Ask about rentals..."
             />
