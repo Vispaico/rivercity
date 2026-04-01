@@ -73,7 +73,10 @@ export default function ChatWidget() {
 
       {/* Chat window */}
       {open && (
-        <div className="fixed bottom-0 sm:bottom-20 right-0 sm:right-4 w-full max-w-[100vw] sm:w-80 sm:max-w-xs left-0 sm:left-auto box-border z-[9999] max-h-[60vh] sm:max-h-[500px] bg-white shadow-2xl rounded-lg sm:rounded-l-lg flex flex-col border border-gray-200 border-l-0 sm:border-l">
+        <div
+          className="fixed bottom-0 sm:bottom-20 right-0 sm:right-4 w-full max-w-[100vw] sm:w-80 sm:max-w-xs left-0 sm:left-auto box-border z-[9999] bg-white shadow-2xl rounded-lg sm:rounded-l-lg flex flex-col border border-gray-200 border-l-0 sm:border-l"
+          style={{ maxHeight: '100dvh', height: '100dvh' }}
+        >
 
           {/* Header */}
           <div className="bg-blue-600 text-white p-3 rounded-t-lg flex justify-between items-center">
