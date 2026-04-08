@@ -18,7 +18,7 @@ const getCategory = (question) => {
 };
 
 const Page = () => {
-  const faq = faqData.find(f => f.id === 29);
+  const faq = faqData.find(f => f.id === 27);
   const category = getCategory(faq.question);
   const IconComponent = categoryIcons[category] || ShoppingBag;
   return (

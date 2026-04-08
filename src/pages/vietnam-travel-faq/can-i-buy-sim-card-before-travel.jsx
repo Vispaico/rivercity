@@ -29,7 +29,7 @@ const getCategory = (question) => {
 };
 
 const Page = () => {
-  const faq = faqData.find(f => f.id === 34);
+  const faq = faqData.find(f => f.id === 32);
   const category = getCategory(faq.question);
   const IconComponent = categoryIcons[category] || CreditCard;
 
