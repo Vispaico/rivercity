@@ -5,7 +5,7 @@ import { ChevronLeft, ArrowRight, MapPin, Calendar, DollarSign, Shield, Coffee, 
 import { faqData } from "./data";
 import { AffiliateWidgetBox, AffiliateWidget } from "@/components/agents/AffiliateAgent";
 
-const relatedArticles = faqData.filter(f => f.id !== 31).slice(0, 4);
+const relatedArticles = faqData.filter(f => f.id !== 29).slice(0, 4);
 
 const categoryIcons = {
   safety: Shield,
