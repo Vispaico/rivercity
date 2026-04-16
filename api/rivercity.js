@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { message } = req.body || {};
+  const { message, sessionId } = req.body || {};
 
   try {
     if (!message || typeof message !== 'string') {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     const agentResponse = await fetch('https://rivercity-agent.vercel.app/api/rivercity', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, sessionId }),
     });
 
     if (!agentResponse.ok) {

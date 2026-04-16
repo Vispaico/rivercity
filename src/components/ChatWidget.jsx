@@ -1,10 +1,29 @@
 import { useState, useEffect } from 'react';
 
-async function sendMessage(message) {
+function getOrCreateChatSessionId() {
+  const key = 'rivercity_chat_session_id';
+  try {
+    const existing = window.localStorage.getItem(key);
+    if (existing) return existing;
+
+    const id =
+      (typeof window.crypto?.randomUUID === 'function'
+        ? window.crypto.randomUUID()
+        : `sess_${Date.now()}_${Math.random().toString(16).slice(2)}`);
+
+    window.localStorage.setItem(key, id);
+    return id;
+  } catch {
+    // If localStorage is unavailable (privacy mode), fall back to an in-memory-ish id.
+    return `sess_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+  }
+}
+
+async function sendMessage(message, sessionId) {
   const res = await fetch('/api/rivercity', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message })
+    body: JSON.stringify({ message, sessionId })
   });
   const data = await res.json();
   return data.response;
@@ -31,6 +50,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [currentLanguage, setCurrentLanguage] = useState(0);
+  const [sessionId] = useState(() => getOrCreateChatSessionId());
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +63,7 @@ export default function ChatWidget() {
   async function send() {
     if (!input.trim()) return;
     setMessages(prev => [...prev, { sender: 'user', text: input }]);
-    const response = await sendMessage(input);
+    const response = await sendMessage(input, sessionId);
     setMessages(prev => [...prev, { sender: 'agent', text: response }]);
     setInput('');
   }
