@@ -49,14 +49,17 @@ export default async (req, res) => {
     const userAgent = String(req.headers['user-agent'] || '');
     const now = new Date().toISOString();
 
+    // Sanitize replyTo for header injection safety
+    const safeReplyTo = email.replace(/[\r\n]/g, '');
+
     await sendMail({
       scope: 'NEWSLETTER',
       subject: 'New newsletter signup',
-      replyTo: email,
+      replyTo: safeReplyTo,
       text: [
         'New newsletter signup received.',
         '',
-        `Email: ${email}`,
+        `Email: ${safeReplyTo}`,
         `Time: ${now}`,
         referer ? `Referer: ${referer}` : null,
         userAgent ? `User-Agent: ${userAgent}` : null,
