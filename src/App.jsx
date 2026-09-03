@@ -48,7 +48,6 @@ const VietnamFaq29 = lazy(() => import("@/pages/vietnam-travel-faq/is-it-better-
 const VietnamFaq30 = lazy(() => import("@/pages/vietnam-travel-faq/what-to-turn-off-on-phone-when-traveling"));
 const VietnamFaq31 = lazy(() => import("@/pages/vietnam-travel-faq/are-travel-sim-cards-cheaper-than-roaming"));
 const VietnamFaq32 = lazy(() => import("@/pages/vietnam-travel-faq/can-i-buy-sim-card-before-travel"));
-const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
 const ResetPasswordPage = lazy(() => import("@/pages/ResetPasswordPage"));
@@ -73,7 +72,8 @@ function App() {
   const location = useLocation();
 
   const path = location.pathname || "/";
-const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -187,7 +187,7 @@ const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
                 path="/dashboard" 
                 element={
                   <ProtectedRoute>
-                    <DashboardPage />
+                    <DashboardVehiclesPage />
                   </ProtectedRoute>
                 } 
               />
