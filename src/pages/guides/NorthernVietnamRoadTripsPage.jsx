@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Map, Route, Backpack, CloudRain, ShieldCheck, ArrowRight, Bike, CalendarDays } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import GuidesPostGrid from '@/components/GuidesPostGrid';
-import AdBanner from '@/components/AdBanner';
 
 const NorthernVietnamRoadTripsPage = () => {
   const metaTitle = 'Northern Vietnam Road Trips (2025) | Routes, Packing, Safety';
@@ -96,7 +95,7 @@ const NorthernVietnamRoadTripsPage = () => {
 
                 <div className="p-6 sm:p-10">
                   <div className="mb-8 flex justify-center">
-                    <AdBanner className="rounded-2xl border bg-white p-4 shadow-sm" />
+                    <div className="rounded-2xl border bg-white p-4 shadow-sm" />
                   </div>
 
                   <section id="why-start" className="scroll-mt-28">

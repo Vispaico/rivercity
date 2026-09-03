@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Bike, MapPin, UtensilsCrossed, Sun, ArrowRight, ShieldCheck, Route } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import GuidesPostGrid from '@/components/GuidesPostGrid';
-import AdBanner from '@/components/AdBanner';
 
 const HaiphongTravelGuidePage = () => {
   const metaTitle = 'Ultimate Haiphong Travel Guide (2025) | Rivercity Bike Rentals';
@@ -51,7 +50,7 @@ const HaiphongTravelGuidePage = () => {
 
             <div className="p-6 sm:p-10">
               <div className="mb-8 flex justify-center">
-                <AdBanner className="rounded-2xl border bg-white p-4 shadow-sm" />
+                <div className="rounded-2xl border bg-white p-4 shadow-sm" />
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

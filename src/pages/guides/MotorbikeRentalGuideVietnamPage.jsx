@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import GuidesPostGrid from '@/components/GuidesPostGrid';
-import AdBanner from '@/components/AdBanner';
 
 const MotorbikeRentalGuideVietnamPage = () => {
   const metaTitle = 'Motorbike Rental Guide Vietnam (2025) | Licenses, Safety, Costs';
@@ -106,7 +105,7 @@ const MotorbikeRentalGuideVietnamPage = () => {
 
                 <div className="p-6 sm:p-10">
                   <div className="mb-8 flex justify-center">
-                    <AdBanner className="rounded-2xl border bg-white p-4 shadow-sm" />
+                    <div className="rounded-2xl border bg-white p-4 shadow-sm" />
                   </div>
 
                   <section id="why" className="scroll-mt-28">

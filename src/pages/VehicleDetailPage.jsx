@@ -16,7 +16,7 @@ import CustomQuoteCard from "@/components/CustomQuoteCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AdBanner from "@/components/AdBanner";
+
 
 import {
   getVehicleByCategoryAndSlug,
@@ -273,7 +273,7 @@ const VehicleDetailPage = ({ category }) => {
                 <div
                   className="mx-auto flex h-[70px] w-[340px] items-center justify-center rounded-md border border-dashed border-gray-200 bg-gray-50"
                 >
-                  <AdBanner />
+                  <p className="text-xs text-gray-400">Advertisement</p>
                 </div>
               </div>
             </div>

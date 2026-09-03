@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { format } from 'date-fns';
 import PageHeader from '../components/PageHeader';
 import SocialShareBar from '../components/SocialShareBar';
-import AdBanner from '../components/AdBanner';
 
 const BlogPostPage = () => {
   const { slug } = useParams();
@@ -112,7 +111,7 @@ const BlogPostPage = () => {
                 <div
                   className="mx-auto flex h-[70px] w-[340px] items-center justify-center rounded-md border border-dashed border-gray-200 bg-gray-50"
                 >
-                  <AdBanner />
+                  <p className="text-xs text-gray-400">Advertisement</p>
                 </div>
               </div>
             </div>

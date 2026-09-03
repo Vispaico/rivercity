@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Home, Wallet, HeartPulse, Smartphone, Bike, Users, CheckCircle2, ArrowRight } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import GuidesPostGrid from '@/components/GuidesPostGrid';
-import AdBanner from '@/components/AdBanner';
 
 const LivingInHaiphongExpatGuidePage = () => {
   const metaTitle = 'Living in Haiphong: Complete Expat Guide (2025) | Rivercity';
@@ -91,7 +90,7 @@ const LivingInHaiphongExpatGuidePage = () => {
 
                 <div className="p-6 sm:p-10">
                   <div className="mb-8 flex justify-center">
-                    <AdBanner className="rounded-2xl border bg-white p-4 shadow-sm" />
+                    <div className="rounded-2xl border bg-white p-4 shadow-sm" />
                   </div>
 
                   <section id="why" className="scroll-mt-28">

@@ -2,7 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageHeader from '@/components/PageHeader';
 import GuideCard from '@/components/GuideCard';
-import AdBanner from '@/components/AdBanner';
 import { guides, guideIndexMeta } from '@/lib/guides';
 
 const GuidesPage = () => {
@@ -36,7 +35,7 @@ const GuidesPage = () => {
           </div>
 
           <div className="mt-8 flex justify-center">
-            <AdBanner className="rounded-2xl border bg-white p-4 shadow-sm" />
+            <div className="rounded-2xl border bg-white p-4 shadow-sm" />
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
