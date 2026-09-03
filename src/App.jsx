@@ -253,6 +253,7 @@ function App() {
         <Footer />
         <Toaster />
       </div>
+    </HelmetProvider>
   );
 }
 
